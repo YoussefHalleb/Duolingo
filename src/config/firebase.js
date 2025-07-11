@@ -7,13 +7,13 @@ import {
 import { getFirestore } from 'firebase/firestore'; 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC4SyBjxd0uev9zFb5dDb8jmseJoyL6sYc",
-  authDomain: "duolingo-project-51582.firebaseapp.com",
-  projectId: "duolingo-project-51582",
-  storageBucket: "duolingo-project-51582.appspot.com", 
-  messagingSenderId: "477863235948",
-  appId: "1:477863235948:web:2244dd29736a3794836349",
-  measurementId: "G-H2P3XM90PB"
+  apiKey: "AIzaSyAydcbXgJa4PFLUOzkFSIkdCiaONt_6BWA",
+  authDomain: "duolingo-3cca3.firebaseapp.com",
+  projectId: "duolingo-3cca3",
+  storageBucket: "duolingo-3cca3.firebasestorage.app",
+  messagingSenderId: "551642307155",
+  appId: "1:551642307155:web:f35e15bc7505b0391ec4a6",
+  measurementId: "G-BSC8LP9CX4"
 };
 
 
