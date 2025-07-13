@@ -1,5 +1,6 @@
 #  React App - Duolingo 
 
+Install Tailwind CSS and migrate old styles from Bootstrap CSS to Tailwind
 ## 🧰 Tech Stack
 
 | Tool / Library       | Version     |
@@ -19,3 +20,4 @@
 
 npm install -D tailwindcss@3.4.3 postcss autoprefixer
 npx tailwindcss init -p
+
