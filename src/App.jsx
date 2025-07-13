@@ -1,18 +1,11 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import SignIn from './components/auth/SignIn.jsx';
-import SignUp from './components/auth/SignUp.jsx';
-import Home from './components/Home/Home.jsx'; 
-import 'bootstrap/dist/css/bootstrap.min.css';
+// src/App.jsx
+import { BrowserRouter as Router } from 'react-router-dom';
+import AppRoutes from './routes/AppRoutes.jsx';
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<SignIn />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-      </Routes>
+      <AppRoutes />
     </Router>
   );
 }
