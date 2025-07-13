@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignIn from './components/auth/SignIn.jsx';
 import SignUp from './components/auth/SignUp.jsx';
-import Home from './pages/Home.jsx'; 
+import Home from './components/Home/Home.jsx'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {

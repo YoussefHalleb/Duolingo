@@ -1,43 +1,12 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
-import { auth } from '../config/firebase';
+import { Link } from 'react-router-dom';
+import Navbar from '../shared/Navbar';
 import './Home.css';
 
 const Home = () => {
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate('/SignIn');
-    } catch (error) {
-      alert('Error signing out.');
-    }
-  };
-
   return (
     <div className="home-page">
-      <nav className="main-navbar">
-        <div className="navbar-left">
-          <img src="/logo192.png" alt="Language Explorer Logo" className="navbar-logo" />
-          <span className="navbar-title">Language Explorer</span>
-        </div>
-        <div className="navbar-center">
-          <Link to="/" className="navbar-link">Home</Link>
-          <Link to="/about" className="navbar-link">About</Link>
-          <Link to="/language-selector" className="navbar-link">Language Selector</Link>
-        </div>
-        <div className="navbar-right">
-          <div className="navbar-user-dropdown">
-            <span className="navbar-user">👤 Rahim ▾</span>
-            <div className="navbar-dropdown-content">
-              <Link to="/settings" className="navbar-dropdown-link">Settings</Link>
-              <button className="navbar-dropdown-link" onClick={handleLogout}>Sign out</button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
       <header className="main-header">
         <h1 className="welcome-title">Welcome to Language Explorer!</h1>
         <p className="welcome-subtitle">
