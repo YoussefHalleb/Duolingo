@@ -1,45 +1,18 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
-import { auth } from '../config/firebase';
+import { Link } from 'react-router-dom';
+import Navbar from '../shared/Navbar';
+import './Home.css';
 
 const Home = () => {
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate('/SignIn');
-    } catch (error) {
-      alert('Error signing out.');
-    }
-  };
-
   return (
-    <div className="min-h-screen h-screen w-screen bg-gray-100 flex flex-col">
-      <nav className="flex items-center justify-between bg-white shadow-sm px-8 h-16 rounded-b-2xl mb-8">
-        <div className="flex items-center">
-          <img src="/logo192.png" alt="Language Explorer Logo" className="w-9 h-9 mr-3" />
-          <span className="text-lg font-bold text-gray-800">Language Explorer</span>
-        </div>
-        <div className="flex gap-7">
-          <Link to="/" className="text-gray-600 text-base font-medium border-b-2 border-transparent hover:text-cyan-600 hover:border-cyan-600 transition-colors">Home</Link>
-          <Link to="/about" className="text-gray-600 text-base font-medium border-b-2 border-transparent hover:text-cyan-600 hover:border-cyan-600 transition-colors">About</Link>
-          <Link to="/language-selector" className="text-gray-600 text-base font-medium border-b-2 border-transparent hover:text-cyan-600 hover:border-cyan-600 transition-colors">Language Selector</Link>
-        </div>
-        <div className="relative group">
-          <span className="text-gray-800 font-medium bg-gray-200 rounded-2xl px-4 py-1.5 flex items-center gap-1.5 cursor-pointer">
-            👤 Rahim ▾
-          </span>
-          <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-xl hidden group-hover:flex flex-col z-10">
-            <Link to="/settings" className="px-5 py-3 text-gray-600 hover:bg-gray-100 hover:text-cyan-600 transition-colors">Settings</Link>
-            <button onClick={handleLogout} className="px-5 py-3 text-gray-600 hover:bg-gray-100 hover:text-cyan-600 transition-colors text-left">Sign out</button>
-          </div>
-        </div>
-      </nav>
-      <header className="text-center mb-10 flex-shrink-0">
-        <h1 className="text-5xl font-bold text-gray-800 mb-2.5">Welcome to Language Explorer!</h1>
-        <p className="text-lg text-gray-600">Your gateway to mastering new languages. Dive into our interactive modules and start your journey today!</p>
+    <div className="home-page">
+      <Navbar />
+      <header className="main-header">
+        <h1 className="welcome-title">Welcome to Language Explorer!</h1>
+        <p className="welcome-subtitle">
+          Your gateway to mastering new languages. Dive into our interactive modules and start your journey today!
+        </p>
       </header>
       <div className="flex-1 flex flex-wrap gap-8 justify-center items-start mb-10">
         <div className="bg-white rounded-2xl shadow-md p-7 w-80 flex flex-col items-center hover:shadow-lg transition-shadow">
