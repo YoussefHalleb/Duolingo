@@ -2,7 +2,7 @@
 import { Routes, Route } from 'react-router-dom';
 import SignIn from '../components/auth/SignIn.jsx';
 import SignUp from '../components/auth/SignUp.jsx';
-import Home from './components/Home/Home.jsx'; 
+import Home from "../components/Home/Home.jsx";
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<SignIn />} />
