@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { 
-  signInWithEmailAndPassword,
-  signInWithPopup 
-} from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../config/firebase";
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUser, FaLock, FaExclamationCircle, FaGoogle } from 'react-icons/fa';
@@ -21,7 +18,7 @@ const SignIn = () => {
     if (password !== "") {
       document.querySelector('input[name="password"]')?.classList.add('has-val');
     }
-  }, []);
+  }, [email, password]);
 
   const validateForm = () => {
     const newErrors = { email: "", password: "", general: "" };
@@ -115,58 +112,58 @@ const SignIn = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="container-login">
-        <form className="login-form" onSubmit={handleSubmit} noValidate>
-          <span className="login-form-title">Connexion</span>
+    <div className="min-h-screen bg-gradient-to-r from-indigo-400 to-indigo-600 flex justify-center items-center p-4">
+      <div className="w-full max-w-md bg-white rounded-lg overflow-hidden shadow-lg">
+        <form className="p-8" onSubmit={handleSubmit} noValidate>
+          <span className="block text-3xl text-gray-800 text-center mb-10">Connexion</span>
           
           {errors.general && (
-            <div className="alert alert-danger">
+            <div className="flex items-center gap-2 p-3 mb-5 bg-red-50 text-red-600 border border-red-600 rounded">
               <FaExclamationCircle /> {errors.general}
             </div>
           )}
           
-          <div className="wrap-input">
-            <input 
-              className={`input ${errors.email ? 'is-invalid' : ''}`}
-              type="email" 
-              name="email"
-              value={email}
-              onChange={(e) => handleInputChange(e, setEmail)}
-              required
-            />
-            <span className="focus-input" data-placeholder="Email">
-              <FaUser className="input-icon" />
-            </span>
+          <div className="relative mb-6">
+            <div className="relative">
+              <input 
+                className={`w-full h-12 bg-transparent pl-8 text-base text-gray-600 border-b-2 ${errors.email ? 'border-red-500' : 'border-gray-400'} focus:border-indigo-500 outline-none transition-colors has-val`}
+                type="email" 
+                name="email"
+                value={email}
+                onChange={(e) => handleInputChange(e, setEmail)}
+                required
+              />
+              <span className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400"><FaUser /></span>
+            </div>
             {errors.email && (
-              <div className="invalid-feedback">
+              <div className="flex items-center gap-1 text-red-600 text-sm mt-1">
                 <FaExclamationCircle /> {errors.email}
               </div>
             )}
           </div>
           
-          <div className="wrap-input">
-            <input 
-              className={`input ${errors.password ? 'is-invalid' : ''}`}
-              type="password" 
-              name="password"
-              value={password}
-              onChange={(e) => handleInputChange(e, setPassword)}
-              required
-            />
-            <span className="focus-input" data-placeholder="Mot de passe">
-              <FaLock className="input-icon" />
-            </span>
+          <div className="relative mb-6">
+            <div className="relative">
+              <input 
+                className={`w-full h-12 bg-transparent pl-8 text-base text-gray-600 border-b-2 ${errors.password ? 'border-red-500' : 'border-gray-400'} focus:border-indigo-500 outline-none transition-colors has-val`}
+                type="password" 
+                name="password"
+                value={password}
+                onChange={(e) => handleInputChange(e, setPassword)}
+                required
+              />
+              <span className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400"><FaLock /></span>
+            </div>
             {errors.password && (
-              <div className="invalid-feedback">
+              <div className="flex items-center gap-1 text-red-600 text-sm mt-1">
                 <FaExclamationCircle /> {errors.password}
               </div>
             )}
           </div>
           
-          <div className="container-login-form-btn">
+          <div className="flex justify-center mb-4 mt-5">
             <button 
-              className="login-form-btn" 
+              className="w-full h-12 bg-gradient-to-r from-cyan-400 to-purple-500 text-white rounded-lg uppercase text-base font-medium hover:from-cyan-500 hover:to-purple-600 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
               type="submit"
               disabled={isSubmitting}
             >
@@ -174,283 +171,30 @@ const SignIn = () => {
             </button>
           </div>
 
-          <div className="separator">
-            <span className="separator-text">OU</span>
+          <div className="flex items-center my-5">
+            <div className="flex-1 border-b border-gray-300"></div>
+            <span className="px-3 text-gray-500 text-sm">OU</span>
+            <div className="flex-1 border-b border-gray-300"></div>
           </div>
 
-          <div className="container-login-form-btn">
+          <div className="flex justify-center mb-4">
             <button 
-              className="google-login-btn"
+              className="w-full h-12 bg-white border border-gray-300 rounded-lg text-gray-600 text-base font-medium hover:bg-gray-100 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               type="button"
               onClick={signInWithGoogle}
               disabled={isSubmitting}
             >
-              <FaGoogle className="google-icon" />
+              <FaGoogle className="text-red-600 text-lg" />
               Se connecter avec Google
             </button>
           </div>
           
-          <div className="text-center">
-            <span className="txt1">Vous n'avez pas de compte?</span>
-            <Link className="txt2" to="/SignUp">S'inscrire</Link>
+          <div className="flex justify-center items-center mt-12 gap-1">
+            <span className="text-sm text-gray-400">Vous n'avez pas de compte?</span>
+            <Link className="text-sm text-indigo-500 hover:text-purple-600 transition-colors" to="/SignUp">S'inscrire</Link>
           </div>
         </form>
       </div>
-
-      <style jsx global>{`
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-          width: 100%;
-          min-height: 100vh;
-          background-image: linear-gradient(rgba(126,101,254,255), rgba(126,101,254,255));
-          background-position: center;
-          background-size: cover;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 15px;
-        }
-
-        .login-container {
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .container-login {
-          width: 500px;
-          background: #fff;
-          border-radius: 10px;
-          overflow: hidden;
-          box-shadow: 0 3px 20px 0 rgba(0,0,0,.1);
-        }
-
-        .login-form {
-          width: 100%;
-          padding: 30px;
-        }
-
-        .login-form-title {
-          display: block;
-          font-size: 30px;
-          color: #333;
-          line-height: 1.2;
-          text-align: center;
-          padding-bottom: 44px;
-        }
-
-        .wrap-input {
-          width: 100%;
-          position: relative;
-          border-bottom: 2px solid #adadad;
-          margin-bottom: 10px;
-        }
-
-        .input {
-          font-size: 15px;
-          color: #555;
-          line-height: 1.2;
-          display: block;
-          width: 100%;
-          height: 45px;
-          background: transparent;
-          padding: 0 5px 0 30px;
-          border: none;
-          outline: none;
-        }
-
-        .input.is-invalid {
-          border-bottom-color: #ff3860;
-        }
-
-        .input-icon {
-          position: absolute;
-          left: 5px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: #adadad;
-          font-size: 15px;
-        }
-
-        .focus-input {
-          position: absolute;
-          display: block;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          pointer-events: none;
-        }
-
-        .focus-input::before {
-          content: "";
-          display: block;
-          position: absolute;
-          bottom: -2px;
-          left: 0;
-          width: 0;
-          height: 2px;
-          background: #6a7dfe;
-          transition: all .4s;
-        }
-
-        .input:focus + .focus-input::before {
-          width: 100%;
-        }
-
-        .has-val + .focus-input::before {
-          width: 100%;
-        }
-
-        .input.is-invalid + .focus-input::before {
-          background: #ff3860;
-          width: 100%;
-        }
-
-        .invalid-feedback {
-          color: #ff3860;
-          font-size: 12px;
-          margin-top: 5px;
-          display: flex;
-          align-items: center;
-          gap: 5px;
-        }
-
-        .alert {
-          padding: 10px 15px;
-          margin-bottom: 20px;
-          border-radius: 4px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .alert-danger {
-          background-color: #ffebee;
-          color: #ff3860;
-          border: 1px solid #ff3860;
-        }
-
-        .container-login-form-btn {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          padding-bottom: 13px;
-          margin-top: 20px;
-        }
-
-        .login-form-btn {
-          font-size: 15px;
-          border: none;
-          border-radius: 10px;
-          color: #fff;
-          line-height: 1.2;
-          text-transform: uppercase;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-          height: 50px;
-          background: #6a7dfe;
-          background: linear-gradient(to left, #21d4fd, #b721ff);
-          transition: all .4s;
-          cursor: pointer;
-        }
-
-        .login-form-btn:hover:not(:disabled) {
-          background: linear-gradient(to right, #21d4fd, #b721ff);
-        }
-
-        .login-form-btn:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
-        }
-
-        .google-login-btn {
-          font-size: 15px;
-          border: none;
-          border-radius: 10px;
-          color: #555;
-          line-height: 1.2;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-          height: 50px;
-          background: #fff;
-          border: 1px solid #ddd;
-          transition: all .4s;
-          cursor: pointer;
-          gap: 10px;
-        }
-
-        .google-login-btn:hover:not(:disabled) {
-          background: #f5f5f5;
-          border-color: #ccc;
-        }
-
-        .google-login-btn:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
-        }
-
-        .google-icon {
-          color: #DB4437;
-          font-size: 18px;
-        }
-
-        .separator {
-          display: flex;
-          align-items: center;
-          margin: 20px 0;
-        }
-
-        .separator::before,
-        .separator::after {
-          content: "";
-          flex: 1;
-          border-bottom: 1px solid #ddd;
-        }
-
-        .separator-text {
-          padding: 0 10px;
-          color: #777;
-          font-size: 14px;
-        }
-
-        .text-center {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-top: 50px;
-        }
-
-        .txt1 {
-          font-size: 14px;
-          color: #adadad;
-          line-height: 1.5;
-          padding-right: 5px;
-        }
-
-        .txt2 {
-          font-size: 14px;
-          color: #6a7dfe;
-          line-height: 1.5;
-          text-decoration: none;
-          transition: all .4s;
-        }
-
-        .txt2:hover {
-          color: #b721ff;
-        }
-      `}</style>
     </div>
   );
 };
