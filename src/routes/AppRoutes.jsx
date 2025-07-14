@@ -5,6 +5,8 @@ import SignUp from '../components/auth/SignUp.jsx';
 import Home from "../components/Home/Home.jsx";
 import ListQuizs from '../components/quiz/ListQuizs.jsx';
 import QuizStandalone from '../components/quiz/QuizStandalone.jsx';
+import PronunciationHome from "../components/Prononciation/PronunciationHome.jsx";
+import LanguageSelector from '../components/LanguageExplorer/LanguageSelector.jsx';
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<SignIn />} />
@@ -15,8 +17,11 @@ const AppRoutes = () => (
     <Route path="/quiz/:quizId" element={<QuizStandalone />} />
     
     {/* Routes du module VocabularyExplorer */}
+    <Route path="/language-selector" element={<LanguageSelector />} />
+    
     {/* Routes du module Quiz */}
     {/* Routes du module Prononciation */}
+    <Route path="/prononciation" element={<PronunciationHome />} />
 
 
    
