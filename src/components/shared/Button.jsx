@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const Button = ({ type = 'navigate', label, onClick, disabled = false }) => {
   const getButtonClass = () => {
     switch (type) {
