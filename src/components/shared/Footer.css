@@ -1,0 +1,93 @@
+/* Shared Footer Styles */
+.main-footer {
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
+  padding: 16px 24px 12px 24px;
+  text-align: center;
+  position: relative;
+  width: 200%; 
+  margin: 0; 
+}
+
+.footer-content {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-content.md\:flex-row {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #22223b;
+}
+
+.footer-tips {
+  color: #4a4e69;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.footer-subscribe {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.footer-input {
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  width: 200px;
+}
+
+.btn-footer-subscribe {
+  background: #00b4d8;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-footer-subscribe:hover {
+  background: #0096c7;
+}
+
+.footer-bottom {
+  margin-top: 5px;
+}
+
+.footer-copyright {
+  color: #adadad;
+  font-size: 0.8rem;
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .footer-input {
+    width: 250px;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-input {
+    width: 150px;
+  }
+}

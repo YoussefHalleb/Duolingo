@@ -1,1 +1,0 @@
-//Card for a single lesson (title, image, summary)
