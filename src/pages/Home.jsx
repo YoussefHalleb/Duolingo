@@ -59,7 +59,7 @@ const Home = () => {
           </div>
           <h2>Interactive Quiz</h2>
           <p>Test your knowledge and reinforce learning with fun, adaptive quizzes designed to challenge you and improve retention.</p>
-          <Link to="/quiz" className="btn btn-primary">Explore</Link>
+          <Link to="/quizzes" className="btn btn-primary">Explore</Link>
         </div>
         <div className="module-card">
           <div className="module-icon prononciation-icon" aria-label="Pronunciation Practice">
