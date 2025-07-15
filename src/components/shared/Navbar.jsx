@@ -60,7 +60,7 @@ const Navbar = () => {
           <i className="fas fa-language"></i> Language Selector
         </Link>
          <Link 
-          to="/learn" 
+          to="/language-choice" 
           className={`navbar-link ${location.pathname === '/learn' ? 'active' : ''}`}
         >
           <i className="fas fa-book"></i> Learn
