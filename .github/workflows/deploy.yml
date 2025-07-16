@@ -22,11 +22,16 @@ jobs:
 
       # 2️⃣ Analyse SonarQube (avant build)
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
         with:
-          projectBaseDir: .
+            projectBaseDir: .
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_HOST_URL: "https://sonarcloud.io"
+            SONAR_SCANNER_OPTS: >
+              -Dsonar.projectKey=YoussefHalleb_Duolingo
+              -Dsonar.organization=youssefhalleb
+
 
 
       # 3️⃣ Authentification GCP avec le Service Account
