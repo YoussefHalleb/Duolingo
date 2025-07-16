@@ -21,11 +21,13 @@ jobs:
         uses: actions/checkout@v4
 
       # 2️⃣ Analyse SonarQube (avant build)
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v2
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
         with:
-          host: ${{ secrets.SONAR_HOST_URL }} # ex: https://sonarcloud.io
-          token: ${{ secrets.SONAR_TOKEN }}
+          projectBaseDir: .
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
 
       # 3️⃣ Authentification GCP avec le Service Account
       - name: Authenticate to Google Cloud
