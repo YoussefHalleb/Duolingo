@@ -83,23 +83,6 @@
   text-align: center;
 }
 
-.lesson-card-link {
-  background: #00b4d8; 
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 28px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-
-.lesson-card-link:hover {
-  background: #0096c7; /* Aligné avec btn-primary:hover */
-}
-
 /* LessonDetails Styles */
 .lesson-details-container {
   min-height: calc(100vh - 200px);

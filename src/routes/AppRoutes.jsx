@@ -9,6 +9,7 @@ import Learn from '../components/Learn/Learn.jsx';
 import LessonDetails from '../components/Learn/LessonDetails.jsx';
 import VocabularyPage from '../components/Learn/VocabularyPage.jsx'; 
 import LanguageChoice from '../components/Learn/LanguageChoice.jsx'; 
+import TestRTDB from '../components/TestRTDB.jsx'; // Ajoutez cette ligne
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<SignIn />} />
@@ -22,8 +23,8 @@ const AppRoutes = () => (
      <Route path="/language-choice" element={<LanguageChoice />} /> 
     <Route path="/learn/:id" element={<LessonDetails />} />
     <Route path="/vocabulary" element={<VocabularyPage />} /> 
-
-     {/* Routes du module Quiz */}
+    <Route path="/test-rtdb" element={<TestRTDB />} /> {/* Ajoutez cette ligne */} 
+        {/* Routes du module Quiz */}
 
      {/* Routes du module Prononciation */}
     <Route path="/prononciation" element={<PronunciationHome />} />

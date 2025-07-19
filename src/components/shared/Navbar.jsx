@@ -73,7 +73,7 @@ const Navbar = () => {
         </Link>
        
         <Link 
-          to="/pronunciation" 
+          to="/prononciation" 
           className={`navbar-link ${location.pathname === '/pronunciation' ? 'active' : ''}`}
         >
           <i className="fas fa-microphone"></i> Pronunciation

@@ -1,46 +1,96 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { lessons } from '../../data/lessonData';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../config/firebase';
 import Layout from '../shared/layout';
-import Button from '../shared/Button'; // Import du bouton partagé
+import Button from '../shared/Button';
+import './Learn.css';
 
 const VocabularyPage = () => {
   const location = useLocation();
-  const lastLessonId = location.state?.lessonId || lessons[0].id;
-  const lesson = lessons.find((l) => l.id === lastLessonId);
+  const navigate = useNavigate();
+  const lastLessonId = location.state?.lessonId;
+  const [lesson, setLesson] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchLesson = async () => {
+      if (!lastLessonId) {
+        setError('No lesson selected.');
+        setLoading(false);
+        return;
+      }
+      try {
+        const lessonDoc = doc(db, 'lessons', lastLessonId);
+        const lessonSnapshot = await getDoc(lessonDoc);
+        if (lessonSnapshot.exists()) {
+          setLesson({ id: lessonSnapshot.id, ...lessonSnapshot.data() });
+        } else {
+          setError('Lesson not found.');
+        }
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching lesson:', err);
+        setError('Failed to load lesson. Please try again.');
+        setLoading(false);
+      }
+    };
+
+    fetchLesson();
+  }, [lastLessonId]);
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="vocabulary-container">
+          <p className="lesson-details-not-found">Loading vocabulary...</p>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (error || !lesson) {
+    return (
+      <Layout>
+        <div className="vocabulary-container">
+          <p className="lesson-details-not-found">{error || 'No vocabulary available.'}</p>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
-      <div className="learn-container">
-        <header className="learn-header">
-          <h1 className="learn-title">Vocabulary Recap</h1>
-          <p className="learn-subtitle">Review what you learned in {lesson?.title || 'your last lesson'}.</p>
-        </header>
-        <div className="lesson-list">
-          {lesson ? (
-            <div className="lesson-card">
-              <div className="lesson-card-image">
-                <img src={lesson.image} alt={`${lesson.title} icon`} />
-              </div>
-              <h2 className="lesson-card-title">{lesson.title}</h2>
-              <p className="text-sm text-gray-600">Language: {lesson.language.toUpperCase()}</p>
-              <ul className="mt-4 space-y-2">
-                {lesson.phrases.map((phrase, index) => (
-                  <li key={index} className="text-sm text-gray-600 flex justify-between">
-                    <span className="font-semibold">{phrase.phrase}</span>
-                    <span className="text-gray-500">{phrase.translation}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button
-                type="navigate"
-                label="Back to Lessons"
-                onClick={() => window.history.back()}
+      <div className="vocabulary-container">
+        <div className="lesson-details-content">
+          <header className="lesson-details-header">
+            <div className="lesson-card-image">
+              <img
+                src={lesson.image}
+                alt={`${lesson.title} icon`}
+                className="lesson-card-image img"
+                onError={(e) => { e.target.onerror = null; e.target.src = '/default-flag.png'; }}
               />
             </div>
-          ) : (
-            <p className="text-center">No vocabulary available. Complete a lesson to see it here.</p>
-          )}
+            <h1 className="vocabulary-title">Vocabulary Recap</h1>
+            <p className="vocabulary-subtitle">Review what you learned in {lesson.title}.</p>
+          </header>
+          <p className="lesson-details-summary">Language: {lesson.language.toUpperCase()}</p>
+          <ul className="lesson-details-phrases">
+            {lesson.phrases.map((phrase, index) => (
+              <li key={index} className="lesson-details-phrase">
+                <span className="lesson-details-phrase-text">{phrase.phrase}</span>
+                <span className="lesson-details-phrase-translation">{phrase.translation}</span>
+              </li>
+            ))}
+          </ul>
+          <Button
+            type="navigate"
+            label="Back to Lessons"
+            onClick={() => navigate('/learn/categories')}
+            className="w-full"
+          />
         </div>
       </div>
     </Layout>
