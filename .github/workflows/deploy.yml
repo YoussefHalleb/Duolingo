@@ -6,7 +6,7 @@ on:
       - Feature/DUOL-19/ci-cd-Dockerfile
 
 env:
-  REGION: europe-west1
+  REGION: europe-north1
   SERVICE_NAME: react-frontend
   REPO_NAME: react-app-repo
   IMAGE_NAME: react-app
