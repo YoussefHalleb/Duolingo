@@ -87,7 +87,8 @@ jobs:
           cd react-frontend-manifests/base
 
           # Met à jour l’image dans deployment.yaml
-          yq -i '.spec.template.spec.containers[0].image = "${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"' deployment.yaml
+          yq -i -y '.spec.template.spec.containers[0].image = "${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"' deployment.yaml
+
 
           # Commit & push
           git config user.email "ci-bot@github.com"
