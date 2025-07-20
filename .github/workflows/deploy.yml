@@ -20,6 +20,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install yq
+        run: sudo apt-get install -y yq
+
+      
       # 2️⃣ Analyse SonarQube (avant build)
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
@@ -74,3 +78,21 @@ jobs:
             --region ${{ env.REGION }} \
             --platform managed \
             --allow-unauthenticated
+
+            # 9️⃣ Mettre à jour le repo des manifests pour Argo CD
+      - name: Update Kubernetes manifest repo
+        run: |
+          # Clone du repo des manifests
+          git clone https://x-access-token:${{ secrets.MANIFESTS_TOKEN }}@github.com/YoussefHalleb/react-frontend-manifests.git
+          cd react-frontend-manifests/base
+
+          # Met à jour l’image dans deployment.yaml
+          yq -i '.spec.template.spec.containers[0].image = "${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"' deployment.yaml
+
+          # Commit & push
+          git config user.email "ci-bot@github.com"
+          git config user.name "CI Bot"
+          git add deployment.yaml
+          git commit -m "Update image to ${{ github.sha }}"
+          git push
+
