@@ -66,7 +66,7 @@ const Navbar = () => {
           <div className="navbar-user-dropdown">
             <button className="navbar-user" onClick={toggleDropdown}>
               <img src="/pics/utilisateur.png" alt="User" className="navbar-icon" />
-              <span className="user-name">Rahim</span>
+              <span className="user-name">Youssef</span>
               <i className={`fas fa-chevron-down ${isDropdownOpen ? 'rotate' : ''}`}></i>
             </button>
             <div className={`navbar-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
