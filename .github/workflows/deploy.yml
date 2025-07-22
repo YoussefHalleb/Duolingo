@@ -13,44 +13,33 @@ env:
   VERSION: v1.0.0
 
 jobs:
-  build-deploy:
+  deploy-pipeline:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ Étape 1 : Setup Environment
-      - name: Setup Environment
+      # ✅ Étape 1 : Setup & SonarCloud Analysis
+      - name: Setup & SonarCloud Analysis
         run: |
           echo "Setting up environment..."
           sudo apt-get update && sudo apt-get install -y yq
-
-      # ✅ Étape 2 : Install Dependencies
-      - name: Install Dependencies
-        uses: actions/checkout@v4
-
-      # ✅ Étape 3 : Build and Test project
-      - name: Build and Test Project
-        run: |
           echo "Running SonarCloud Scan..."
           sonar-scanner \
             -Dsonar.projectKey=YoussefHalleb_Duolingo \
             -Dsonar.organization=youssefhalleb \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-          echo "Build and test completed."
 
-      # ✅ Étape 4 : Code Quality Check
-      - name: Code Quality Check
-        uses: SonarSource/sonarqube-scan-action@v5.0.0
+      # ✅ Étape 2 : Authenticate & Configure Docker
+      - name: Authenticate & Configure Docker
+        uses: google-github-actions/auth@v2
         with:
-          projectBaseDir: .
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: "https://sonarcloud.io"
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
 
-      # ✅ Étape 5 : Archive Project (Docker Build)
-      - name: Archive Project
+      # ✅ Étape 3 : Build Docker Image
+      - name: Build Docker Image
         run: |
-          gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
           SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
           TAG="${{ env.VERSION }}-${SHORT_SHA}"
           IMAGE_URI=${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${TAG}
@@ -58,10 +47,29 @@ jobs:
           echo "IMAGE_URI=${IMAGE_URI}" >> $GITHUB_ENV
           docker build -t $IMAGE_URI .
 
-      # ✅ Étape 6 : Deploy the application
-      - name: Deploy the application
+      # ✅ Étape 4 : Scan Docker Image with Trivy
+      - name: Scan Docker Image with Trivy
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: ${{ env.IMAGE_URI }}
+          format: 'table'
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+
+      # ✅ Étape 5 : Push Docker Image
+      - name: Push Docker Image
+        run: docker push ${{ env.IMAGE_URI }}
+
+      # ✅ Étape 6 : Deploy to Cloud Run
+      - name: Deploy to Cloud Run
         run: |
-          docker push ${{ env.IMAGE_URI }}
+          echo "Deploying new image to Cloud Run..."
+          # Ici tu peux ajouter une commande gcloud run deploy si nécessaire
+
+      # ✅ Étape 7 : Update ArgoCD Manifests
+      - name: Update ArgoCD Manifests
+        run: |
           git clone https://x-access-token:${{ secrets.MANIFESTS_TOKEN }}@github.com/YoussefHalleb/react-frontend-manifests.git
           cd react-frontend-manifests/base
           yq -i -y '.spec.template.spec.containers[0].image = "${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"' deployment.yaml
@@ -70,7 +78,3 @@ jobs:
           git add deployment.yaml
           git commit -m "Update image to ${IMAGE_TAG}"
           git push
-
-      # ✅ Étape 7 : Remove all artifacts
-      - name: Remove all artifacts
-        run: echo "Cleanup done ✅" 
