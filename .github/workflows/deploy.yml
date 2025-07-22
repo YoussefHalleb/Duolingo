@@ -34,14 +34,15 @@ jobs:
             -Dsonar.projectKey=YoussefHalleb_Duolingo
             -Dsonar.organization=youssefhalleb
 
-  auth:
-    name: Authenticate & Configure Docker
+  build-scan-push:
+    name: Build, Scan & Push Docker Image
     runs-on: ubuntu-latest
     needs: setup
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # ✅ Authentification GCP dans le même job
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
@@ -49,14 +50,6 @@ jobs:
 
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
-
-  build-scan-push:
-    name: Build, Scan & Push Docker Image
-    runs-on: ubuntu-latest
-    needs: auth
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
 
       - name: Build Docker Image
         run: |
@@ -71,7 +64,7 @@ jobs:
       - name: Scan Docker Image with Trivy
         uses: aquasecurity/trivy-action@0.20.0
         with:
-          image-ref: ${{ env.IMAGE_URI }} # ✅ image locale encore présente
+          image-ref: ${{ env.IMAGE_URI }}
           format: 'table'
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
@@ -79,7 +72,7 @@ jobs:
 
       - name: Push Docker Image
         run: |
-          echo "Pushing Docker image ${{ env.IMAGE_URI }}..."
+          echo "✅ Pushing Docker image ${{ env.IMAGE_URI }}..."
           docker push ${{ env.IMAGE_URI }}
 
   deploy:
@@ -87,6 +80,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-scan-push
     steps:
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
       - name: Deploy to Cloud Run
         run: |
           SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
