@@ -1,3 +1,5 @@
+//src/components/LanguageExplorer/LanguageSelector.jsx
+import React from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { Link } from 'react-router-dom';
 import Navbar from '../shared/Navbar';
