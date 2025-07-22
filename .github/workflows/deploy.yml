@@ -10,21 +10,19 @@ env:
   SERVICE_NAME: react-frontend
   REPO_NAME: react-app-repo
   IMAGE_NAME: react-app
-  VERSION: v1.0.0   # <-- Tu peux incrémenter ici manuellement pour chaque release
+  VERSION: v1.0.0
 
 jobs:
-  build-scan-deploy:
+  setup:
+    name: Setup & SonarCloud Analysis
     runs-on: ubuntu-latest
-
     steps:
-      # 1️⃣ Checkout du code
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Install yq
         run: sudo apt-get install -y yq
 
-      # 2️⃣ Analyse SonarQube (avant build)
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
         with:
@@ -36,18 +34,31 @@ jobs:
             -Dsonar.projectKey=YoussefHalleb_Duolingo
             -Dsonar.organization=youssefhalleb
 
-      # 3️⃣ Authentification GCP avec le Service Account
+  auth:
+    name: Authenticate & Configure Docker
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # 4️⃣ Configurer Docker pour Artifact Registry
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
 
-      # 5️⃣ Build Docker image avec un TAG versionné
-      - name: Build Docker Image
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: auth
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image with version tag
         run: |
           SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
           TAG="${{ env.VERSION }}-${SHORT_SHA}"
@@ -56,43 +67,61 @@ jobs:
           echo "IMAGE_URI=${IMAGE_URI}" >> $GITHUB_ENV
           docker build -t $IMAGE_URI .
 
-      # 6️⃣ Scanner l'image Docker avec Trivy
+  scan:
+    name: Scan Docker Image with Trivy
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Trivy Scan Docker Image
         uses: aquasecurity/trivy-action@0.20.0
         with:
-          image-ref: ${{ env.IMAGE_URI }}
+          image-ref: ${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}-$(echo $GITHUB_SHA | cut -c1-7)
           format: 'table'
           exit-code: '1'
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
 
-      # 7️⃣ Push Docker image vers Artifact Registry
-      - name: Push Docker Image
-        run: docker push ${{ env.IMAGE_URI }}
+  push:
+    name: Push Docker Image
+    runs-on: ubuntu-latest
+    needs: scan
+    steps:
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # 8️⃣ Déployer sur Cloud Run
+      - name: Push Docker Image
+        run: docker push ${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}-$(echo $GITHUB_SHA | cut -c1-7)
+
+  deploy:
+    name: Deploy to Cloud Run
+    runs-on: ubuntu-latest
+    needs: push
+    steps:
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy ${{ env.SERVICE_NAME }} \
-            --image ${{ env.IMAGE_URI }} \
+            --image ${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}-$(echo $GITHUB_SHA | cut -c1-7) \
             --region ${{ env.REGION }} \
             --platform managed \
             --allow-unauthenticated
 
-      # 9️⃣ Mettre à jour le repo des manifests pour Argo CD
-      - name: Update Kubernetes manifest repo
+  update-manifests:
+    name: Update ArgoCD Manifests
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Checkout manifests repo
+        run: git clone https://x-access-token:${{ secrets.MANIFESTS_TOKEN }}@github.com/YoussefHalleb/react-frontend-manifests.git
+
+      - name: Update deployment.yaml
         run: |
-          # Clone du repo des manifests
-          git clone https://x-access-token:${{ secrets.MANIFESTS_TOKEN }}@github.com/YoussefHalleb/react-frontend-manifests.git
           cd react-frontend-manifests/base
+          yq -i -y '.spec.template.spec.containers[0].image = "${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}-$(echo $GITHUB_SHA | cut -c1-7)"' deployment.yaml
 
-          # Met à jour l’image dans deployment.yaml
-          yq -i -y '.spec.template.spec.containers[0].image = "${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"' deployment.yaml
-
-
-          # Commit & push
           git config user.email "ci-bot@github.com"
           git config user.name "CI Bot"
           git add deployment.yaml
-          git commit -m "Update image to ${IMAGE_TAG}"
+          git commit -m "Update image to ${{ env.VERSION }}-$(echo $GITHUB_SHA | cut -c1-7)"
           git push
