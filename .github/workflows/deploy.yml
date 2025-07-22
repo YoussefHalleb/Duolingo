@@ -109,7 +109,6 @@ jobs:
           SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
           cd react-frontend-manifests/base
           yq eval -i '.spec.template.spec.containers[0].image = "${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"' deployment.yaml
-
           git config user.email "ci-bot@github.com"
           git config user.name "CI Bot"
           git add deployment.yaml
