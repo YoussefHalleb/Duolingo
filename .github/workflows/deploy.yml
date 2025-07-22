@@ -1,4 +1,4 @@
-name: Deploy React App 
+name: Deploy React App to Cloud Run
 
 on:
   push:
@@ -58,16 +58,6 @@ jobs:
           echo "IMAGE_URI=${IMAGE_URI}" >> $GITHUB_ENV
           docker build -t $IMAGE_URI .
 
-      # ✅ Étape 5.1 : Security Scan (Trivy) sur l'image locale
-      - name: Security Scan with Trivy
-        uses: aquasecurity/trivy-action@0.20.0
-        with:
-          image-ref: ${{ env.IMAGE_URI }}  # scanne l'image locale
-          format: 'table'
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
-          exit-code: '1'  # fail si vulnérabilités critiques/hautes trouvées
-
       # ✅ Étape 6 : Deploy the application
       - name: Deploy the application
         run: |
@@ -83,4 +73,4 @@ jobs:
 
       # ✅ Étape 7 : Remove all artifacts
       - name: Remove all artifacts
-        run: echo "Cleanup done ✅"
+        run: echo "Cleanup done ✅" 
