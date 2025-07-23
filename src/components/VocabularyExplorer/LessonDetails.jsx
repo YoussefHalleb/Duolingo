@@ -1,1 +1,0 @@
-//Detailed view of a lesson (phrases, translations)

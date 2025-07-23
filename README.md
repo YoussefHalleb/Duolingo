@@ -7,7 +7,7 @@ Install Tailwind CSS and migrate old styles from Bootstrap CSS to Tailwind
 |----------------------|-------------|
 | React                | ^18.2.0     |
 | Vite                 | ^4.4.5      |
-| Tailwind CSS         | ^3.4.3      |
+| Tailwind CSS         | ^3.4.17      |
 | React Router DOM     | ^6.30.1     |
 | Firebase             | ^11.10.0    |
 | React Icons          | ^5.5.0      |
@@ -18,6 +18,6 @@ Install Tailwind CSS and migrate old styles from Bootstrap CSS to Tailwind
 
 ### ✅ Installation Commands Used
 
-npm install -D tailwindcss@3.4.3 postcss autoprefixer
+npm install -D tailwindcss@3.4.17 postcss autoprefixer
 npx tailwindcss init -p
 

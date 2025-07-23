@@ -62,6 +62,25 @@ const Navbar = () => {
         >
           <i className="fas fa-language"></i> Language Selector
         </Link>
+         <Link 
+          to="/language-choice" 
+          className={`navbar-link ${location.pathname === '/learn' ? 'active' : ''}`}
+        >
+          <i className="fas fa-book"></i> Learn
+        </Link>
+        <Link 
+          to="/quiz" 
+          className={`navbar-link ${location.pathname === '/quiz' ? 'active' : ''}`}
+        >
+          <i className="fas fa-question-circle"></i> Quiz
+        </Link>
+       
+        <Link 
+          to="/prononciation" 
+          className={`navbar-link ${location.pathname === '/pronunciation' ? 'active' : ''}`}
+        >
+          <i className="fas fa-microphone"></i> Pronunciation
+        </Link>
       </div>
       <div className="navbar-right">
         <div className="navbar-actions">
