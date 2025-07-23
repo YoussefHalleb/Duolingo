@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-export default function MatchingSimple({ question, onAnswer, feedback }) {
+export default function MatchingSimple({ question, onAnswer, feedback, setConnections }) {
   const [leftItems, setLeftItems] = useState([]);
   const [rightItems, setRightItems] = useState([]);
-  const [connections, setConnections] = useState({});
+  const [connections, setConnectionsLocal] = useState({});
 
   useEffect(() => {
     if (question && question.pairs) {
@@ -42,7 +42,7 @@ export default function MatchingSimple({ question, onAnswer, feedback }) {
   };
 
   const handleConnect = (word, translation) => {
-    setConnections((prev) => {
+    setConnectionsLocal((prev) => {
       const newConnections = { ...prev };
       Object.keys(newConnections).forEach((key) => {
         if (newConnections[key] === translation) delete newConnections[key];
@@ -51,6 +51,9 @@ export default function MatchingSimple({ question, onAnswer, feedback }) {
         newConnections[word] = translation;
       } else {
         delete newConnections[word];
+      }
+      if (setConnections) {
+        setConnections(newConnections);
       }
       return newConnections;
     });
@@ -65,33 +68,29 @@ export default function MatchingSimple({ question, onAnswer, feedback }) {
     }
   };
 
-  const handleSubmit = () => {
-    const userAnswer = question.pairs.map((pair) => `${pair.word}:${connections[pair.word] || ""}`);
-    const isCorrect = question.pairs.every(
-      (pair) => connections[pair.word] === pair.translation
-    );
-    onAnswer(userAnswer);
-  };
-
   if (!question || !question.pairs || question.pairs.length === 0) {
     return <p>Aucune paire disponible pour cet exercice.</p>;
   }
 
   return (
-    <div className="duolingo-matching">
-      <h2 className="duolingo-title mb-4">{question.question}</h2>
+    <div className="p-6 bg-white rounded-lg shadow-md max-w-xl mx-auto">
+      <h2 className="text-lg font-semibold mb-4 text-center">{question.question}</h2>
+      <div className="mb-4 flex justify-between text-sm text-gray-500">
+        <span>Question {question.order} sur 3</span>
+        <span>Score: {question.score}</span>
+      </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="duolingo-match-container">
+        <div className="flex flex-col md:flex-row gap-4 mb-4">
           <Droppable droppableId="words">
             {(provided) => (
               <div
-                className="duolingo-column"
+                className="w-full md:w-1/2 p-4 bg-gray-50 rounded-lg"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                <h3 className="duolingo-subtitle">Mots</h3>
-                <div className="duolingo-items">
+                <h3 className="text-md font-medium mb-2 text-gray-700">Mots</h3>
+                <div className="space-y-2">
                   {leftItems.map((item, index) => (
                     <Draggable key={item.id} draggableId={item.id} index={index}>
                       {(provided, snapshot) => (
@@ -99,9 +98,9 @@ export default function MatchingSimple({ question, onAnswer, feedback }) {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className={`duolingo-card ${
-                            connections[item.content] ? "duolingo-connected" : ""
-                          } ${snapshot.isDragging ? "dragging" : ""}`}
+                          className={`p-2 rounded-lg border cursor-move ${
+                            connections[item.content] ? "bg-purple-100 border-purple-500" : "bg-white border-gray-300"
+                          } ${snapshot.isDragging ? "bg-gray-200" : ""}`}
                         >
                           {item.content}
                         </div>
@@ -117,12 +116,12 @@ export default function MatchingSimple({ question, onAnswer, feedback }) {
           <Droppable droppableId="translations">
             {(provided) => (
               <div
-                className="duolingo-column"
+                className="w-full md:w-1/2 p-4 bg-gray-50 rounded-lg"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                <h3 className="duolingo-subtitle">Traductions</h3>
-                <div className="duolingo-items">
+                <h3 className="text-md font-medium mb-2 text-gray-700">Traductions</h3>
+                <div className="space-y-2">
                   {rightItems.map((item, index) => (
                     <Draggable key={item.id} draggableId={item.id} index={index}>
                       {(provided, snapshot) => (
@@ -131,11 +130,11 @@ export default function MatchingSimple({ question, onAnswer, feedback }) {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           onClick={() => handleClickTranslation(item.content)}
-                          className={`duolingo-card ${
+                          className={`p-2 rounded-lg border cursor-move ${
                             Object.values(connections).includes(item.content)
-                              ? "duolingo-connected"
-                              : ""
-                          } ${snapshot.isDragging ? "dragging" : ""}`}
+                              ? "bg-purple-100 border-purple-500"
+                              : "bg-white border-gray-300"
+                          } ${snapshot.isDragging ? "bg-gray-200" : ""}`}
                         >
                           {item.content}
                         </div>
@@ -150,34 +149,27 @@ export default function MatchingSimple({ question, onAnswer, feedback }) {
         </div>
       </DragDropContext>
 
-      <div className="duolingo-connections mb-4">
+      <div className="mb-4 space-y-2">
         {question.pairs.map((pair) => (
-          <div key={pair.word} className="duolingo-pair">
-            <span className="duolingo-word">{pair.word}</span>
-            <span className="duolingo-arrow">→</span>
-            <span className="duolingo-translation">
-              {connections[pair.word] || "?"}
-            </span>
+          <div key={pair.word} className="flex justify-between items-center p-2 bg-gray-50 rounded-lg">
+            <span className="text-gray-700">{pair.word}</span>
+            <span className="text-gray-500">→</span>
+            <span className="text-gray-700">{connections[pair.word] || "?"}</span>
           </div>
         ))}
       </div>
 
-      <button
-        onClick={handleSubmit}
-        disabled={Object.keys(connections).length !== question.pairs.length}
-        className="btn btn-validate"
-      >
-        Valider
-      </button>
-
       {feedback && (
-        <p
-          className={`duolingo-feedback mt-2 p-2 rounded text-center ${
-            feedback.includes("Correct") ? "duolingo-success" : "duolingo-error"
-          }`}
-        >
-          {feedback}
-        </p>
+        <>
+          <p className={feedback.includes("Correct") ? "mt-4 text-green-500 font-bold text-center" : "mt-4 text-red-500 font-bold text-center"}>
+            {feedback}
+          </p>
+          {!feedback.includes("Correct") && (
+            <p className="mt-2 text-gray-700 text-center">
+              Bonnes réponses : {question.pairs.map((pair) => `${pair.word} → ${pair.translation}`).join(", ")}
+            </p>
+          )}
+        </>
       )}
     </div>
   );

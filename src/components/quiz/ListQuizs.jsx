@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../shared/Navbar";
+import { useLanguage } from "../../context/LanguageContext";
 import "./Quiz.css";
 
 export default function ListQuizs() {
@@ -9,6 +11,7 @@ export default function ListQuizs() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { selectedLanguage } = useLanguage();
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -18,7 +21,10 @@ export default function ListQuizs() {
           id: doc.id,
           ...doc.data(),
         }));
-        setQuizzes(quizzesData);
+        const filteredQuizzes = quizzesData.filter((quiz) =>
+          quiz.language === getLanguageName(selectedLanguage)
+        );
+        setQuizzes(filteredQuizzes);
         setLoading(false);
       },
       (error) => {
@@ -29,10 +35,33 @@ export default function ListQuizs() {
     );
 
     return () => unsubscribe();
-  }, []);
+  }, [selectedLanguage]);
+
+  const getLanguageName = (langKey) => {
+    const languageMap = {
+      french: "français",
+      english: "english",
+      spanish: "español",
+      german: "deutsch",
+      italian: "italiano",
+      portuguese: "português",
+      dutch: "nederlands",
+      russian: "русский",
+      japanese: "japanese",
+      chinese: "chinese",
+      korean: "korean",
+    };
+    return languageMap[langKey] || "français";
+  };
 
   const handleQuizClick = (quizId) => {
-    navigate(`/quiz/${quizId}`);
+    const quiz = quizzes.find((q) => q.id === quizId);
+    const defaultLessonId = quiz?.questions[0]?.lessonId;
+    if (defaultLessonId) {
+      navigate(`/quiz/${quizId}/${defaultLessonId}`);
+    } else {
+      navigate(`/quiz/${quizId}`);
+    }
   };
 
   if (loading) return <div className="p-4 text-center">Chargement des quizs...</div>;
@@ -40,7 +69,7 @@ export default function ListQuizs() {
 
   return (
     <div className="quiz-page-container">
-      <div className="navbar-placeholder"></div>
+      <Navbar />
       <div className="modules-container">
         <div className="modules-cards">
           {quizzes.map((quiz) => (

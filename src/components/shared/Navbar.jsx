@@ -3,11 +3,14 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../config/firebase';
 import './Navbar.css';
+import { useAuth } from '../auth/AuthContext';
+
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+  const { isLoggedIn, user } = useAuth();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -62,11 +65,11 @@ const Navbar = () => {
       </div>
       <div className="navbar-right">
         <div className="navbar-actions">
-          
+          {isLoggedIn && (
           <div className="navbar-user-dropdown">
             <button className="navbar-user" onClick={toggleDropdown}>
               <img src="/pics/utilisateur.png" alt="User" className="navbar-icon" />
-              <span className="user-name">Rahim</span>
+              <span className="user-name">{user?.displayName || "Utilisateur"}</span>
               <i className={`fas fa-chevron-down ${isDropdownOpen ? 'rotate' : ''}`}></i>
             </button>
             <div className={`navbar-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
@@ -94,6 +97,7 @@ const Navbar = () => {
               </button>
             </div>
           </div>
+          )}
         </div>
       </div>
     </nav>
