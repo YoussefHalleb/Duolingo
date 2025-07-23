@@ -2,12 +2,29 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../config/firebase';
+import { useUser } from '../../context/UserContext';
+import { ref, onValue } from 'firebase/database'; // Importation correcte
+import { rtdb } from '../../config/firebase'; // Importation de rtdb
 import './Navbar.css';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useUser();
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+  const [username, setUsername] = React.useState('Guest');
+
+  React.useEffect(() => {
+    if (user) {
+      const userRef = ref(rtdb, `users/${user.uid}`);
+      onValue(userRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data && data.username) {
+          setUsername(data.username);
+        }
+      });
+    }
+  }, [user]);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -59,7 +76,7 @@ const Navbar = () => {
         >
           <i className="fas fa-language"></i> Language Selector
         </Link>
-         <Link 
+        <Link 
           to="/language-choice" 
           className={`navbar-link ${location.pathname === '/learn' ? 'active' : ''}`}
         >
@@ -71,7 +88,6 @@ const Navbar = () => {
         >
           <i className="fas fa-question-circle"></i> Quiz
         </Link>
-       
         <Link 
           to="/prononciation" 
           className={`navbar-link ${location.pathname === '/pronunciation' ? 'active' : ''}`}
@@ -81,11 +97,10 @@ const Navbar = () => {
       </div>
       <div className="navbar-right">
         <div className="navbar-actions">
-          
           <div className="navbar-user-dropdown">
             <button className="navbar-user" onClick={toggleDropdown}>
               <img src="/pics/utilisateur.png" alt="User" className="navbar-icon" />
-              <span className="user-name">Rahim</span>
+              <span className="user-name">{username}</span>
               <i className={`fas fa-chevron-down ${isDropdownOpen ? 'rotate' : ''}`}></i>
             </button>
             <div className={`navbar-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>

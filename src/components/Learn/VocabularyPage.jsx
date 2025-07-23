@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../config/firebase';
+import { ref, onValue, set } from 'firebase/database';
+import { rtdb } from '../../config/firebase';
 import Layout from '../shared/layout';
 import Button from '../shared/Button';
 import './Learn.css';
@@ -9,36 +9,51 @@ import './Learn.css';
 const VocabularyPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const lastLessonId = location.state?.lessonId;
+  const { state } = location;
+  const lastLessonId = state?.lessonId;
+  const user = state?.user;
   const [lesson, setLesson] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchLesson = async () => {
-      if (!lastLessonId) {
-        setError('No lesson selected.');
-        setLoading(false);
-        return;
+    if (!lastLessonId || !user) {
+      setError('No lesson or user data available.');
+      setLoading(false);
+      return;
+    }
+    const userLessonsRef = ref(rtdb, `users/${user.uid}/lessons/${lastLessonId}`);
+    onValue(userLessonsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        setLesson(data);
+      } else {
+        setError('Lesson not found.');
       }
-      try {
-        const lessonDoc = doc(db, 'lessons', lastLessonId);
-        const lessonSnapshot = await getDoc(lessonDoc);
-        if (lessonSnapshot.exists()) {
-          setLesson({ id: lessonSnapshot.id, ...lessonSnapshot.data() });
-        } else {
-          setError('Lesson not found.');
-        }
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching lesson:', err);
-        setError('Failed to load lesson. Please try again.');
-        setLoading(false);
-      }
-    };
+      setLoading(false);
+    }, (error) => {
+      console.error('Error loading lesson:', error);
+      setError('Failed to load lesson.');
+      setLoading(false);
+    });
+  }, [lastLessonId, user?.uid]);
 
-    fetchLesson();
-  }, [lastLessonId]);
+  const getNextLessonId = () => {
+    if (!user) return null;
+    let nextLessonId = null;
+    const userLessonsRef = ref(rtdb, `users/${user.uid}/lessons`);
+    onValue(userLessonsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const lessonArray = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+        const currentIndex = lessonArray.findIndex(l => l.id === lastLessonId);
+        if (currentIndex >= 0 && currentIndex < lessonArray.length - 1) {
+          nextLessonId = lessonArray[currentIndex + 1].id;
+        }
+      }
+    }, { onlyOnce: true });
+    return nextLessonId;
+  };
 
   if (loading) {
     return (
@@ -67,7 +82,7 @@ const VocabularyPage = () => {
           <header className="lesson-details-header">
             <div className="lesson-card-image">
               <img
-                src={lesson.image}
+                src={lesson.image || '/pics/vocabulaire.png'}
                 alt={`${lesson.title} icon`}
                 className="lesson-card-image img"
                 onError={(e) => { e.target.onerror = null; e.target.src = '/default-flag.png'; }}
@@ -85,10 +100,27 @@ const VocabularyPage = () => {
               </li>
             ))}
           </ul>
+          <p className="lesson-status">
+            Status: <span className={`status-completed`}>Completed</span> {/* Statut fixe à "Completed" ici */}
+          </p>
           <Button
             type="navigate"
-            label="Back to Lessons"
-            onClick={() => navigate('/learn/categories')}
+            label="Completed"
+            onClick={() => {
+              const userLessonRef = ref(rtdb, `users/${user.uid}/terminatedLessons/${lastLessonId}`);
+              set(userLessonRef, {
+                startedAt: new Date().toISOString(),
+                progress: 100,
+                lastUpdated: new Date().toISOString()
+              }).then(() => {
+                const nextLessonId = getNextLessonId();
+                if (nextLessonId) {
+                  navigate(`/learn/${lesson.language}/${nextLessonId}`, { state: { user } });
+                } else {
+                  navigate('/learn/categories');
+                }
+              });
+            }}
             className="w-full"
           />
         </div>

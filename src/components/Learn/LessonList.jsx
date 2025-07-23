@@ -1,41 +1,65 @@
 import React, { useState, useEffect } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../config/firebase';
+import { ref, onValue } from 'firebase/database';
+import { rtdb } from '../../config/firebase';
 import LessonCard from './LessonCard';
 import './Learn.css';
 
-const LessonList = ({ filterLanguage }) => {
+const LessonList = ({ filterLanguage, user }) => {
   const [lessons, setLessons] = useState([]);
+  const [terminatedLessons, setTerminatedLessons] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchLessons = async () => {
-      try {
-        const lessonsCollection = collection(db, 'lessons');
-        const lessonsSnapshot = await getDocs(lessonsCollection);
-        const lessonsData = lessonsSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        console.log("All Lessons:", lessonsData); // Débogage
-        const filteredLessons = lessonsData.filter(lesson => 
-          lesson.language.toLowerCase() === filterLanguage.toLowerCase()
-        );
-        console.log("Filtered Lessons:", filteredLessons); // Débogage
-        setLessons(filteredLessons);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching lessons:', err);
-        setError('Failed to load lessons. Please try again.');
-        setLoading(false);
-      }
-    };
+    if (user && filterLanguage) {
+      const userLessonsRef = ref(rtdb, `users/${user.uid}/lessons`);
+      const userTerminatedLessonsRef = ref(rtdb, `users/${user.uid}/terminatedLessons`);
+      console.log(`Fetching lessons for user ${user.uid} and language ${filterLanguage}`);
 
-    if (filterLanguage) {
-      fetchLessons();
+      const unsubscribeLessons = onValue(userLessonsRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log('Raw data from userLessonsRef:', data);
+        if (data) {
+          const lessonArray = Object.keys(data).map(key => ({
+            id: key,
+            ...data[key],
+            status: data[key].status || 'Not Started'
+          }));
+          const filteredLessons = lessonArray.filter(lesson =>
+            lesson.language && lesson.language.toLowerCase() === filterLanguage.toLowerCase()
+          );
+          console.log('Filtered lessons:', filteredLessons);
+          setLessons(filteredLessons);
+        } else {
+          setLessons([]);
+          setError('No lessons available for this user.');
+          console.log('No data found in userLessonsRef');
+        }
+      }, (error) => {
+        console.error('Error loading lessons:', error);
+        setError('Failed to load lessons. Please try again.');
+      });
+
+      const unsubscribeTerminated = onValue(userTerminatedLessonsRef, (snapshot) => {
+        const data = snapshot.val() || {};
+        console.log('Terminated lessons data:', data);
+        setTerminatedLessons(data);
+      }, (error) => {
+        console.error('Error loading terminated lessons:', error);
+      });
+
+      setLoading(false);
+
+      return () => {
+        unsubscribeLessons();
+        unsubscribeTerminated();
+      };
+    } else {
+      setLessons([]);
+      setLoading(false);
+      console.log('User or filterLanguage is undefined');
     }
-  }, [filterLanguage]);
+  }, [user, filterLanguage]);
 
   if (loading) {
     return (
@@ -57,7 +81,11 @@ const LessonList = ({ filterLanguage }) => {
     <div className="lesson-list">
       {lessons.length > 0 ? (
         lessons.map(lesson => (
-          <LessonCard key={lesson.id} lesson={lesson} />
+          <LessonCard
+            key={lesson.id}
+            lesson={lesson}
+            progress={terminatedLessons[lesson.id]?.progress || 0}
+          />
         ))
       ) : (
         <p className="learn-subtitle text-center">No lessons available for this language.</p>

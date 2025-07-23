@@ -1,4 +1,3 @@
-// src/components/Learn/LanguageChoice.jsx
 import React from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +20,6 @@ const LanguageChoice = () => {
     japanese: { nativeName: '日本語', name: 'Japanese', flagIcon: '/flags/japon.png' },
     chinese: { nativeName: '中文', name: 'Chinese', flagIcon: '/flags/chine.png' },
     korean: { nativeName: '한국어', name: 'Korean', flagIcon: '/flags/coree-du-sud.png' },
-    
   };
 
   const handleLanguageSelect = (lang) => {
