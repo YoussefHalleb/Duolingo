@@ -70,7 +70,7 @@ const Navbar = () => {
         </Link>
         <Link 
           to="/quiz" 
-          className={`navbar-link ${location.pathname === '/quiz' ? 'active' : ''}`}
+          className={`navbar-link ${location.pathname === '/quizzes' ? 'active' : ''}`}
         >
           <i className="fas fa-question-circle"></i> Quiz
         </Link>
