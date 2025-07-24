@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../config/firebase";
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUser, FaLock, FaExclamationCircle, FaGoogle } from 'react-icons/fa';
+import { useAuth } from "./AuthContext";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -10,6 +11,7 @@ const SignIn = () => {
   const [errors, setErrors] = useState({ email: "", password: "", general: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useAuth();
 
   useEffect(() => {
     if (email !== "") {
@@ -55,6 +57,8 @@ const SignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log("Connexion réussie:", userCredential.user);
+        setIsLoggedIn(true); // Met à jour le statut de connexion
+          console.log("isLoggedIn est maintenant:", true);
         navigate('/home');
       })
       .catch((error) => {
@@ -90,6 +94,7 @@ const SignIn = () => {
       
       const result = await signInWithPopup(auth, googleProvider);
       console.log("Connexion Google réussie:", result.user);
+      setIsLoggedIn(true); // Met à jour le statut de connexion
       navigate('/home');
     } catch (error) {
       console.error("Erreur de connexion Google:", error.message);

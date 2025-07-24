@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ref, onValue, set } from 'firebase/database';
 import { rtdb } from '../../config/firebase';
+import { useAuth } from '../auth/AuthContext'; // Updated import
 import Layout from '../shared/layout';
 import Button from '../shared/Button';
 import './Learn.css';
 
 const VocabularyPage = () => {
+  const { user, loading: authLoading } = useAuth(); // Updated to useAuth
   const location = useLocation();
   const navigate = useNavigate();
   const { state } = location;
   const lastLessonId = state?.lessonId;
-  const user = state?.user;
   const [lesson, setLesson] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,7 +24,7 @@ const VocabularyPage = () => {
       return;
     }
     const userLessonsRef = ref(rtdb, `users/${user.uid}/lessons/${lastLessonId}`);
-    onValue(userLessonsRef, (snapshot) => {
+    const unsubscribe = onValue(userLessonsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
         setLesson(data);
@@ -36,6 +37,8 @@ const VocabularyPage = () => {
       setError('Failed to load lesson.');
       setLoading(false);
     });
+
+    return () => unsubscribe();
   }, [lastLessonId, user?.uid]);
 
   const getNextLessonId = () => {
@@ -54,6 +57,26 @@ const VocabularyPage = () => {
     }, { onlyOnce: true });
     return nextLessonId;
   };
+
+  if (authLoading) {
+    return (
+      <Layout>
+        <div className="vocabulary-container">
+          <p className="lesson-details-not-found">Loading...</p>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (!user) {
+    return (
+      <Layout>
+        <div className="vocabulary-container">
+          <p className="lesson-details-not-found">Please sign in.</p>
+        </div>
+      </Layout>
+    );
+  }
 
   if (loading) {
     return (
@@ -101,7 +124,7 @@ const VocabularyPage = () => {
             ))}
           </ul>
           <p className="lesson-status">
-            Status: <span className={`status-completed`}>Completed</span> {/* Statut fixe à "Completed" ici */}
+            Status: <span className={`status-completed`}>Completed</span>
           </p>
           <Button
             type="navigate"

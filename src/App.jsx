@@ -1,17 +1,24 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes.jsx';
 import { LanguageProvider } from './context/LanguageProvider';
-import { UserProvider } from './context/UserContext';
+import { AuthProvider } from './components/auth/AuthContext'; // Updated import
 import { setupUserLessonInit } from './utils/userLessonInit';
+import { seedQuizzes } from './seedFirestore.js';
+import { useEffect } from 'react';
+
 function App() {
-  setupUserLessonInit();
+  useEffect(() => {
+    seedQuizzes();
+    setupUserLessonInit();
+  }, []);
+
   return (
     <Router>
-      <UserProvider>
-      <LanguageProvider>
-        <AppRoutes />
-      </LanguageProvider>
-      </UserProvider>
+      <AuthProvider>
+        <LanguageProvider>
+          <AppRoutes />
+        </LanguageProvider>
+      </AuthProvider>
     </Router>
   );
 }

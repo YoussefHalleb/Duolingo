@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import { useUser } from '../../context/UserContext';
+import { useAuth } from '../auth/AuthContext'; // Updated import
 import LessonList from './LessonList';
 import Layout from '../shared/layout';
-import { ref, onValue } from 'firebase/database';
-import { rtdb } from '../../config/firebase';
 import './Learn.css';
 
 const Learn = () => {
   const { selectedLanguage } = useLanguage();
-  const { user } = useUser();
+  const { user, loading } = useAuth(); // Updated to useAuth
   const [username, setUsername] = useState('Guest');
 
   useEffect(() => {
     if (user) {
-      const userRef = ref(rtdb, `users/${user.uid}`);
-      onValue(userRef, (snapshot) => {
-        const data = snapshot.val();
-        if (data && data.username) {
-          setUsername(data.username);
-        }
-      });
+      // Use displayName from Firebase Auth if available
+      setUsername(user.displayName || user.email.split('@')[0] || 'Guest');
     }
   }, [user]);
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="learn-container">
+          <p className="learn-subtitle text-center">Loading...</p>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

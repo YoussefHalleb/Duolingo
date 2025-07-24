@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useUser } from '../../context/UserContext';
+import { useAuth } from '../auth/AuthContext'; // Updated import
 import { ref, onValue } from 'firebase/database';
 import { rtdb } from '../../config/firebase';
 import Layout from '../shared/layout';
 import './Profile.css';
+
 const Profile = () => {
-  const { user } = useUser();
+  const { user, loading: authLoading } = useAuth(); // Updated to useAuth
   const [userLessons, setUserLessons] = useState([]);
   const [terminatedLessons, setTerminatedLessons] = useState({});
   const [username, setUsername] = useState('Guest');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (user) {
+      // Set username from Firebase Auth
+      setUsername(user.displayName || user.email.split('@')[0] || 'Guest');
+
       const userLessonsRef = ref(rtdb, `users/${user.uid}/lessons`);
-      onValue(userLessonsRef, (snapshot) => {
+      const unsubscribeLessons = onValue(userLessonsRef, (snapshot) => {
         const data = snapshot.val();
         if (data) {
           const lessonsArray = Object.keys(data).map(key => ({
@@ -21,31 +26,58 @@ const Profile = () => {
             ...data[key],
           }));
           setUserLessons(lessonsArray);
+        } else {
+          setUserLessons([]);
         }
+      }, (error) => {
+        console.error('Error fetching lessons:', error.message);
       });
 
       const userTerminatedRef = ref(rtdb, `users/${user.uid}/terminatedLessons`);
-      onValue(userTerminatedRef, (snapshot) => {
+      const unsubscribeTerminated = onValue(userTerminatedRef, (snapshot) => {
         const data = snapshot.val() || {};
         setTerminatedLessons(data);
+      }, (error) => {
+        console.error('Error fetching terminated lessons:', error.message);
       });
 
-      const userRef = ref(rtdb, `users/${user.uid}`);
-      onValue(userRef, (snapshot) => {
-        const data = snapshot.val();
-        if (data && data.username) {
-          setUsername(data.username);
-        }
-      });
+      setLoading(false);
+
+      return () => {
+        unsubscribeLessons();
+        unsubscribeTerminated();
+      };
+    } else {
+      setLoading(false);
     }
   }, [user]);
+
+  if (authLoading || loading) {
+    return (
+      <Layout>
+        <div className="learn-container">
+          <p className="learn-subtitle text-center">Loading...</p>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (!user) {
+    return (
+      <Layout>
+        <div className="learn-container">
+          <p className="learn-subtitle text-center">Please sign in to view your profile.</p>
+        </div>
+      </Layout>
+    );
+  }
 
   const completedLessons = userLessons.filter(lesson => terminatedLessons[lesson.id]?.progress === 100);
 
   return (
     <Layout>
       <div className="learn-container">
-        <header className="learn-header" style={{  color: '#fff', padding: '20px', borderRadius: '8px' }}>
+        <header className="learn-header" style={{ color: '#fff', padding: '20px', borderRadius: '8px' }}>
           <h1 className="learn-title" style={{ color: '#0A8A88FF' }}>Your Profile</h1>
           <p className="learn-subtitle">Welcome, {username}! Track your progress</p>
         </header>
@@ -65,7 +97,11 @@ const Profile = () => {
                 {completedLessons.map((lesson) => (
                   <div key={lesson.id} className="lesson-card">
                     <div className="lesson-card-image">
-                      <img src={lesson.image || '/pics/vocabulaire.png'} alt={`${lesson.title} icon`} />
+                      <img
+                        src={lesson.image || '/pics/vocabulaire.png'}
+                        alt={`${lesson.title} icon`}
+                        onError={(e) => { e.target.onerror = null; e.target.src = '/default-flag.png'; }}
+                      />
                     </div>
                     <div className="lesson-card-content">
                       <h2 className="lesson-card-title">{lesson.title}</h2>

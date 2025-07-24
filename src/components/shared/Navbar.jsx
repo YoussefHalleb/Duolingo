@@ -2,42 +2,26 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../config/firebase';
-import { useUser } from '../../context/UserContext';
-import { ref, onValue } from 'firebase/database'; // Importation correcte
-import { rtdb } from '../../config/firebase'; // Importation de rtdb
 import './Navbar.css';
+import { useAuth } from '../auth/AuthContext';
+
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useUser();
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
-  const [username, setUsername] = React.useState('Guest');
-
-  React.useEffect(() => {
-    if (user) {
-      const userRef = ref(rtdb, `users/${user.uid}`);
-      onValue(userRef, (snapshot) => {
-        const data = snapshot.val();
-        if (data && data.username) {
-          setUsername(data.username);
-        }
-      });
-    }
-  }, [user]);
+  const { isLoggedIn, user, loading } = useAuth();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Close dropdown when clicking outside
   React.useEffect(() => {
     const handleClickOutside = (event) => {
       if (isDropdownOpen && !event.target.closest('.navbar-user-dropdown')) {
         setIsDropdownOpen(false);
       }
     };
-
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, [isDropdownOpen]);
@@ -50,6 +34,8 @@ const Navbar = () => {
       alert('Error signing out.');
     }
   };
+
+  if (loading) return null; // ou spinner si tu veux
 
   return (
     <nav className="main-navbar">
@@ -74,17 +60,12 @@ const Navbar = () => {
           to="/language-selector" 
           className={`navbar-link ${location.pathname === '/language-selector' ? 'active' : ''}`}
         >
-          <i className="fas fa-language"></i> Language Selector
+          <i className="fas fa-language"></i> Learn
         </Link>
+        
         <Link 
-          to="/language-choice" 
-          className={`navbar-link ${location.pathname === '/learn' ? 'active' : ''}`}
-        >
-          <i className="fas fa-book"></i> Learn
-        </Link>
-        <Link 
-          to="/quiz" 
-          className={`navbar-link ${location.pathname === '/quiz' ? 'active' : ''}`}
+          to="/quizzes" 
+          className={`navbar-link ${location.pathname === '/quizzes' ? 'active' : ''}`}
         >
           <i className="fas fa-question-circle"></i> Quiz
         </Link>
@@ -97,13 +78,14 @@ const Navbar = () => {
       </div>
       <div className="navbar-right">
         <div className="navbar-actions">
-          <div className="navbar-user-dropdown">
-            <button className="navbar-user" onClick={toggleDropdown}>
-              <img src="/pics/utilisateur.png" alt="User" className="navbar-icon" />
-              <span className="user-name">{username}</span>
-              <i className={`fas fa-chevron-down ${isDropdownOpen ? 'rotate' : ''}`}></i>
-            </button>
-            <div className={`navbar-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
+        {isLoggedIn && (
+            <div className="navbar-user-dropdown">
+              <button className="navbar-user" onClick={toggleDropdown}>
+                <img src="/pics/utilisateur.png" alt="User" className="navbar-icon" />
+                <span className="user-name">{user?.displayName || "Utilisateur"}</span>
+                <i className={`fas fa-chevron-down ${isDropdownOpen ? 'rotate' : ''}`}></i>
+              </button>
+              <div className={`navbar-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
               <Link to="/profile" className="navbar-dropdown-link" onClick={() => setIsDropdownOpen(false)}>
                 <img src="/pics/utilisateur.png" alt="Profile" className="dropdown-icon" />
                 <span>
@@ -128,6 +110,7 @@ const Navbar = () => {
               </button>
             </div>
           </div>
+          )}
         </div>
       </div>
     </nav>

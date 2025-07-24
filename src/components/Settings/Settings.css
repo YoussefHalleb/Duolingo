@@ -1,0 +1,97 @@
+.settings-container {
+  max-width: 600px; 
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+  padding: 40px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.settings-container:hover {
+  transform: translateY(-5px); /* Subtle lift on hover */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.settings-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, #1cb0f6, #58cc02); /* Match navbar gradient */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 32px;
+  letter-spacing: -0.5px;
+}
+
+.settings-section {
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px; /* Modern spacing */
+}
+
+.settings-label {
+  font-size: 1.2rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.settings-label input[type="checkbox"] {
+  appearance: none; /* Remove default checkbox style */
+  width: 24px;
+  height: 24px;
+  border: 2px solid #1cb0f6;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.settings-label input[type="checkbox"]:checked {
+  background: linear-gradient(45deg, #1cb0f6, #58cc02); /* Gradient for checked state */
+}
+
+.settings-label input[type="checkbox"]:checked::after {
+  content: '✔';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 16px;
+}
+
+.settings-label input[type="checkbox"]:hover {
+  box-shadow: 0 0 8px rgba(28, 176, 246, 0.3); /* Subtle glow on hover */
+}
+
+/* Style for the shared Button component */
+button {
+  background: linear-gradient(45deg, #1cb0f6, #58cc02); /* Consistent gradient */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(45deg, #0096c7, #4ba000); /* Darker gradient on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(28, 176, 246, 0.3);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(28, 176, 246, 0.2);
+}

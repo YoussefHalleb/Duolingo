@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ref, onValue } from 'firebase/database';
 import { rtdb } from '../../config/firebase';
+import { useAuth } from '../auth/AuthContext'; // Updated import
 import LessonCard from './LessonCard';
 import './Learn.css';
 
-const LessonList = ({ filterLanguage, user }) => {
+const LessonList = ({ filterLanguage }) => {
+  const { user, loading: authLoading } = useAuth(); // Updated to useAuth
   const [lessons, setLessons] = useState([]);
   const [terminatedLessons, setTerminatedLessons] = useState({});
   const [loading, setLoading] = useState(true);
@@ -60,6 +62,22 @@ const LessonList = ({ filterLanguage, user }) => {
       console.log('User or filterLanguage is undefined');
     }
   }, [user, filterLanguage]);
+
+  if (authLoading) {
+    return (
+      <div className="learn-container">
+        <p className="learn-subtitle text-center">Loading...</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="learn-container">
+        <p className="learn-subtitle text-center">Please sign in to view lessons.</p>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

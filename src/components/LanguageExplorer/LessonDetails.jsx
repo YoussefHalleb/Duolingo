@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
+import { useAuth } from '../auth/AuthContext'; // Updated import
 import { ref, onValue, set } from 'firebase/database';
 import { doc, setDoc } from 'firebase/firestore';
 import { rtdb, db } from '../../config/firebase';
@@ -9,7 +9,7 @@ import Button from '../shared/Button';
 import './Learn.css';
 
 const LessonDetails = () => {
-  const { user } = useUser();
+  const { user, loading: authLoading } = useAuth(); // Updated to useAuth
   const { language, lessonId } = useParams();
   const navigate = useNavigate();
   const [lesson, setLesson] = useState(null);
@@ -27,7 +27,7 @@ const LessonDetails = () => {
     if (user) {
       const userLessonsRef = ref(rtdb, `users/${user.uid}/lessons`);
       console.log(`Fetching lessons for user ${user.uid}, language ${language}, lessonId ${lessonId}`);
-      onValue(userLessonsRef, (snapshot) => {
+      const unsubscribe = onValue(userLessonsRef, (snapshot) => {
         const data = snapshot.val();
         console.log('Raw data from userLessonsRef:', data);
         if (data) {
@@ -52,14 +52,25 @@ const LessonDetails = () => {
           console.log('No data found in userLessonsRef');
         }
         setLoading(false);
+      }, (error) => {
+        console.error('Error fetching lessons:', error);
+        setError('Failed to load lessons.');
+        setLoading(false);
       });
 
       const userLessonRef = ref(rtdb, `users/${user.uid}/terminatedLessons/${lessonId}`);
-      onValue(userLessonRef, (snapshot) => {
+      const unsubscribeProgress = onValue(userLessonRef, (snapshot) => {
         const data = snapshot.val();
         console.log('Progress data from terminatedLessons:', data);
         if (data) setProgress(data.progress || 0);
+      }, (error) => {
+        console.error('Error fetching progress:', error);
       });
+
+      return () => {
+        unsubscribe();
+        unsubscribeProgress();
+      };
     }
   }, [user, language, lessonId]);
 
@@ -74,7 +85,9 @@ const LessonDetails = () => {
         .then(() => {
           if (newProgress === 100) {
             const userDocRef = doc(db, 'users', user.uid);
-            setDoc(userDocRef, { lessons: { [lessonId]: { completed: true, progress: newProgress, completedAt: new Date().toISOString() } } }, { merge: true });
+            setDoc(userDocRef, {
+              lessons: { [lessonId]: { completed: true, progress: newProgress, completedAt: new Date().toISOString() } }
+            }, { merge: true });
           }
         })
         .catch((error) => console.error('Error saving progress:', error));
@@ -114,7 +127,7 @@ const LessonDetails = () => {
     } else {
       setCorrectPhrase(correctPhrase);
       setShowErrorMessage(true);
-      setTimeout(() => setShowErrorMessage(false), 7000); // Masquer après  secondes
+      setTimeout(() => setShowErrorMessage(false), 7000);
     }
   };
 
@@ -143,6 +156,9 @@ const LessonDetails = () => {
     navigate('/learn/categories');
   };
 
+  if (authLoading) return (
+    <Layout><div><p>Loading...</p></div></Layout>
+  );
   if (!user) return (
     <Layout><div><p>Please sign in.</p></div></Layout>
   );
