@@ -1,0 +1,123 @@
+/* Profile Enhanced Styles with Horizontal Layout */
+.profile-grid {
+    display: grid;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .profile-card {
+    border-radius: 18px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    padding: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .profile-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13);
+  }
+  
+  .info-card {
+    text-align: center;
+  }
+  
+  .lessons-card {
+    min-height: 300px;
+  }
+  
+  .profile-section-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
+  .profile-details p {
+    font-size: 1.1rem;
+    color: #4a4e69;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  
+  .lesson-list-horizontal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  
+  .completed-lesson-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px;
+    background: #fff;
+    border-radius: 12px;
+    min-width: 250px;
+    transition: transform 0.2s ease;
+  }
+  
+  .completed-lesson-card:hover {
+    transform: translateX(8px);
+  }
+  
+  .completed-lesson-card-image img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+  }
+  
+  .completed-lesson-card-content {
+    padding-left: 12px;
+  }
+  
+  .lesson-status {
+    font-size: 1.1rem;
+    margin-top: 8px;
+    text-align: right;
+  }
+  
+  .status-completed {
+    color: #3ce096;
+    font-weight: 600;
+  }
+  
+  /* Media Queries */
+  @media (min-width: 768px) {
+    .profile-grid {
+      grid-template-columns: 1fr 2fr;
+    }
+  
+    .info-card {
+      text-align: left;
+    }
+  
+    .lesson-list-horizontal {
+      justify-content: flex-start;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .profile-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .lesson-list-horizontal {
+      justify-content: center;
+    }
+  
+    .completed-lesson-card {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .completed-lesson-card-content {
+      padding-left: 0;
+    }
+  
+    .lesson-status {
+      text-align: center;
+    }
+  }
