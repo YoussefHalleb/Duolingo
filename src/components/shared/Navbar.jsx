@@ -3,24 +3,25 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../config/firebase';
 import './Navbar.css';
+import { useAuth } from '../auth/AuthContext';
+
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+  const { isLoggedIn, user, loading } = useAuth();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Close dropdown when clicking outside
   React.useEffect(() => {
     const handleClickOutside = (event) => {
       if (isDropdownOpen && !event.target.closest('.navbar-user-dropdown')) {
         setIsDropdownOpen(false);
       }
     };
-
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, [isDropdownOpen]);
@@ -33,6 +34,8 @@ const Navbar = () => {
       alert('Error signing out.');
     }
   };
+
+  if (loading) return null; // ou spinner si tu veux
 
   return (
     <nav className="main-navbar">
@@ -57,19 +60,35 @@ const Navbar = () => {
           to="/language-selector" 
           className={`navbar-link ${location.pathname === '/language-selector' ? 'active' : ''}`}
         >
-          <i className="fas fa-language"></i> Language Selector
+          <i className="fas fa-language"></i> Learn
+        </Link>
+        
+        <Link 
+          to="/quizzes" 
+          className={`navbar-link ${location.pathname === '/quizzes' ? 'active' : ''}`}
+        >
+          <i className="fas fa-question-circle"></i> Quiz
+        </Link>
+        <Link 
+          to="/prononciation" 
+          className={`navbar-link ${location.pathname === '/pronunciation' ? 'active' : ''}`}
+        >
+          <i className="fas fa-microphone"></i> Pronunciation
         </Link>
       </div>
       <div className="navbar-right">
         <div className="navbar-actions">
-          
-          <div className="navbar-user-dropdown">
-            <button className="navbar-user" onClick={toggleDropdown}>
-              <img src="/pics/utilisateur.png" alt="User" className="navbar-icon" />
-              <span className="user-name">Youssef</span>
-              <i className={`fas fa-chevron-down ${isDropdownOpen ? 'rotate' : ''}`}></i>
-            </button>
-            <div className={`navbar-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
+
+
+        {isLoggedIn && (
+            <div className="navbar-user-dropdown">
+              <button className="navbar-user" onClick={toggleDropdown}>
+                <img src="/pics/utilisateur.png" alt="User" className="navbar-icon" />
+                <span className="user-name">{user?.displayName || "Utilisateur"}</span>
+                <i className={`fas fa-chevron-down ${isDropdownOpen ? 'rotate' : ''}`}></i>
+              </button>
+              <div className={`navbar-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
+
               <Link to="/profile" className="navbar-dropdown-link" onClick={() => setIsDropdownOpen(false)}>
                 <img src="/pics/utilisateur.png" alt="Profile" className="dropdown-icon" />
                 <span>
@@ -94,6 +113,7 @@ const Navbar = () => {
               </button>
             </div>
           </div>
+          )}
         </div>
       </div>
     </nav>

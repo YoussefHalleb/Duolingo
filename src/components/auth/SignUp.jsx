@@ -3,6 +3,8 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../../config/firebase";
 import { Link, useNavigate } from 'react-router-dom';
 import { doc, setDoc } from "firebase/firestore";
+import { useAuth } from "./AuthContext";
+
 
 const SignUp = () => {
   const [nom, setNom] = useState("");  
@@ -24,6 +26,7 @@ const SignUp = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useAuth();
 
   useEffect(() => {
     if (email !== "") {
@@ -155,7 +158,8 @@ const SignUp = () => {
       });
 
       console.log("Inscription réussie", userCredential.user);
-      navigate('/SignIn');
+      setIsLoggedIn(true); // Met à jour le statut de connexion
+      navigate('/home'); // Redirige directement vers home au lieu de SignIn
     } catch (error) {
       console.error("Erreur d'inscription:", error);
       let errorMessage = "Une erreur est survenue lors de l'inscription";

@@ -1,0 +1,13 @@
+/* Shared Layout Styles */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f7f8fa;
+}
+
+
+.main-content {
+  flex: 1 1 auto;
+  padding: 20px;
+}
