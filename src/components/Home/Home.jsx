@@ -8,7 +8,7 @@ const Home = () => {
     <div className="home-page">
       <Navbar />
       <header className="main-header">
-        <h1 className="welcome-title">Welcomeeee to Language Explorer!</h1>
+        <h1 className="welcome-title">Welcome to Language Explorer!</h1>
         <p className="welcome-subtitle">
           Your gateway to mastering new languages. Dive into our interactive modules and start your journey today!
         </p>
