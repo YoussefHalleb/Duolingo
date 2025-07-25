@@ -78,6 +78,8 @@ const Navbar = () => {
       </div>
       <div className="navbar-right">
         <div className="navbar-actions">
+
+
         {isLoggedIn && (
             <div className="navbar-user-dropdown">
               <button className="navbar-user" onClick={toggleDropdown}>
@@ -86,6 +88,7 @@ const Navbar = () => {
                 <i className={`fas fa-chevron-down ${isDropdownOpen ? 'rotate' : ''}`}></i>
               </button>
               <div className={`navbar-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
+
               <Link to="/profile" className="navbar-dropdown-link" onClick={() => setIsDropdownOpen(false)}>
                 <img src="/pics/utilisateur.png" alt="Profile" className="dropdown-icon" />
                 <span>
