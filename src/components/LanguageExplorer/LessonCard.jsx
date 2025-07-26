@@ -1,16 +1,21 @@
+// src/components/LanguageExplorer/LessonCard.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Button from '../shared/Button';
+import { Link, useNavigate } from 'react-router-dom';
+import Button from '../shared/Button'; 
 import './Learn.css';
 
 const LessonCard = ({ lesson, progress }) => {
-  const getStatus = (progress) => {
-    if (progress === 100) return 'Completed';
-    if (progress > 0) return 'Progress';
+  const navigate = useNavigate();
+  const getStatus = (progressValue) => {
+    if (progressValue >= 100) return 'Completed';
+    if (progressValue >= 66) return 'Progress';
+    if (progressValue >= 33) return 'Progress';
     return 'Not Started';
   };
 
   const status = getStatus(progress || 0);
+  const buttonType = status === 'Completed' ? 'complete' : 'navigate';
+  const buttonLabel = status === 'Completed' ? 'Review Lesson' : 'Start Lesson';
 
   return (
     <div className="lesson-card">
@@ -24,13 +29,12 @@ const LessonCard = ({ lesson, progress }) => {
       </div>
       <h2 className="lesson-card-title">{lesson.title}</h2>
       <p className="lesson-card-summary">{lesson.summary}</p>
-      <Link to={`/learn/${lesson.language}/${lesson.id}`}>
-        <Button
-          type={status === 'Completed' ? 'complete' : 'navigate'}
-          label={status === 'Completed' ? 'Review Lesson' : 'Start Lesson'}
-          disabled={status === 'Completed'}
-        />
-      </Link>
+      <Button
+        type={buttonType}
+        label={buttonLabel}
+        onClick={() => navigate(`/learn/${lesson.language}/${lesson.id}`)}
+        disabled={false}
+      />
       <p className="lesson-status">
         Status: <span className={`status-${status.toLowerCase().replace(' ', '-')}`}>{status}</span>
       </p>

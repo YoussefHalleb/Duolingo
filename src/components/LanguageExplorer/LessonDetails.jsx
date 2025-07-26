@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
+// src/components/LanguageExplorer/LessonDetails.jsx
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../auth/AuthContext'; // Updated import
+import { useAuth } from '../auth/AuthContext';
 import { ref, onValue, set } from 'firebase/database';
-import { doc, setDoc } from 'firebase/firestore';
-import { rtdb, db } from '../../config/firebase';
+import { rtdb } from '../../config/firebase';
 import Layout from '../shared/layout';
 import Button from '../shared/Button';
 import './Learn.css';
 
 const LessonDetails = () => {
-  const { user, loading: authLoading } = useAuth(); // Updated to useAuth
+  const { user, loading: authLoading } = useAuth();
   const { language, lessonId } = useParams();
   const navigate = useNavigate();
   const [lesson, setLesson] = useState(null);
   const [allLessons, setAllLessons] = useState([]);
-  const [currentView, setCurrentView] = useState('learn'); // 'learn', 'complete', 'recap'
+  const [currentView, setCurrentView] = useState('learn');
   const [progress, setProgress] = useState(0);
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(true);
@@ -41,15 +41,21 @@ const LessonDetails = () => {
           console.log('Current lesson found:', currentLesson);
           if (currentLesson && currentLesson.phrases && currentLesson.phrases.length > 0) {
             setLesson(currentLesson);
-            setCurrentView('learn');
-            setProgress(0);
+            // Vérifier immédiatement le statut et le progress
+            const userLessonRef = ref(rtdb, `users/${user.uid}/terminatedLessons/${lessonId}`);
+            onValue(userLessonRef, (snap) => {
+              const progressData = snap.val();
+              console.log('Progress data:', progressData);
+              const isCompleted = progressData?.progress === 100 || currentLesson.status === 'Completed';
+              setCurrentView(isCompleted ? 'review' : 'learn');
+              setProgress(progressData?.progress || 0);
+            }, { onlyOnce: true });
             setUserInput('');
           } else {
             setError('Lesson not found or has no valid phrases for this language.');
           }
         } else {
           setError('No lessons available.');
-          console.log('No data found in userLessonsRef');
         }
         setLoading(false);
       }, (error) => {
@@ -58,39 +64,31 @@ const LessonDetails = () => {
         setLoading(false);
       });
 
-      const userLessonRef = ref(rtdb, `users/${user.uid}/terminatedLessons/${lessonId}`);
-      const unsubscribeProgress = onValue(userLessonRef, (snapshot) => {
-        const data = snapshot.val();
-        console.log('Progress data from terminatedLessons:', data);
-        if (data) setProgress(data.progress || 0);
-      }, (error) => {
-        console.error('Error fetching progress:', error);
-      });
-
-      return () => {
-        unsubscribe();
-        unsubscribeProgress();
-      };
+      return () => unsubscribe();
     }
   }, [user, language, lessonId]);
 
   const saveProgress = (newProgress) => {
-    if (user) {
+    if (user && lesson && newProgress > 0) {
       const userLessonRef = ref(rtdb, `users/${user.uid}/terminatedLessons/${lessonId}`);
+      const now = new Date();
+      const tunisianTime = new Date(now.getTime() + (1 * 60 * 60 * 1000)); // UTC+1
+      const isoString = tunisianTime.toISOString().slice(0, -1);
       set(userLessonRef, {
-        startedAt: new Date().toISOString(),
+        language: lesson.language,
         progress: newProgress,
-        lastUpdated: new Date().toISOString()
-      })
-        .then(() => {
-          if (newProgress === 100) {
-            const userDocRef = doc(db, 'users', user.uid);
-            setDoc(userDocRef, {
-              lessons: { [lessonId]: { completed: true, progress: newProgress, completedAt: new Date().toISOString() } }
-            }, { merge: true });
-          }
-        })
-        .catch((error) => console.error('Error saving progress:', error));
+        date: isoString,
+        updatedAt: isoString
+      }).then(() => {
+        setProgress(newProgress);
+        if (newProgress === 100) {
+          const userLessonsRef = ref(rtdb, `users/${user.uid}/lessons/${lessonId}`);
+          set(userLessonsRef, { ...lesson, status: 'Completed' }, { merge: true }).then(() => {
+            console.log("Lesson status updated to Completed for:", lessonId);
+            setCurrentView('review'); // Forcer la vue review après completion
+          });
+        }
+      }).catch((error) => console.error('Error saving progress:', error.message));
     }
   };
 
@@ -107,21 +105,23 @@ const LessonDetails = () => {
   };
 
   const playAudio = (phraseIndex) => {
-    const audioUrl = `/audio/${lessonId}-${phraseIndex}.mp3`;
-    const audio = new Audio(audioUrl);
-    audio.play().catch(error => console.error('Audio play failed:', error));
+    if (lesson && lesson.phrases && lesson.phrases[phraseIndex]?.audio) {
+      const audioUrl = lesson.phrases[phraseIndex].audio;
+      const audio = new Audio(audioUrl);
+      audio.play().catch(error => console.error('Audio play failed:', error));
+    } else {
+      console.warn('No audio available for phrase index:', phraseIndex);
+    }
   };
 
   const handleComplete = () => {
     if (!lesson.phrases || lesson.phrases.length === 0) {
-      setProgress(66);
-      saveProgress(66);
+      saveProgress(33);
       setCurrentView('recap');
       return;
     }
     const correctPhrase = lesson.phrases[0].phrase;
     if (userInput.toLowerCase() === correctPhrase.toLowerCase()) {
-      setProgress(66);
       saveProgress(66);
       setCurrentView('recap');
     } else {
@@ -156,18 +156,9 @@ const LessonDetails = () => {
     navigate('/learn/categories');
   };
 
-  if (authLoading) return (
-    <Layout><div><p>Loading...</p></div></Layout>
-  );
-  if (!user) return (
-    <Layout><div><p>Please sign in.</p></div></Layout>
-  );
-  if (loading) return (
-    <Layout><div><p>Loading...</p></div></Layout>
-  );
-  if (error || !lesson) return (
-    <Layout><div><p>{error}</p></div></Layout>
-  );
+  if (authLoading || loading) return <Layout><div><p>Loading...</p></div></Layout>;
+  if (!user) return <Layout><div><p>Please sign in.</p></div></Layout>;
+  if (error || !lesson) return <Layout><div><p>{error}</p></div></Layout>;
 
   return (
     <Layout>
@@ -186,30 +177,14 @@ const LessonDetails = () => {
                     <div key={index} className="lesson-phrase-item">
                       <div className="lesson-phrase-text">Phrase: {phrase.phrase}</div>
                       <div className="lesson-phrase-translation">Translation: {phrase.translation}</div>
-                      <button
-                        className="play-button"
-                        onClick={() => playAudio(index)}
-                      >
-                        ▶ Play
-                      </button>
+                      <button className="play-button" onClick={() => playAudio(index)}>▶ Play</button>
                     </div>
                   ))}
                 </div>
-              ) : (
-                <p className="lesson-details-not-found">No phrases available to learn.</p>
-              )}
+              ) : <p className="lesson-details-not-found">No phrases available to learn.</p>}
               <div className="lesson-navigation">
-                <Button
-                  label="Previous"
-                  onClick={() => navigate(`/learn/${language}/${getPrevLessonId()}`)}
-                  disabled={!getPrevLessonId()}
-                  type="navigate"
-                />
-                <Button
-                  label="Next"
-                  onClick={() => { setProgress(33); saveProgress(33); setCurrentView('complete'); }}
-                  type="navigate"
-                />
+                <Button label="Previous" onClick={() => navigate(`/learn/${language}/${getPrevLessonId()}`)} disabled={!getPrevLessonId()} type="navigate" />
+                <Button label="Next" onClick={() => { saveProgress(33); setCurrentView('complete'); }} type="navigate" />
               </div>
             </div>
           )}
@@ -220,24 +195,13 @@ const LessonDetails = () => {
                 <div className="lesson-complete-content">
                   <div className="lesson-phrase-text">Phrase: ___</div>
                   <div className="lesson-phrase-translation">Translation: {lesson.phrases[0].translation}</div>
-                  <input
-                    value={userInput}
-                    onChange={(e) => setUserInput(e.target.value)}
-                    placeholder="Enter the phrase"
-                    className="input-field"
-                  />
+                  <input value={userInput} onChange={(e) => setUserInput(e.target.value)} placeholder="Enter the phrase" className="input-field" />
                   <div className="lesson-navigation">
                     <Button label="Back" onClick={() => setCurrentView('learn')} type="navigate" />
                     <Button label="Submit" onClick={handleComplete} type="complete" />
                   </div>
                   {showErrorMessage && (
-                    <div
-                      className="error-message"
-                      onCopy={(e) => e.preventDefault()}
-                      onSelect={(e) => e.preventDefault()}
-                    >
-                      Try again! The correct phrase is: {correctPhrase}
-                    </div>
+                    <div className="error-message">Try again! The correct phrase is: {correctPhrase}</div>
                   )}
                 </div>
               ) : (
@@ -245,11 +209,7 @@ const LessonDetails = () => {
                   <p className="lesson-details-not-found">No phrases available to complete. Moving to Recap...</p>
                   <div className="lesson-navigation">
                     <Button label="Back" onClick={() => setCurrentView('learn')} type="navigate" />
-                    <Button
-                      label="Next"
-                      onClick={() => { setProgress(66); saveProgress(66); setCurrentView('recap'); }}
-                      type="navigate"
-                    />
+                    <Button label="Next" onClick={() => { saveProgress(66); setCurrentView('recap'); }} type="navigate" />
                   </div>
                 </div>
               )}
@@ -260,32 +220,35 @@ const LessonDetails = () => {
               <h2 className="lesson-details-section-title">Vocabulary Recap</h2>
               {lesson.phrases && lesson.phrases.length > 0 ? (
                 <table className="vocabulary-table">
-                  <thead>
-                    <tr>
-                      <th>Phrase</th>
-                      <th>Translation</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {lesson.phrases.map((phrase, index) => (
-                      <tr key={index}>
-                        <td>{phrase.phrase}</td>
-                        <td>{phrase.translation}</td>
-                      </tr>
-                    ))}
-                  </tbody>
+                  <thead><tr><th>Phrase</th><th>Translation</th></tr></thead>
+                  <tbody>{lesson.phrases.map((phrase, index) => (
+                    <tr key={index}><td>{phrase.phrase}</td><td>{phrase.translation}</td></tr>
+                  ))}</tbody>
                 </table>
-              ) : (
-                <p className="lesson-details-not-found">No phrases available for recap.</p>
-              )}
+              ) : <p className="lesson-details-not-found">No phrases available for recap.</p>}
               <div className="lesson-navigation">
-                <Button
-                  label="Previous"
-                  onClick={() => navigate(`/learn/${language}/${getPrevLessonId()}`)}
-                  disabled={!getPrevLessonId()}
-                  type="navigate"
-                />
+                <Button label="Previous" onClick={() => navigate(`/learn/${language}/${getPrevLessonId()}`)} disabled={!getPrevLessonId()} type="navigate" />
                 <Button label="Completed" onClick={handleLessonComplete} type="complete" />
+              </div>
+            </div>
+          )}
+          {currentView === 'review' && (
+            <div className="lesson-details-section">
+              <h2 className="lesson-details-section-title">Review Lesson</h2>
+              {lesson.phrases && lesson.phrases.length > 0 ? (
+                <div className="lesson-phrases-grid">
+                  {lesson.phrases.map((phrase, index) => (
+                    <div key={index} className="lesson-phrase-item">
+                      <div className="lesson-phrase-text">Phrase: {phrase.phrase}</div>
+                      <div className="lesson-phrase-translation">Translation: {phrase.translation}</div>
+                      <button className="play-button" onClick={() => playAudio(index)}>▶ Play</button>
+                    </div>
+                  ))}
+                </div>
+              ) : <p className="lesson-details-not-found">No phrases available to review.</p>}
+              <div className="lesson-navigation">
+                <Button label="Previous" onClick={() => navigate(`/learn/${language}/${getPrevLessonId()}`)} disabled={!getPrevLessonId()} type="navigate" />
+                <Button label="Back to List" onClick={() => navigate(`/learn/categories`)} type="navigate" />
               </div>
             </div>
           )}

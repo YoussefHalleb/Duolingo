@@ -173,6 +173,7 @@
   background: #f9fafb;
   border-radius: 12px;
   transition: transform 0.2s ease;
+  align-items: flex-start; /* Aligner le contenu à gauche */
 }
 
 .lesson-phrase-item:hover {
@@ -418,3 +419,21 @@
   }
 }
 
+/* Ajuster le bouton Play */
+.play-button {
+  margin-top: 8px;
+  padding: 4px 8px; /* Réduire le padding pour une taille plus compacte */
+  background: #00b4d8;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: auto; /* Permet une largeur adaptée au texte */
+  transition: background 0.2s ease;
+  min-width: 60px; /* Définir une largeur minimale pour éviter qu'il ne soit trop petit */
+}
+
+.play-button:hover {
+  background: #0096c7;
+}
