@@ -138,10 +138,10 @@
     "fr-1": {
       "id": "fr-1",
       "language": "french",
-      "title": "Salutations",
-      "category": "Débutant",
+      "title": "Greetings",
+      "category": "Beginner",
       "image": "/flags/la-france.png",
-      "summary": "Apprenez les bases des salutations françaises.",
+      "summary": "Learn basic French greetings.",
       "phrases": [
         { "phrase": "Bonjour", "translation": "Hello", "audio": "/audio/fr-1-0.mp3" },
         { "phrase": "Bonsoir", "translation": "Good evening", "audio": "/audio/fr-1-1.mp3" },
@@ -153,10 +153,10 @@
     "fr-2": {
       "id": "fr-2",
       "language": "french",
-      "title": "Nourriture",
-      "category": "Intermédiaire",
+      "title": "Food",
+      "category": "Intermediate",
       "image": "/flags/la-france.png",
-      "summary": "Découvrez le vocabulaire des aliments et des repas.",
+      "summary": "Discover vocabulary related to food and meals.",
       "phrases": [
         { "phrase": "Pain", "translation": "Bread", "audio": "/audio/fr-2-0.mp3" },
         { "phrase": "Vin", "translation": "Wine", "audio": "/audio/fr-2-1.mp3" },
@@ -168,10 +168,10 @@
     "fr-3": {
       "id": "fr-3",
       "language": "french",
-      "title": "Voyage",
-      "category": "Intermédiaire",
+      "title": "Travel",
+      "category": "Intermediate",
       "image": "/flags/la-france.png",
-      "summary": "Apprenez les phrases utiles pour voyager en français.",
+      "summary": "Learn useful phrases for traveling in French.",
       "phrases": [
         { "phrase": "Où est la gare ?", "translation": "Where is the train station?", "audio": "/audio/fr-3-0.mp3" },
         { "phrase": "Un billet, s'il vous plaît.", "translation": "One ticket, please.", "audio": "/audio/fr-3-1.mp3" },
@@ -183,10 +183,10 @@
     "es-1": {
       "id": "es-1",
       "language": "spanish",
-      "title": "Saludos",
-      "category": "Principiante",
+      "title": "Greetings",
+      "category": "Beginner",
       "image": "/flags/monde.png",
-      "summary": "Domine les salutations de base en espagnol.",
+      "summary": "Master basic Spanish greetings.",
       "phrases": [
         { "phrase": "Hola", "translation": "Hello", "audio": "/audio/es-1-0.mp3" },
         { "phrase": "Gracias", "translation": "Thank you", "audio": "/audio/es-1-1.mp3" },
@@ -198,10 +198,10 @@
     "es-2": {
       "id": "es-2",
       "language": "spanish",
-      "title": "Comida",
-      "category": "Intermedio",
+      "title": "Food",
+      "category": "Intermediate",
       "image": "/flags/monde.png",
-      "summary": "Aprenda el vocabulaire relacionado con la comida.",
+      "summary": "Learn vocabulary related to food.",
       "phrases": [
         { "phrase": "Pan", "translation": "Bread", "audio": "/audio/es-2-0.mp3" },
         { "phrase": "Vino", "translation": "Wine", "audio": "/audio/es-2-1.mp3" },
@@ -213,10 +213,10 @@
     "es-3": {
       "id": "es-3",
       "language": "spanish",
-      "title": "Viaje",
-      "category": "Intermedio",
+      "title": "Travel",
+      "category": "Intermediate",
       "image": "/flags/monde.png",
-      "summary": "Frases útiles para viajar en español.",
+      "summary": "Useful phrases for traveling in Spanish.",
       "phrases": [
         { "phrase": "¿Dónde está la estación?", "translation": "Where is the station?", "audio": "/audio/es-3-0.mp3" },
         { "phrase": "Un billete, por favor.", "translation": "One ticket, please.", "audio": "/audio/es-3-1.mp3" },
@@ -228,10 +228,10 @@
     "pt-1": {
       "id": "pt-1",
       "language": "portuguese",
-      "title": "Cumprimentos",
+      "title": "Greetings",
       "category": "Beginner",
       "image": "/flags/le-portugal.png",
-      "summary": "Aprenda os cumprimentos básicos em português.",
+      "summary": "Learn basic Portuguese greetings.",
       "phrases": [
         { "phrase": "Olá", "translation": "Hello", "audio": "/audio/pt-1-0.mp3" },
         { "phrase": "Bom dia", "translation": "Good morning", "audio": "/audio/pt-1-1.mp3" },
@@ -243,10 +243,10 @@
     "pt-2": {
       "id": "pt-2",
       "language": "portuguese",
-      "title": "No Restaurante",
+      "title": "At the Restaurant",
       "category": "Intermediate",
       "image": "/flags/le-portugal.png",
-      "summary": "Frases úteis para comer fora em Portugal.",
+      "summary": "Useful phrases for dining out in Portugal.",
       "phrases": [
         { "phrase": "Eu gostaria de um café", "translation": "I would like a coffee", "audio": "/audio/pt-2-0.mp3" },
         { "phrase": "Pode me trazer o cardápio?", "translation": "Can you bring me the menu?", "audio": "/audio/pt-2-1.mp3" },
@@ -258,10 +258,10 @@
     "pt-3": {
       "id": "pt-3",
       "language": "portuguese",
-      "title": "Negócios",
+      "title": "Business",
       "category": "Advanced",
       "image": "/flags/le-portugal.png",
-      "summary": "Comunique-se formalmente em situações de trabalho.",
+      "summary": "Communicate formally in work situations.",
       "phrases": [
         { "phrase": "Vamos agendar uma reunião", "translation": "Let’s schedule a meeting", "audio": "/audio/pt-3-0.mp3" },
         { "phrase": "Aguardo seu retorno", "translation": "I look forward to your response", "audio": "/audio/pt-3-1.mp3" },
@@ -273,10 +273,10 @@
     "nl-1": {
       "id": "nl-1",
       "language": "dutch",
-      "title": "Begroetingen",
+      "title": "Greetings",
       "category": "Beginner",
       "image": "/flags/pays-bas.png",
-      "summary": "Leer basisbegroetingen in het Nederlands.",
+      "summary": "Learn basic Dutch greetings.",
       "phrases": [
         { "phrase": "Hallo", "translation": "Hello", "audio": "/audio/nl-1-0.mp3" },
         { "phrase": "Goedemorgen", "translation": "Good morning", "audio": "/audio/nl-1-1.mp3" },
@@ -288,10 +288,10 @@
     "nl-2": {
       "id": "nl-2",
       "language": "dutch",
-      "title": "In de Winkel",
+      "title": "In the Shop",
       "category": "Intermediate",
       "image": "/flags/pays-bas.png",
-      "summary": "Zinnen die nuttig zijn tijdens het winkelen.",
+      "summary": "Phrases useful for shopping.",
       "phrases": [
         { "phrase": "Hoeveel kost dit?", "translation": "How much does this cost?", "audio": "/audio/nl-2-0.mp3" },
         { "phrase": "Ik wil dit graag kopen", "translation": "I would like to buy this", "audio": "/audio/nl-2-1.mp3" },
@@ -303,10 +303,10 @@
     "nl-3": {
       "id": "nl-3",
       "language": "dutch",
-      "title": "Zakelijke Communicatie",
+      "title": "Business Communication",
       "category": "Advanced",
       "image": "/flags/pays-bas.png",
-      "summary": "Gebruik formele uitdrukkingen voor werk en e-mails.",
+      "summary": "Use formal expressions for work and emails.",
       "phrases": [
         { "phrase": "Laten we een afspraak maken", "translation": "Let’s make an appointment", "audio": "/audio/nl-3-0.mp3" },
         { "phrase": "Ik zie uw reactie graag tegemoet", "translation": "I look forward to your response", "audio": "/audio/nl-3-1.mp3" },
@@ -318,10 +318,10 @@
     "ru-1": {
       "id": "ru-1",
       "language": "russian",
-      "title": "Приветствия",
+      "title": "Greetings",
       "category": "Beginner",
       "image": "/flags/rusia.png",
-      "summary": "Изучите основные русские приветствия.",
+      "summary": "Learn basic Russian greetings.",
       "phrases": [
         { "phrase": "Привет", "translation": "Hi", "audio": "/audio/ru-1-0.mp3" },
         { "phrase": "Доброе утро", "translation": "Good morning", "audio": "/audio/ru-1-1.mp3" },
@@ -333,10 +333,10 @@
     "ru-2": {
       "id": "ru-2",
       "language": "russian",
-      "title": "В кафе",
+      "title": "At the Café",
       "category": "Intermediate",
       "image": "/flags/rusia.png",
-      "summary": "Фразы для посещения кафе или ресторана.",
+      "summary": "Phrases for visiting a café or restaurant.",
       "phrases": [
         { "phrase": "Можно меню, пожалуйста?", "translation": "Can I see the menu, please?", "audio": "/audio/ru-2-0.mp3" },
         { "phrase": "Я хочу чай", "translation": "I want tea", "audio": "/audio/ru-2-1.mp3" },
@@ -348,10 +348,10 @@
     "ru-3": {
       "id": "ru-3",
       "language": "russian",
-      "title": "Деловой русский",
+      "title": "Business Russian",
       "category": "Advanced",
       "image": "/flags/rusia.png",
-      "summary": "Формальные выражения для работы.",
+      "summary": "Formal expressions for work.",
       "phrases": [
         { "phrase": "Давайте назначим встречу", "translation": "Let’s schedule a meeting", "audio": "/audio/ru-3-0.mp3" },
         { "phrase": "Жду вашего ответа", "translation": "I await your reply", "audio": "/audio/ru-3-1.mp3" },
@@ -363,10 +363,10 @@
     "ja-1": {
       "id": "ja-1",
       "language": "japanese",
-      "title": "あいさつ",
+      "title": "Greetings",
       "category": "Beginner",
       "image": "/flags/japon.png",
-      "summary": "基本的な日本語のあいさつを学ぼう。",
+      "summary": "Learn basic Japanese greetings.",
       "phrases": [
         { "phrase": "こんにちは", "translation": "Hello", "audio": "/audio/ja-1-0.mp3" },
         { "phrase": "おはようございます", "translation": "Good morning", "audio": "/audio/ja-1-1.mp3" },
@@ -378,10 +378,10 @@
     "ja-2": {
       "id": "ja-2",
       "language": "japanese",
-      "title": "レストランで",
+      "title": "At the Restaurant",
       "category": "Intermediate",
       "image": "/flags/japon.png",
-      "summary": "レストランで使える表現。",
+      "summary": "Expressions useful in restaurants.",
       "phrases": [
         { "phrase": "メニューをお願いします", "translation": "Menu, please", "audio": "/audio/ja-2-0.mp3" },
         { "phrase": "水をください", "translation": "Please give me water", "audio": "/audio/ja-2-1.mp3" },
@@ -393,10 +393,10 @@
     "ja-3": {
       "id": "ja-3",
       "language": "japanese",
-      "title": "ビジネス日本語",
+      "title": "Business Japanese",
       "category": "Advanced",
       "image": "/flags/japon.png",
-      "summary": "会議やメールで使う丁寧な表現。",
+      "summary": "Polite expressions for meetings and emails.",
       "phrases": [
         { "phrase": "会議を予定しましょう", "translation": "Let’s schedule a meeting", "audio": "/audio/ja-3-0.mp3" },
         { "phrase": "ご連絡お待ちしております", "translation": "I look forward to hearing from you", "audio": "/audio/ja-3-1.mp3" },
@@ -408,10 +408,10 @@
     "zh-1": {
       "id": "zh-1",
       "language": "chinese",
-      "title": "问候",
+      "title": "Greetings",
       "category": "Beginner",
       "image": "/flags/chine.png",
-      "summary": "学习中文的基本问候语。",
+      "summary": "Learn basic Chinese greetings.",
       "phrases": [
         { "phrase": "你好", "translation": "Hello", "audio": "/audio/zh-1-0.mp3" },
         { "phrase": "早上好", "translation": "Good morning", "audio": "/audio/zh-1-1.mp3" },
@@ -423,10 +423,10 @@
     "zh-2": {
       "id": "zh-2",
       "language": "chinese",
-      "title": "在饭馆",
+      "title": "At the Restaurant",
       "category": "Intermediate",
       "image": "/flags/chine.png",
-      "summary": "在中国饭馆常用的句子。",
+      "summary": "Common sentences used in Chinese restaurants.",
       "phrases": [
         { "phrase": "我要点菜", "translation": "I want to order food", "audio": "/audio/zh-2-0.mp3" },
         { "phrase": "请给我菜单", "translation": "Please give me the menu", "audio": "/audio/zh-2-1.mp3" },
@@ -438,10 +438,10 @@
     "zh-3": {
       "id": "zh-3",
       "language": "chinese",
-      "title": "商务汉语",
+      "title": "Business Chinese",
       "category": "Advanced",
       "image": "/flags/chine.png",
-      "summary": "适用于会议和正式邮件的表达。",
+      "summary": "Expressions for meetings and formal emails.",
       "phrases": [
         { "phrase": "我们安排一个会议", "translation": "Let’s arrange a meeting", "audio": "/audio/zh-3-0.mp3" },
         { "phrase": "期待您的回复", "translation": "Looking forward to your reply", "audio": "/audio/zh-3-1.mp3" },
@@ -453,10 +453,10 @@
     "ko-1": {
       "id": "ko-1",
       "language": "korean",
-      "title": "인사말",
+      "title": "Greetings",
       "category": "Beginner",
       "image": "/flags/coree-du-sud.png",
-      "summary": "한국어 기본 인사말을 배워요.",
+      "summary": "Learn basic Korean greetings.",
       "phrases": [
         { "phrase": "안녕하세요", "translation": "Hello", "audio": "/audio/ko-1-0.mp3" },
         { "phrase": "좋은 아침입니다", "translation": "Good morning", "audio": "/audio/ko-1-1.mp3" },
@@ -468,10 +468,10 @@
     "ko-2": {
       "id": "ko-2",
       "language": "korean",
-      "title": "식당에서",
+      "title": "At the Restaurant",
       "category": "Intermediate",
       "image": "/flags/coree-du-sud.png",
-      "summary": "식당에서 자주 쓰는 표현들.",
+      "summary": "Common expressions used in restaurants.",
       "phrases": [
         { "phrase": "메뉴 주세요", "translation": "Menu, please", "audio": "/audio/ko-2-0.mp3" },
         { "phrase": "물 주세요", "translation": "Water, please", "audio": "/audio/ko-2-1.mp3" },
@@ -483,10 +483,10 @@
     "ko-3": {
       "id": "ko-3",
       "language": "korean",
-      "title": "비즈니스 한국어",
+      "title": "Business Korean",
       "category": "Advanced",
       "image": "/flags/coree-du-sud.png",
-      "summary": "회의 및 이메일용 공식 표현.",
+      "summary": "Formal expressions for meetings and emails.",
       "phrases": [
         { "phrase": "회의를 일정 잡읍시다", "translation": "Let’s schedule a meeting", "audio": "/audio/ko-3-0.mp3" },
         { "phrase": "회신 기다리겠습니다", "translation": "I’ll wait for your reply", "audio": "/audio/ko-3-1.mp3" },

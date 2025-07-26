@@ -1,3 +1,4 @@
+// src/data/lessonData.js
 export const lessons = [
   // === ENGLISH ===
   {
@@ -8,11 +9,11 @@ export const lessons = [
     image: '/flags/royaume-uni.png',
     summary: 'Basic English greetings and polite phrases.',
     phrases: [
-      { phrase: 'Hello', translation: 'salut', audio: null },
-      { phrase: 'Good morning', translation: 'Bonjour', audio: null },
-      { phrase: 'Goodbye', translation: 'Au revoir', audio: null },
-      { phrase: 'Thank you', translation: 'Merci', audio: null },
-      { phrase: 'Please', translation: 'S\'il te plaît', audio: null }
+      { phrase: 'Hello', translation: 'salut', audio: '/audio/en-1-0.mp3' },
+      { phrase: 'Good morning', translation: 'Bonjour', audio: '/audio/en-1-1.mp3' },
+      { phrase: 'Goodbye', translation: 'Au revoir', audio: '/audio/en-1-2.mp3' },
+      { phrase: 'Thank you', translation: 'Merci', audio: '/audio/en-1-3.mp3' },
+      { phrase: 'Please', translation: 'S\'il te plaît', audio: '/audio/en-1-4.mp3' }
     ]
   },
   {
@@ -23,11 +24,11 @@ export const lessons = [
     image: '/flags/royaume-uni.png',
     summary: 'Learn to order food in English restaurants.',
     phrases: [
-      { phrase: 'I would like a sandwich', translation: 'Je voudrais un sandwich', audio: null },
-      { phrase: 'Can I see the menu?', translation: 'Puis-je voir le menu ?', audio: null },
-      { phrase: 'The bill, please.', translation: 'L\'addition, s\'il vous plaît.', audio: null },
-      { phrase: 'Thank you', translation: 'Merci', audio: null },
-      { phrase: 'Please wait', translation: 'Attendez, s\'il vous plaît', audio: null }
+      { phrase: 'I would like a sandwich', translation: 'Je voudrais un sandwich', audio: '/audio/en-2-0.mp3' },
+      { phrase: 'Can I see the menu?', translation: 'Puis-je voir le menu ?', audio: '/audio/en-2-1.mp3' },
+      { phrase: 'The bill, please.', translation: 'L’addition, s’il vous plaît.', audio: '/audio/en-2-2.mp3' },
+      { phrase: 'Thank you', translation: 'Merci', audio: '/audio/en-2-3.mp3' },
+      { phrase: 'Please wait', translation: 'Attendez, s’il vous plaît', audio: '/audio/en-2-4.mp3' }
     ]
   },
   {
@@ -38,11 +39,11 @@ export const lessons = [
     image: '/flags/royaume-uni.png',
     summary: 'Improve your formal English for meetings and emails.',
     phrases: [
-      { phrase: 'Let\'s schedule a meeting', translation: 'Planifions une réunion', audio: null },
-      { phrase: 'I look forward to your reply', translation: 'J\'attends votre réponse avec impatience', audio: null },
-      { phrase: 'Best regards', translation: 'Cordialement', audio: null },
-      { phrase: 'Thank you for your time', translation: 'Merci pour votre temps', audio: null },
-      { phrase: 'Please confirm', translation: 'Veuillez confirmer', audio: null }
+      { phrase: 'Let’s schedule a meeting', translation: 'Planifions une réunion', audio: '/audio/en-3-0.mp3' },
+      { phrase: 'I look forward to your reply', translation: 'J’attends votre réponse avec impatience', audio: '/audio/en-3-1.mp3' },
+      { phrase: 'Best regards', translation: 'Cordialement', audio: '/audio/en-3-2.mp3' },
+      { phrase: 'Thank you for your time', translation: 'Merci pour votre temps', audio: '/audio/en-3-3.mp3' },
+      { phrase: 'Please confirm', translation: 'Veuillez confirmer', audio: '/audio/en-3-4.mp3' }
     ]
   },
 
@@ -55,11 +56,11 @@ export const lessons = [
     image: '/flags/allemagne.png',
     summary: 'Learn common German greetings.',
     phrases: [
-      { phrase: 'Hallo', translation: 'Hello', audio: null },
-      { phrase: 'Guten Morgen', translation: 'Good morning', audio: null },
-      { phrase: 'Tschüss', translation: 'Bye', audio: null },
-      { phrase: 'Danke', translation: 'Thank you', audio: null },
-      { phrase: 'Bitte', translation: 'Please', audio: null }
+      { phrase: 'Hallo', translation: 'Hello', audio: '/audio/de-1-0.mp3' },
+      { phrase: 'Guten Morgen', translation: 'Good morning', audio: '/audio/de-1-1.mp3' },
+      { phrase: 'Tschüss', translation: 'Bye', audio: '/audio/de-1-2.mp3' },
+      { phrase: 'Danke', translation: 'Thank you', audio: '/audio/de-1-3.mp3' },
+      { phrase: 'Bitte', translation: 'Please', audio: '/audio/de-1-4.mp3' }
     ]
   },
   {
@@ -70,11 +71,11 @@ export const lessons = [
     image: '/flags/allemagne.png',
     summary: 'Useful phrases for shopping in Germany.',
     phrases: [
-      { phrase: 'Wie viel kostet das?', translation: 'How much is that?', audio: null },
-      { phrase: 'Ich möchte das kaufen', translation: 'I want to buy this', audio: null },
-      { phrase: 'Karte oder bar?', translation: 'Card or cash?', audio: null },
-      { phrase: 'Danke schön', translation: 'Thank you very much', audio: null },
-      { phrase: 'Bitte warten', translation: 'Please wait', audio: null }
+      { phrase: 'Wie viel kostet das?', translation: 'How much is that?', audio: '/audio/de-2-0.mp3' },
+      { phrase: 'Ich möchte das kaufen', translation: 'I want to buy this', audio: '/audio/de-2-1.mp3' },
+      { phrase: 'Karte oder bar?', translation: 'Card or cash?', audio: '/audio/de-2-2.mp3' },
+      { phrase: 'Danke schön', translation: 'Thank you very much', audio: '/audio/de-2-3.mp3' },
+      { phrase: 'Bitte warten', translation: 'Please wait', audio: '/audio/de-2-4.mp3' }
     ]
   },
   {
@@ -85,11 +86,11 @@ export const lessons = [
     image: '/flags/allemagne.png',
     summary: 'Speak professionally in German settings.',
     phrases: [
-      { phrase: 'Könnten Sie das bitte wiederholen?', translation: 'Could you please repeat that?', audio: null },
-      { phrase: 'Ich freue mich auf die Zusammenarbeit', translation: 'I look forward to working together', audio: null },
-      { phrase: 'Mit freundlichen Grüßen', translation: 'Sincerely', audio: null },
-      { phrase: 'Vielen Dank', translation: 'Many thanks', audio: null },
-      { phrase: 'Bitte bestätigen', translation: 'Please confirm', audio: null }
+      { phrase: 'Könnten Sie das bitte wiederholen?', translation: 'Could you please repeat that?', audio: '/audio/de-3-0.mp3' },
+      { phrase: 'Ich freue mich auf die Zusammenarbeit', translation: 'I look forward to working together', audio: '/audio/de-3-1.mp3' },
+      { phrase: 'Mit freundlichen Grüßen', translation: 'Sincerely', audio: '/audio/de-3-2.mp3' },
+      { phrase: 'Vielen Dank', translation: 'Many thanks', audio: '/audio/de-3-3.mp3' },
+      { phrase: 'Bitte bestätigen', translation: 'Please confirm', audio: '/audio/de-3-4.mp3' }
     ]
   },
 
@@ -102,11 +103,11 @@ export const lessons = [
     image: '/flags/italie.png',
     summary: 'Basic Italian greetings.',
     phrases: [
-      { phrase: 'Ciao', translation: 'Hi/Bye', audio: null },
-      { phrase: 'Buongiorno', translation: 'Good morning', audio: null },
-      { phrase: 'Arrivederci', translation: 'Goodbye', audio: null },
-      { phrase: 'Grazie', translation: 'Thank you', audio: null },
-      { phrase: 'Per favore', translation: 'Please', audio: null }
+      { phrase: 'Ciao', translation: 'Hi/Bye', audio: '/audio/it-1-0.mp3' },
+      { phrase: 'Buongiorno', translation: 'Good morning', audio: '/audio/it-1-1.mp3' },
+      { phrase: 'Arrivederci', translation: 'Goodbye', audio: '/audio/it-1-2.mp3' },
+      { phrase: 'Grazie', translation: 'Thank you', audio: '/audio/it-1-3.mp3' },
+      { phrase: 'Per favore', translation: 'Please', audio: '/audio/it-1-4.mp3' }
     ]
   },
   {
@@ -117,11 +118,11 @@ export const lessons = [
     image: '/flags/italie.png',
     summary: 'Common phrases used at the airport.',
     phrases: [
-      { phrase: 'Dove è il gate?', translation: 'Where is the gate?', audio: null },
-      { phrase: 'Ho perso il mio bagaglio', translation: 'I lost my luggage', audio: null },
-      { phrase: 'Questo è il mio passaporto', translation: 'This is my passport', audio: null },
-      { phrase: 'Grazie mille', translation: 'Thank you very much', audio: null },
-      { phrase: 'Aspetta un momento', translation: 'Wait a moment', audio: null }
+      { phrase: 'Dove è il gate?', translation: 'Where is the gate?', audio: '/audio/it-2-0.mp3' },
+      { phrase: 'Ho perso il mio bagaglio', translation: 'I lost my luggage', audio: '/audio/it-2-1.mp3' },
+      { phrase: 'Questo è il mio passaporto', translation: 'This is my passport', audio: '/audio/it-2-2.mp3' },
+      { phrase: 'Grazie mille', translation: 'Thank you very much', audio: '/audio/it-2-3.mp3' },
+      { phrase: 'Aspetta un momento', translation: 'Wait a moment', audio: '/audio/it-2-4.mp3' }
     ]
   },
   {
@@ -132,11 +133,11 @@ export const lessons = [
     image: '/flags/italie.png',
     summary: 'Understand Italian idiomatic expressions.',
     phrases: [
-      { phrase: 'In bocca al lupo', translation: 'Good luck', audio: null },
-      { phrase: 'Chi dorme non piglia pesci', translation: 'You snooze, you lose', audio: null },
-      { phrase: 'È acqua passata', translation: 'It\'s water under the bridge', audio: null },
-      { phrase: 'Grazie ancora', translation: 'Thanks again', audio: null },
-      { phrase: 'Per piacere', translation: 'Please', audio: null }
+      { phrase: 'In bocca al lupo', translation: 'Good luck', audio: '/audio/it-3-0.mp3' },
+      { phrase: 'Chi dorme non piglia pesci', translation: 'You snooze, you lose', audio: '/audio/it-3-1.mp3' },
+      { phrase: 'È acqua passata', translation: 'It’s water under the bridge', audio: '/audio/it-3-2.mp3' },
+      { phrase: 'Grazie ancora', translation: 'Thanks again', audio: '/audio/it-3-3.mp3' },
+      { phrase: 'Per piacere', translation: 'Please', audio: '/audio/it-3-4.mp3' }
     ]
   },
 
@@ -144,46 +145,46 @@ export const lessons = [
   {
     id: 'fr-1',
     language: 'french',
-    title: 'Salutations',
-    category: 'Débutant',
+    title: 'Greetings',
+    category: 'Beginner',
     image: '/flags/la-france.png',
-    summary: 'Apprenez les bases des salutations françaises.',
+    summary: 'Learn basic French greetings.',
     phrases: [
-      { phrase: 'Bonjour', translation: 'Hello', audio: null },
-      { phrase: 'Bonsoir', translation: 'Good evening', audio: null },
-      { phrase: 'Au revoir', translation: 'Goodbye', audio: null },
-      { phrase: 'Merci', translation: 'Thank you', audio: null },
-      { phrase: 'S\'il vous plaît', translation: 'Please', audio: null }
+      { phrase: 'Bonjour', translation: 'Hello', audio: '/audio/fr-1-0.mp3' },
+      { phrase: 'Bonsoir', translation: 'Good evening', audio: '/audio/fr-1-1.mp3' },
+      { phrase: 'Au revoir', translation: 'Goodbye', audio: '/audio/fr-1-2.mp3' },
+      { phrase: 'Merci', translation: 'Thank you', audio: '/audio/fr-1-3.mp3' },
+      { phrase: 'S\'il vous plaît', translation: 'Please', audio: '/audio/fr-1-4.mp3' }
     ]
   },
   {
     id: 'fr-2',
     language: 'french',
-    title: 'Nourriture',
-    category: 'Intermédiaire',
+    title: 'Food',
+    category: 'Intermediate',
     image: '/flags/la-france.png',
-    summary: 'Découvrez le vocabulaire des aliments et des repas.',
+    summary: 'Discover vocabulary related to food and meals.',
     phrases: [
-      { phrase: 'Pain', translation: 'Bread', audio: null },
-      { phrase: 'Vin', translation: 'Wine', audio: null },
-      { phrase: 'Fromage', translation: 'Cheese', audio: null },
-      { phrase: 'Merci beaucoup', translation: 'Thank you very much', audio: null },
-      { phrase: 'Attendez', translation: 'Wait', audio: null }
+      { phrase: 'Pain', translation: 'Bread', audio: '/audio/fr-2-0.mp3' },
+      { phrase: 'Vin', translation: 'Wine', audio: '/audio/fr-2-1.mp3' },
+      { phrase: 'Fromage', translation: 'Cheese', audio: '/audio/fr-2-2.mp3' },
+      { phrase: 'Merci beaucoup', translation: 'Thank you very much', audio: '/audio/fr-2-3.mp3' },
+      { phrase: 'Attendez', translation: 'Wait', audio: '/audio/fr-2-4.mp3' }
     ]
   },
   {
     id: 'fr-3',
     language: 'french',
-    title: 'Voyage',
-    category: 'Intermédiaire',
+    title: 'Travel',
+    category: 'Intermediate',
     image: '/flags/la-france.png',
-    summary: 'Apprenez les phrases utiles pour voyager en français.',
+    summary: 'Learn useful phrases for traveling in French.',
     phrases: [
-      { phrase: 'Où est la gare ?', translation: 'Where is the train station?', audio: null },
-      { phrase: 'Un billet, s\'il vous plaît.', translation: 'One ticket, please.', audio: null },
-      { phrase: 'Je voudrais une chambre.', translation: 'I would like a room.', audio: null },
-      { phrase: 'Merci bien', translation: 'Thank you kindly', audio: null },
-      { phrase: 'Veuillez attendre', translation: 'Please wait', audio: null }
+      { phrase: 'Où est la gare ?', translation: 'Where is the train station?', audio: '/audio/fr-3-0.mp3' },
+      { phrase: 'Un billet, s\'il vous plaît.', translation: 'One ticket, please.', audio: '/audio/fr-3-1.mp3' },
+      { phrase: 'Je voudrais une chambre.', translation: 'I would like a room.', audio: '/audio/fr-3-2.mp3' },
+      { phrase: 'Merci bien', translation: 'Thank you kindly', audio: '/audio/fr-3-3.mp3' },
+      { phrase: 'Veuillez attendre', translation: 'Please wait', audio: '/audio/fr-3-4.mp3' }
     ]
   },
 
@@ -191,46 +192,46 @@ export const lessons = [
   {
     id: 'es-1',
     language: 'spanish',
-    title: 'Saludos',
-    category: 'Principiante',
+    title: 'Greetings',
+    category: 'Beginner',
     image: '/flags/monde.png',
-    summary: 'Domine les salutations de base en espagnol.',
+    summary: 'Master basic Spanish greetings.',
     phrases: [
-      { phrase: 'Hola', translation: 'Hello', audio: null },
-      { phrase: 'Gracias', translation: 'Thank you', audio: null },
-      { phrase: 'Me llamo...', translation: 'My name is...', audio: null },
-      { phrase: 'Buenos días', translation: 'Good morning', audio: null },
-      { phrase: 'Por favor', translation: 'Please', audio: null }
+      { phrase: 'Hola', translation: 'Hello', audio: '/audio/es-1-0.mp3' },
+      { phrase: 'Gracias', translation: 'Thank you', audio: '/audio/es-1-1.mp3' },
+      { phrase: 'Me llamo...', translation: 'My name is...', audio: '/audio/es-1-2.mp3' },
+      { phrase: 'Buenos días', translation: 'Good morning', audio: '/audio/es-1-3.mp3' },
+      { phrase: 'Por favor', translation: 'Please', audio: '/audio/es-1-4.mp3' }
     ]
   },
   {
     id: 'es-2',
     language: 'spanish',
-    title: 'Comida',
-    category: 'Intermedio',
+    title: 'Food',
+    category: 'Intermediate',
     image: '/flags/monde.png',
-    summary: 'Aprenda el vocabulaire relacionado con la comida.',
+    summary: 'Learn vocabulary related to food.',
     phrases: [
-      { phrase: 'Pan', translation: 'Bread', audio: null },
-      { phrase: 'Vino', translation: 'Wine', audio: null },
-      { phrase: 'Queso', translation: 'Cheese', audio: null },
-      { phrase: 'Gracias de nuevo', translation: 'Thank you again', audio: null },
-      { phrase: 'Espere un momento', translation: 'Wait a moment', audio: null }
+      { phrase: 'Pan', translation: 'Bread', audio: '/audio/es-2-0.mp3' },
+      { phrase: 'Vino', translation: 'Wine', audio: '/audio/es-2-1.mp3' },
+      { phrase: 'Queso', translation: 'Cheese', audio: '/audio/es-2-2.mp3' },
+      { phrase: 'Gracias de nuevo', translation: 'Thank you again', audio: '/audio/es-2-3.mp3' },
+      { phrase: 'Espere un momento', translation: 'Wait a moment', audio: '/audio/es-2-4.mp3' }
     ]
   },
   {
     id: 'es-3',
     language: 'spanish',
-    title: 'Viaje',
-    category: 'Intermedio',
+    title: 'Travel',
+    category: 'Intermediate',
     image: '/flags/monde.png',
-    summary: 'Frases útiles para viajar en español.',
+    summary: 'Useful phrases for traveling in Spanish.',
     phrases: [
-      { phrase: '¿Dónde está la estación?', translation: 'Where is the station?', audio: null },
-      { phrase: 'Un billete, por favor.', translation: 'One ticket, please.', audio: null },
-      { phrase: 'Quiero una habitación.', translation: 'I want a room.', audio: null },
-      { phrase: 'Muchas gracias', translation: 'Thank you very much', audio: null },
-      { phrase: 'Por favor, espera', translation: 'Please wait', audio: null }
+      { phrase: '¿Dónde está la estación?', translation: 'Where is the station?', audio: '/audio/es-3-0.mp3' },
+      { phrase: 'Un billete, por favor.', translation: 'One ticket, please.', audio: '/audio/es-3-1.mp3' },
+      { phrase: 'Quiero una habitación.', translation: 'I want a room.', audio: '/audio/es-3-2.mp3' },
+      { phrase: 'Muchas gracias', translation: 'Thank you very much', audio: '/audio/es-3-3.mp3' },
+      { phrase: 'Por favor, espera', translation: 'Please wait', audio: '/audio/es-3-4.mp3' }
     ]
   },
 
@@ -238,46 +239,46 @@ export const lessons = [
   {
     id: 'pt-1',
     language: 'portuguese',
-    title: 'Cumprimentos',
+    title: 'Greetings',
     category: 'Beginner',
     image: '/flags/le-portugal.png',
-    summary: 'Aprenda os cumprimentos básicos em português.',
+    summary: 'Learn basic Portuguese greetings.',
     phrases: [
-      { phrase: 'Olá', translation: 'Hello', audio: null },
-      { phrase: 'Bom dia', translation: 'Good morning', audio: null },
-      { phrase: 'Tchau', translation: 'Goodbye', audio: null },
-      { phrase: 'Obrigado', translation: 'Thank you', audio: null },
-      { phrase: 'Por favor', translation: 'Please', audio: null }
+      { phrase: 'Olá', translation: 'Hello', audio: '/audio/pt-1-0.mp3' },
+      { phrase: 'Bom dia', translation: 'Good morning', audio: '/audio/pt-1-1.mp3' },
+      { phrase: 'Tchau', translation: 'Goodbye', audio: '/audio/pt-1-2.mp3' },
+      { phrase: 'Obrigado', translation: 'Thank you', audio: '/audio/pt-1-3.mp3' },
+      { phrase: 'Por favor', translation: 'Please', audio: '/audio/pt-1-4.mp3' }
     ]
   },
   {
     id: 'pt-2',
     language: 'portuguese',
-    title: 'No Restaurante',
+    title: 'At the Restaurant',
     category: 'Intermediate',
     image: '/flags/le-portugal.png',
-    summary: 'Frases úteis para comer fora em Portugal.',
+    summary: 'Useful phrases for dining out in Portugal.',
     phrases: [
-      { phrase: 'Eu gostaria de um café', translation: 'I would like a coffee', audio: null },
-      { phrase: 'Pode me trazer o cardápio?', translation: 'Can you bring me the menu?', audio: null },
-      { phrase: 'A conta, por favor.', translation: 'The bill, please.', audio: null },
-      { phrase: 'Obrigado pela ajuda', translation: 'Thank you for the help', audio: null },
-      { phrase: 'Aguarde um momento', translation: 'Wait a moment', audio: null }
+      { phrase: 'Eu gostaria de um café', translation: 'I would like a coffee', audio: '/audio/pt-2-0.mp3' },
+      { phrase: 'Pode me trazer o cardápio?', translation: 'Can you bring me the menu?', audio: '/audio/pt-2-1.mp3' },
+      { phrase: 'A conta, por favor.', translation: 'The bill, please.', audio: '/audio/pt-2-2.mp3' },
+      { phrase: 'Obrigado pela ajuda', translation: 'Thank you for the help', audio: '/audio/pt-2-3.mp3' },
+      { phrase: 'Aguarde um momento', translation: 'Wait a moment', audio: '/audio/pt-2-4.mp3' }
     ]
   },
   {
     id: 'pt-3',
     language: 'portuguese',
-    title: 'Negócios',
+    title: 'Business',
     category: 'Advanced',
     image: '/flags/le-portugal.png',
-    summary: 'Comunique-se formalmente em situações de trabalho.',
+    summary: 'Communicate formally in work situations.',
     phrases: [
-      { phrase: 'Vamos agendar uma reunião', translation: 'Let\'s schedule a meeting', audio: null },
-      { phrase: 'Aguardo seu retorno', translation: 'I look forward to your response', audio: null },
-      { phrase: 'Atenciosamente', translation: 'Best regards', audio: null },
-      { phrase: 'Muito obrigado', translation: 'Thank you very much', audio: null },
-      { phrase: 'Por favor, confirme', translation: 'Please confirm', audio: null }
+      { phrase: 'Vamos agendar uma reunião', translation: 'Let’s schedule a meeting', audio: '/audio/pt-3-0.mp3' },
+      { phrase: 'Aguardo seu retorno', translation: 'I look forward to your response', audio: '/audio/pt-3-1.mp3' },
+      { phrase: 'Atenciosamente', translation: 'Best regards', audio: '/audio/pt-3-2.mp3' },
+      { phrase: 'Muito obrigado', translation: 'Thank you very much', audio: '/audio/pt-3-3.mp3' },
+      { phrase: 'Por favor, confirme', translation: 'Please confirm', audio: '/audio/pt-3-4.mp3' }
     ]
   },
 
@@ -285,46 +286,46 @@ export const lessons = [
   {
     id: 'nl-1',
     language: 'dutch',
-    title: 'Begroetingen',
+    title: 'Greetings',
     category: 'Beginner',
     image: '/flags/pays-bas.png',
-    summary: 'Leer basisbegroetingen in het Nederlands.',
+    summary: 'Learn basic Dutch greetings.',
     phrases: [
-      { phrase: 'Hallo', translation: 'Hello', audio: null },
-      { phrase: 'Goedemorgen', translation: 'Good morning', audio: null },
-      { phrase: 'Tot ziens', translation: 'Goodbye', audio: null },
-      { phrase: 'Dank je', translation: 'Thank you', audio: null },
-      { phrase: 'Alsjeblieft', translation: 'Please', audio: null }
+      { phrase: 'Hallo', translation: 'Hello', audio: '/audio/nl-1-0.mp3' },
+      { phrase: 'Goedemorgen', translation: 'Good morning', audio: '/audio/nl-1-1.mp3' },
+      { phrase: 'Tot ziens', translation: 'Goodbye', audio: '/audio/nl-1-2.mp3' },
+      { phrase: 'Dank je', translation: 'Thank you', audio: '/audio/nl-1-3.mp3' },
+      { phrase: 'Alsjeblieft', translation: 'Please', audio: '/audio/nl-1-4.mp3' }
     ]
   },
   {
     id: 'nl-2',
     language: 'dutch',
-    title: 'In de Winkel',
+    title: 'In the Shop',
     category: 'Intermediate',
     image: '/flags/pays-bas.png',
-    summary: 'Zinnen die nuttig zijn tijdens het winkelen.',
+    summary: 'Phrases useful for shopping.',
     phrases: [
-      { phrase: 'Hoeveel kost dit?', translation: 'How much does this cost?', audio: null },
-      { phrase: 'Ik wil dit graag kopen', translation: 'I would like to buy this', audio: null },
-      { phrase: 'Kan ik met kaart betalen?', translation: 'Can I pay by card?', audio: null },
-      { phrase: 'Dank u wel', translation: 'Thank you very much', audio: null },
-      { phrase: 'Wacht even', translation: 'Wait a moment', audio: null }
+      { phrase: 'Hoeveel kost dit?', translation: 'How much does this cost?', audio: '/audio/nl-2-0.mp3' },
+      { phrase: 'Ik wil dit graag kopen', translation: 'I would like to buy this', audio: '/audio/nl-2-1.mp3' },
+      { phrase: 'Kan ik met kaart betalen?', translation: 'Can I pay by card?', audio: '/audio/nl-2-2.mp3' },
+      { phrase: 'Dank u wel', translation: 'Thank you very much', audio: '/audio/nl-2-3.mp3' },
+      { phrase: 'Wacht even', translation: 'Wait a moment', audio: '/audio/nl-2-4.mp3' }
     ]
   },
   {
     id: 'nl-3',
     language: 'dutch',
-    title: 'Zakelijke Communicatie',
+    title: 'Business Communication',
     category: 'Advanced',
     image: '/flags/pays-bas.png',
-    summary: 'Gebruik formele uitdrukkingen voor werk en e-mails.',
+    summary: 'Use formal expressions for work and emails.',
     phrases: [
-      { phrase: 'Laten we een afspraak maken', translation: 'Let\'s make an appointment', audio: null },
-      { phrase: 'Ik zie uw reactie graag tegemoet', translation: 'I look forward to your response', audio: null },
-      { phrase: 'Met vriendelijke groet', translation: 'Kind regards', audio: null },
-      { phrase: 'Hartelijk dank', translation: 'Heartfelt thanks', audio: null },
-      { phrase: 'Bevestig alstublieft', translation: 'Please confirm', audio: null }
+      { phrase: 'Laten we een afspraak maken', translation: 'Let’s make an appointment', audio: '/audio/nl-3-0.mp3' },
+      { phrase: 'Ik zie uw reactie graag tegemoet', translation: 'I look forward to your response', audio: '/audio/nl-3-1.mp3' },
+      { phrase: 'Met vriendelijke groet', translation: 'Kind regards', audio: '/audio/nl-3-2.mp3' },
+      { phrase: 'Hartelijk dank', translation: 'Heartfelt thanks', audio: '/audio/nl-3-3.mp3' },
+      { phrase: 'Bevestig alstublieft', translation: 'Please confirm', audio: '/audio/nl-3-4.mp3' }
     ]
   },
 
@@ -332,46 +333,46 @@ export const lessons = [
   {
     id: 'ru-1',
     language: 'russian',
-    title: 'Приветствия',
+    title: 'Greetings',
     category: 'Beginner',
     image: '/flags/rusia.png',
-    summary: 'Изучите основные русские приветствия.',
+    summary: 'Learn basic Russian greetings.',
     phrases: [
-      { phrase: 'Привет', translation: 'Hi', audio: null },
-      { phrase: 'Доброе утро', translation: 'Good morning', audio: null },
-      { phrase: 'До свидания', translation: 'Goodbye', audio: null },
-      { phrase: 'Спасибо', translation: 'Thank you', audio: null },
-      { phrase: 'Пожалуйста', translation: 'Please', audio: null }
+      { phrase: 'Привет', translation: 'Hi', audio: '/audio/ru-1-0.mp3' },
+      { phrase: 'Доброе утро', translation: 'Good morning', audio: '/audio/ru-1-1.mp3' },
+      { phrase: 'До свидания', translation: 'Goodbye', audio: '/audio/ru-1-2.mp3' },
+      { phrase: 'Спасибо', translation: 'Thank you', audio: '/audio/ru-1-3.mp3' },
+      { phrase: 'Пожалуйста', translation: 'Please', audio: '/audio/ru-1-4.mp3' }
     ]
   },
   {
     id: 'ru-2',
     language: 'russian',
-    title: 'В кафе',
+    title: 'At the Café',
     category: 'Intermediate',
     image: '/flags/rusia.png',
-    summary: 'Фразы для посещения кафе или ресторана.',
+    summary: 'Phrases for visiting a café or restaurant.',
     phrases: [
-      { phrase: 'Можно меню, пожалуйста?', translation: 'Can I see the menu, please?', audio: null },
-      { phrase: 'Я хочу чай', translation: 'I want tea', audio: null },
-      { phrase: 'Счёт, пожалуйста.', translation: 'The bill, please.', audio: null },
-      { phrase: 'Большое спасибо', translation: 'Thank you very much', audio: null },
-      { phrase: 'Подождите', translation: 'Wait', audio: null }
+      { phrase: 'Можно меню, пожалуйста?', translation: 'Can I see the menu, please?', audio: '/audio/ru-2-0.mp3' },
+      { phrase: 'Я хочу чай', translation: 'I want tea', audio: '/audio/ru-2-1.mp3' },
+      { phrase: 'Счёт, пожалуйста.', translation: 'The bill, please.', audio: '/audio/ru-2-2.mp3' },
+      { phrase: 'Большое спасибо', translation: 'Thank you very much', audio: '/audio/ru-2-3.mp3' },
+      { phrase: 'Подождите', translation: 'Wait', audio: '/audio/ru-2-4.mp3' }
     ]
   },
   {
     id: 'ru-3',
     language: 'russian',
-    title: 'Деловой русский',
+    title: 'Business Russian',
     category: 'Advanced',
     image: '/flags/rusia.png',
-    summary: 'Формальные выражения для работы.',
+    summary: 'Formal expressions for work.',
     phrases: [
-      { phrase: 'Давайте назначим встречу', translation: 'Let\'s schedule a meeting', audio: null },
-      { phrase: 'Жду вашего ответа', translation: 'I await your reply', audio: null },
-      { phrase: 'С уважением', translation: 'Sincerely', audio: null },
-      { phrase: 'Спасибо большое', translation: 'Thank you very much', audio: null },
-      { phrase: 'Пожалуйста, подтвердите', translation: 'Please confirm', audio: null }
+      { phrase: 'Давайте назначим встречу', translation: 'Let’s schedule a meeting', audio: '/audio/ru-3-0.mp3' },
+      { phrase: 'Жду вашего ответа', translation: 'I await your reply', audio: '/audio/ru-3-1.mp3' },
+      { phrase: 'С уважением', translation: 'Sincerely', audio: '/audio/ru-3-2.mp3' },
+      { phrase: 'Спасибо большое', translation: 'Thank you very much', audio: '/audio/ru-3-3.mp3' },
+      { phrase: 'Пожалуйста, подтвердите', translation: 'Please confirm', audio: '/audio/ru-3-4.mp3' }
     ]
   },
 
@@ -379,46 +380,46 @@ export const lessons = [
   {
     id: 'ja-1',
     language: 'japanese',
-    title: 'あいさつ',
+    title: 'Greetings',
     category: 'Beginner',
     image: '/flags/japon.png',
-    summary: '基本的な日本語のあいさつを学ぼう。',
+    summary: 'Learn basic Japanese greetings.',
     phrases: [
-      { phrase: 'こんにちは', translation: 'Hello', audio: null },
-      { phrase: 'おはようございます', translation: 'Good morning', audio: null },
-      { phrase: 'さようなら', translation: 'Goodbye', audio: null },
-      { phrase: 'ありがとう', translation: 'Thank you', audio: null },
-      { phrase: 'お願いします', translation: 'Please', audio: null }
+      { phrase: 'こんにちは', translation: 'Hello', audio: '/audio/ja-1-0.mp3' },
+      { phrase: 'おはようございます', translation: 'Good morning', audio: '/audio/ja-1-1.mp3' },
+      { phrase: 'さようなら', translation: 'Goodbye', audio: '/audio/ja-1-2.mp3' },
+      { phrase: 'ありがとう', translation: 'Thank you', audio: '/audio/ja-1-3.mp3' },
+      { phrase: 'お願いします', translation: 'Please', audio: '/audio/ja-1-4.mp3' }
     ]
   },
   {
     id: 'ja-2',
     language: 'japanese',
-    title: 'レストランで',
+    title: 'At the Restaurant',
     category: 'Intermediate',
     image: '/flags/japon.png',
-    summary: 'レストランで使える表現。',
+    summary: 'Expressions useful in restaurants.',
     phrases: [
-      { phrase: 'メニューをお願いします', translation: 'Menu, please', audio: null },
-      { phrase: '水をください', translation: 'Please give me water', audio: null },
-      { phrase: 'お会計お願いします', translation: 'The check, please', audio: null },
-      { phrase: 'ありがとうございます', translation: 'Thank you very much', audio: null },
-      { phrase: 'お待ちください', translation: 'Please wait', audio: null }
+      { phrase: 'メニューをお願いします', translation: 'Menu, please', audio: '/audio/ja-2-0.mp3' },
+      { phrase: '水をください', translation: 'Please give me water', audio: '/audio/ja-2-1.mp3' },
+      { phrase: 'お会計お願いします', translation: 'The check, please', audio: '/audio/ja-2-2.mp3' },
+      { phrase: 'ありがとうございます', translation: 'Thank you very much', audio: '/audio/ja-2-3.mp3' },
+      { phrase: 'お待ちください', translation: 'Please wait', audio: '/audio/ja-2-4.mp3' }
     ]
   },
   {
     id: 'ja-3',
     language: 'japanese',
-    title: 'ビジネス日本語',
+    title: 'Business Japanese',
     category: 'Advanced',
     image: '/flags/japon.png',
-    summary: '会議やメールで使う丁寧な表現。',
+    summary: 'Polite expressions for meetings and emails.',
     phrases: [
-      { phrase: '会議を予定しましょう', translation: 'Let\'s schedule a meeting', audio: null },
-      { phrase: 'ご連絡お待ちしております', translation: 'I look forward to hearing from you', audio: null },
-      { phrase: 'よろしくお願いいたします', translation: 'Best regards', audio: null },
-      { phrase: 'ありがとうございました', translation: 'Thank you very much', audio: null },
-      { phrase: 'ご確認ください', translation: 'Please confirm', audio: null }
+      { phrase: '会議を予定しましょう', translation: 'Let’s schedule a meeting', audio: '/audio/ja-3-0.mp3' },
+      { phrase: 'ご連絡お待ちしております', translation: 'I look forward to hearing from you', audio: '/audio/ja-3-1.mp3' },
+      { phrase: 'よろしくお願いいたします', translation: 'Best regards', audio: '/audio/ja-3-2.mp3' },
+      { phrase: 'ありがとうございました', translation: 'Thank you very much', audio: '/audio/ja-3-3.mp3' },
+      { phrase: 'ご確認ください', translation: 'Please confirm', audio: '/audio/ja-3-4.mp3' }
     ]
   },
 
@@ -426,46 +427,46 @@ export const lessons = [
   {
     id: 'zh-1',
     language: 'chinese',
-    title: '问候',
+    title: 'Greetings',
     category: 'Beginner',
     image: '/flags/chine.png',
-    summary: '学习中文的基本问候语。',
+    summary: 'Learn basic Chinese greetings.',
     phrases: [
-      { phrase: '你好', translation: 'Hello', audio: null },
-      { phrase: '早上好', translation: 'Good morning', audio: null },
-      { phrase: '再见', translation: 'Goodbye', audio: null },
-      { phrase: '谢谢', translation: 'Thank you', audio: null },
-      { phrase: '请', translation: 'Please', audio: null }
+      { phrase: '你好', translation: 'Hello', audio: '/audio/zh-1-0.mp3' },
+      { phrase: '早上好', translation: 'Good morning', audio: '/audio/zh-1-1.mp3' },
+      { phrase: '再见', translation: 'Goodbye', audio: '/audio/zh-1-2.mp3' },
+      { phrase: '谢谢', translation: 'Thank you', audio: '/audio/zh-1-3.mp3' },
+      { phrase: '请', translation: 'Please', audio: '/audio/zh-1-4.mp3' }
     ]
   },
   {
     id: 'zh-2',
     language: 'chinese',
-    title: '在饭馆',
+    title: 'At the Restaurant',
     category: 'Intermediate',
     image: '/flags/chine.png',
-    summary: '在中国饭馆常用的句子。',
+    summary: 'Common sentences used in Chinese restaurants.',
     phrases: [
-      { phrase: '我要点菜', translation: 'I want to order food', audio: null },
-      { phrase: '请给我菜单', translation: 'Please give me the menu', audio: null },
-      { phrase: '请结账', translation: 'Please bring the bill', audio: null },
-      { phrase: '谢谢你', translation: 'Thank you', audio: null },
-      { phrase: '请稍等', translation: 'Please wait', audio: null }
+      { phrase: '我要点菜', translation: 'I want to order food', audio: '/audio/zh-2-0.mp3' },
+      { phrase: '请给我菜单', translation: 'Please give me the menu', audio: '/audio/zh-2-1.mp3' },
+      { phrase: '请结账', translation: 'Please bring the bill', audio: '/audio/zh-2-2.mp3' },
+      { phrase: '谢谢你', translation: 'Thank you', audio: '/audio/zh-2-3.mp3' },
+      { phrase: '请稍等', translation: 'Please wait', audio: '/audio/zh-2-4.mp3' }
     ]
   },
   {
     id: 'zh-3',
     language: 'chinese',
-    title: '商务汉语',
+    title: 'Business Chinese',
     category: 'Advanced',
     image: '/flags/chine.png',
-    summary: '适用于会议和正式邮件的表达。',
+    summary: 'Expressions for meetings and formal emails.',
     phrases: [
-      { phrase: '我们安排一个会议', translation: 'Let\'s arrange a meeting', audio: null },
-      { phrase: '期待您的回复', translation: 'Looking forward to your reply', audio: null },
-      { phrase: '此致敬礼', translation: 'Sincerely', audio: null },
-      { phrase: '非常感谢', translation: 'Thank you very much', audio: null },
-      { phrase: '请确认', translation: 'Please confirm', audio: null }
+      { phrase: '我们安排一个会议', translation: 'Let’s arrange a meeting', audio: '/audio/zh-3-0.mp3' },
+      { phrase: '期待您的回复', translation: 'Looking forward to your reply', audio: '/audio/zh-3-1.mp3' },
+      { phrase: '此致敬礼', translation: 'Sincerely', audio: '/audio/zh-3-2.mp3' },
+      { phrase: '非常感谢', translation: 'Thank you very much', audio: '/audio/zh-3-3.mp3' },
+      { phrase: '请确认', translation: 'Please confirm', audio: '/audio/zh-3-4.mp3' }
     ]
   },
 
@@ -473,46 +474,46 @@ export const lessons = [
   {
     id: 'ko-1',
     language: 'korean',
-    title: '인사말',
+    title: 'Greetings',
     category: 'Beginner',
     image: '/flags/coree-du-sud.png',
-    summary: '한국어 기본 인사말을 배워요.',
+    summary: 'Learn basic Korean greetings.',
     phrases: [
-      { phrase: '안녕하세요', translation: 'Hello', audio: null },
-      { phrase: '좋은 아침입니다', translation: 'Good morning', audio: null },
-      { phrase: '안녕히 가세요', translation: 'Goodbye', audio: null },
-      { phrase: '감사합니다', translation: 'Thank you', audio: null },
-      { phrase: '제발', translation: 'Please', audio: null }
+      { phrase: '안녕하세요', translation: 'Hello', audio: '/audio/ko-1-0.mp3' },
+      { phrase: '좋은 아침입니다', translation: 'Good morning', audio: '/audio/ko-1-1.mp3' },
+      { phrase: '안녕히 가세요', translation: 'Goodbye', audio: '/audio/ko-1-2.mp3' },
+      { phrase: '감사합니다', translation: 'Thank you', audio: '/audio/ko-1-3.mp3' },
+      { phrase: '제발', translation: 'Please', audio: '/audio/ko-1-4.mp3' }
     ]
   },
   {
     id: 'ko-2',
     language: 'korean',
-    title: '식당에서',
+    title: 'At the Restaurant',
     category: 'Intermediate',
     image: '/flags/coree-du-sud.png',
-    summary: '식당에서 자주 쓰는 표현들.',
+    summary: 'Common expressions used in restaurants.',
     phrases: [
-      { phrase: '메뉴 주세요', translation: 'Menu, please', audio: null },
-      { phrase: '물 주세요', translation: 'Water, please', audio: null },
-      { phrase: '계산서 주세요', translation: 'Check, please', audio: null },
-      { phrase: '감사합니다', translation: 'Thank you', audio: null },
-      { phrase: '잠시만 기다리세요', translation: 'Please wait a moment', audio: null }
+      { phrase: '메뉴 주세요', translation: 'Menu, please', audio: '/audio/ko-2-0.mp3' },
+      { phrase: '물 주세요', translation: 'Water, please', audio: '/audio/ko-2-1.mp3' },
+      { phrase: '계산서 주세요', translation: 'Check, please', audio: '/audio/ko-2-2.mp3' },
+      { phrase: '감사합니다', translation: 'Thank you', audio: '/audio/ko-2-3.mp3' },
+      { phrase: '잠시만 기다리세요', translation: 'Please wait a moment', audio: '/audio/ko-2-4.mp3' }
     ]
   },
   {
     id: 'ko-3',
     language: 'korean',
-    title: '비즈니스 한국어',
+    title: 'Business Korean',
     category: 'Advanced',
     image: '/flags/coree-du-sud.png',
-    summary: '회의 및 이메일용 공식 표현.',
+    summary: 'Formal expressions for meetings and emails.',
     phrases: [
-      { phrase: '회의를 일정 잡읍시다', translation: 'Let\'s schedule a meeting', audio: null },
-      { phrase: '회신 기다리겠습니다', translation: 'I\'ll wait for your reply', audio: null },
-      { phrase: '감사합니다', translation: 'Thank you / Sincerely', audio: null },
-      { phrase: '대단히 감사합니다', translation: 'Thank you very much', audio: null },
-      { phrase: '확인해 주세요', translation: 'Please confirm', audio: null }
+      { phrase: '회의를 일정 잡읍시다', translation: 'Let’s schedule a meeting', audio: '/audio/ko-3-0.mp3' },
+      { phrase: '회신 기다리겠습니다', translation: 'I’ll wait for your reply', audio: '/audio/ko-3-1.mp3' },
+      { phrase: '감사합니다', translation: 'Thank you / Sincerely', audio: '/audio/ko-3-2.mp3' },
+      { phrase: '대단히 감사합니다', translation: 'Thank you very much', audio: '/audio/ko-3-3.mp3' },
+      { phrase: '확인해 주세요', translation: 'Please confirm', audio: '/audio/ko-3-4.mp3' }
     ]
   }
 ];
