@@ -1,1 +1,0 @@
-//LanguageContext ensures languageId is consistent across modules.
