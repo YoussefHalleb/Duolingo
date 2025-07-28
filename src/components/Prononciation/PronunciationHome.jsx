@@ -13,6 +13,7 @@ const PronunciationHome = () => {
   const [availableVoices, setAvailableVoices] = useState([]);
   const [playingIndex, setPlayingIndex] = useState(null);
   const [isListening, setIsListening] = useState(false);
+  const [testFeedback, setTestFeedback] = useState(null);
   const [transcript, setTranscript] = useState('');
   const [recognition, setRecognition] = useState(null);
   const [testMode, setTestMode] = useState(false);
@@ -22,8 +23,90 @@ const PronunciationHome = () => {
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [userInput, setUserInput] = useState('');
-  const [testFeedback, setTestFeedback] = useState(null);
+  const [testStats, setTestStats] = useState({
+    correctAnswers: 0,
+    totalTime: 0,
+    categoryScores: {},
+    mistakes: [],
+    startTime: Date.now()
+  });
   const synthRef = useRef(window.speechSynthesis);
+
+  const categories = {
+    custom: "Custom Text",
+    greetings: "Greetings",
+    introductions: "Introductions",
+    common: "Common Phrases",
+    directions: "Directions",
+    food: "Food & Dining"
+  };
+
+  const currentPhrases = selectedCategory === 'custom' 
+    ? [] 
+    : (languageData[selectedLanguage]?.categories[selectedCategory] || []);
+
+  const getMixedQuestions = () => {
+    // Here you would typically make an API call to your database
+    // For now, we'll simulate it with the local data
+    const allPhrases = Object.entries(categories)
+      .filter(([key]) => key !== 'custom')
+      .reduce((acc, [category]) => {
+        const categoryPhrases = languageData[selectedLanguage]?.categories[category] || [];
+        return [...acc, ...categoryPhrases.map(phrase => ({
+          ...phrase,
+          category,
+          difficulty: Math.floor(Math.random() * 3) + 1 // Simulate difficulty levels 1-3
+        }))];
+      }, []);
+
+    // Shuffle and select phrases based on progressive difficulty
+    const shuffled = [...allPhrases].sort(() => Math.random() - 0.5);
+    const selectedPhrases = shuffled.slice(0, Math.min(10, shuffled.length));
+    
+    // Sort by difficulty to ensure progression
+    return selectedPhrases.sort((a, b) => a.difficulty - b.difficulty);
+  };
+
+  const startTest = (type) => {
+    setTestMode(true);
+    setTestType(type);
+    setTestScore(0);
+    setCurrentQuestion(0);
+    setUserInput('');
+    setTestFeedback(null);
+    setTestStats({
+      correctAnswers: 0,
+      totalTime: 0,
+      categoryScores: {},
+      mistakes: [],
+      startTime: Date.now()
+    });
+
+    const testQuestions = selectedCategory === 'custom'
+      ? [{ text: customText, translation: '', category: 'custom' }]
+      : getMixedQuestions();
+
+    setTotalQuestions(testQuestions.length);
+    setCurrentTest(testQuestions);
+
+    if (type === 'text-to-speech') {
+      // System speaks, user types
+      handleSpeak(testQuestions[0].text, testQuestions[0].translation, 0);
+    }
+  };
+
+  const toggleListening = () => {
+    if (!recognition) return;
+
+    if (isListening) {
+      recognition.stop();
+      setIsListening(false);
+    } else {
+      setTranscript('');
+      recognition.start();
+      setIsListening(true);
+    }
+  };
 
   useEffect(() => {
     const loadVoices = () => {
@@ -67,17 +150,6 @@ const PronunciationHome = () => {
       }
     };
   }, [selectedLanguage, recognition]);
-
-  const categories = {
-    custom: "Custom Text",
-    greetings: "Greetings",
-    introductions: "Introductions",
-    common: "Common Phrases",
-    directions: "Directions",
-    food: "Food & Dining"
-  };
-
-  const currentPhrases = selectedCategory === 'custom' ? [] : (languageData[selectedLanguage]?.categories[selectedCategory] || []);
 
   const getLangCode = (language) => {
     const langCodes = {
@@ -153,71 +225,6 @@ const PronunciationHome = () => {
     }
   };
 
-  const toggleListening = () => {
-    if (!recognition) return;
-
-    if (isListening) {
-      recognition.stop();
-      setIsListening(false);
-    } else {
-      setTranscript('');
-      recognition.start();
-      setIsListening(true);
-    }
-  };
-
-  const getMixedQuestions = () => {
-    // Get phrases from all categories except custom
-    const allPhrases = Object.entries(categories)
-      .filter(([key]) => key !== 'custom')
-      .reduce((acc, [category]) => {
-        const categoryPhrases = languageData[selectedLanguage]?.categories[category] || [];
-        return [...acc, ...categoryPhrases.map(phrase => ({
-          ...phrase,
-          category
-        }))];
-      }, []);
-
-    // Shuffle and select 10 phrases or all if less than 10
-    const shuffled = [...allPhrases].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, Math.min(10, shuffled.length));
-  };
-
-  const [testStats, setTestStats] = useState({
-    correctAnswers: 0,
-    totalTime: 0,
-    categoryScores: {},
-    mistakes: []
-  });
-
-  const startTest = (type) => {
-    setTestMode(true);
-    setTestType(type);
-    setTestScore(0);
-    setCurrentQuestion(0);
-    setUserInput('');
-    setTestFeedback(null);
-    setTestStats({
-      correctAnswers: 0,
-      totalTime: 0,
-      categoryScores: {},
-      mistakes: [],
-      startTime: Date.now()
-    });
-
-    const testQuestions = selectedCategory === 'custom'
-      ? [{ text: customText, translation: '', category: 'custom' }]
-      : getMixedQuestions();
-
-    setTotalQuestions(testQuestions.length);
-    setCurrentTest(testQuestions);
-
-    if (type === 'text-to-speech') {
-      // System speaks, user types
-      handleSpeak(testQuestions[0].text, testQuestions[0].translation, 0);
-    }
-  };
-
   const normalizeText = (text) => {
     return text
       .toLowerCase() // Convert to lowercase
@@ -226,61 +233,52 @@ const PronunciationHome = () => {
       .trim(); // Remove leading/trailing spaces
   };
 
-  const calculateSimilarity = (str1, str2) => {
-    const words1 = normalizeText(str1).split(' ');
-    const words2 = normalizeText(str2).split(' ');
-    let matchedWords = 0;
-
-    words1.forEach(word => {
-      if (words2.includes(word)) {
-        matchedWords++;
-      }
-    });
-
-    return matchedWords / Math.max(words1.length, words2.length);
-  };
-
   const checkAnswer = () => {
     if (!currentTest || currentQuestion >= currentTest.length) return;
 
     const currentPhrase = currentTest[currentQuestion];
     const userAnswer = testType === 'text-to-speech' ? userInput : transcript;
     
+    if (!userAnswer.trim()) return; // Don't process empty answers
+    
     // Normalize both strings
     const normalizedCorrect = normalizeText(currentPhrase.text);
     const normalizedUser = normalizeText(userAnswer);
     
-    // Calculate similarity score (0 to 1)
-    const similarity = calculateSimilarity(normalizedCorrect, normalizedUser);
-    
-    // Define scoring thresholds
-    const perfectMatch = similarity === 1;
-    const closeMatch = similarity >= 0.8;
-    const partialMatch = similarity >= 0.6;
+    // Exact match required for full points
+    const exactMatch = normalizedCorrect === normalizedUser;
     
     let points = 0;
-    let feedback = '';
+    let feedback;
 
-    if (perfectMatch) {
+    if (exactMatch) {
       points = 1;
       feedback = 'Perfect! Well done! 🌟';
-    } else if (closeMatch) {
-      points = 0.8;
-      feedback = 'Very close! Almost perfect! ⭐';
-    } else if (partialMatch) {
-      points = 0.5;
-      feedback = 'Good try! Keep practicing! 👍';
     } else {
       points = 0;
-      feedback = `Not quite. The correct answer was: ${currentPhrase.text}`;
+      // Highlight differences in the feedback
+      const correctWords = normalizedCorrect.split(' ');
+      const userWords = normalizedUser.split(' ');
+      const diffHighlight = correctWords.map((word, i) => ({
+        word,
+        isCorrect: i < userWords.length && word === userWords[i]
+      }));
+      
+      feedback = {
+        type: 'error',
+        content: {
+          correctWords: diffHighlight,
+          userAnswer: userAnswer
+        }
+      };
     }
 
     // Update the isCorrect status for statistics
-    const isCorrect = points > 0;
+    const isCorrect = points === 1;
 
     // Update scores and statistics
     setTestScore(prev => prev + points);
-
+    
     setTestStats(prev => {
       const categoryScores = { ...prev.categoryScores };
       if (!categoryScores[currentPhrase.category]) {
@@ -348,11 +346,6 @@ const PronunciationHome = () => {
           <p className="text-emerald-600 text-lg max-w-2xl mx-auto mt-6 fade-in-up">
             Master the pronunciation of {selectedLanguage.charAt(0).toUpperCase() + selectedLanguage.slice(1)} phrases
           </p>
-          <img 
-            src="/pics/microphone.png" 
-            alt="Pronunciation Practice"
-            className="w-24 h-24 mx-auto mt-6 bounce-subtle"
-          />
         </div>
 
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-8 mb-12 slide-up">
@@ -709,11 +702,30 @@ const PronunciationHome = () => {
                       </div>
                     ) : testFeedback ? (
                       <div className={`mt-4 p-4 rounded-lg ${
-                        testFeedback.startsWith('Correct') 
+                        typeof testFeedback === 'string' && testFeedback.startsWith('Perfect')
                           ? 'bg-green-100 text-green-800'
                           : 'bg-red-100 text-red-800'
                       }`}>
-                        {testFeedback}
+                        {typeof testFeedback === 'string' ? (
+                          testFeedback
+                        ) : (
+                          <div className="space-y-2">
+                            <div className="text-red-600">Incorrect. Here's the correct phrase:</div>
+                            <div className="font-medium">
+                              {testFeedback.content.correctWords.map((item, index) => (
+                                <span
+                                  key={index}
+                                  className={item.isCorrect ? '' : 'bg-red-200'}
+                                >
+                                  {item.word}{' '}
+                                </span>
+                              ))}
+                            </div>
+                            <div className="text-sm text-gray-600">
+                              Your answer: {testFeedback.content.userAnswer}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     ) : null}
                   </div>
@@ -726,6 +738,7 @@ const PronunciationHome = () => {
                       <button
                         onClick={checkAnswer}
                         className="px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg hover:scale-105 transition-all duration-300"
+                        disabled={testType === 'text-to-speech' ? !userInput.trim() : !transcript.trim()}
                       >
                         Check Answer
                       </button>
