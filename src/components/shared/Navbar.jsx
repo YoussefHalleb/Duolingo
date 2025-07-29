@@ -64,7 +64,7 @@ const Navbar = () => {
         </Link>
         
         <Link 
-          to="/language-choice" 
+          to="/learn/categories" 
           className={`navbar-link ${location.pathname === '/learn' ? 'active' : ''}`}
         >
           <i className="fas fa-book"></i> Learn
@@ -81,10 +81,15 @@ const Navbar = () => {
         >
           <i className="fas fa-microphone"></i> Pronunciation
         </Link>
+        <Link 
+          to="/cultural-discovery" 
+          className={`navbar-link ${location.pathname === '/cultural-discovery' ? 'active' : ''}`}
+        >
+          <i className="fas fa-globe"></i> Discovery
+        </Link>
       </div>
       <div className="navbar-right">
         <div className="navbar-actions">
-
 
         {isLoggedIn && (
             <div className="navbar-user-dropdown">

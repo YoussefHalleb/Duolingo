@@ -10,12 +10,11 @@ import LanguageSelector from '../components/LanguageExplorer/LanguageSelector.js
 import Learn from '../components/Learn/Learn.jsx'; 
 import LessonDetails from '../components/Learn/LessonDetails.jsx';
 import VocabularyPage from '../components/Learn/VocabularyPage.jsx'; 
-import LanguageChoice from '../components/Learn/LanguageChoice.jsx'; 
 import TestRTDB from '../components/TestRTDB.jsx';
 import Profile from '../components/Profile/Profile.jsx'; 
 import About from '../components/About/About.jsx';
 import Settings from '../components/Settings/Settings.jsx';
-
+import CulturalDiscovery from '../components/CulturalDiscovery/CulturalDiscovery.jsx';
 const AppRoutes = () => (
   <AuthProvider>
   <Routes>
@@ -37,10 +36,10 @@ const AppRoutes = () => (
 
       {/* Routes du module Learn */}
      <Route path="/learn/categories" element={<Learn />} />
-     <Route path="/language-choice" element={<LanguageChoice />} /> 
     <Route path="/learn/:language/:lessonId" element={<LessonDetails />} />
     <Route path="/vocabulary" element={<VocabularyPage />} />
     <Route path="/test-rtdb" element={<TestRTDB />} />
+    <Route path="/cultural-discovery" element={<CulturalDiscovery />} />
     {/* Routes du module Prononciation */}
     <Route path="/prononciation" element={<PronunciationHome />} />
   </Routes>
