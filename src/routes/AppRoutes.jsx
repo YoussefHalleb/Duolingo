@@ -11,7 +11,6 @@ import Learn from '../components/Learn/Learn.jsx';
 import LessonDetails from '../components/Learn/LessonDetails.jsx';
 import VocabularyPage from '../components/Learn/VocabularyPage.jsx'; 
 import LanguageChoice from '../components/Learn/LanguageChoice.jsx'; 
-import TestRTDB from '../components/TestRTDB.jsx';
 import Profile from '../components/Profile/Profile.jsx'; 
 import About from '../components/About/About.jsx';
 import Settings from '../components/Settings/Settings.jsx';
@@ -40,7 +39,6 @@ const AppRoutes = () => (
      <Route path="/language-choice" element={<LanguageChoice />} /> 
     <Route path="/learn/:language/:lessonId" element={<LessonDetails />} />
     <Route path="/vocabulary" element={<VocabularyPage />} />
-    <Route path="/test-rtdb" element={<TestRTDB />} />
     {/* Routes du module Prononciation */}
     <Route path="/prononciation" element={<PronunciationHome />} />
   </Routes>

@@ -1,11 +1,20 @@
 import { useState, useRef, useEffect } from 'react';
 import Navbar from '../shared/Navbar';
-import { languageData } from '../../data/languageData';
 import { useLanguage } from '../../context/LanguageContext';
+import { usePronunciationData } from './usePronunciationData';
 import './PronunciationHome.css';
 
 const PronunciationHome = () => {
   const { selectedLanguage } = useLanguage();
+  const {
+    categories,
+    loading,
+    error,
+    currentDifficulty,
+    setCurrentDifficulty,
+    getCurrentPhrases
+  } = usePronunciationData(selectedLanguage);
+  
   const [activeTab, setActiveTab] = useState('text-to-speech');
   const [selectedCategory, setSelectedCategory] = useState('greetings');
   const [customText, setCustomText] = useState('');
@@ -32,7 +41,7 @@ const PronunciationHome = () => {
   });
   const synthRef = useRef(window.speechSynthesis);
 
-  const categories = {
+  const categoryLabels = {
     custom: "Custom Text",
     greetings: "Greetings",
     introductions: "Introductions",
@@ -43,19 +52,17 @@ const PronunciationHome = () => {
 
   const currentPhrases = selectedCategory === 'custom' 
     ? [] 
-    : (languageData[selectedLanguage]?.categories[selectedCategory] || []);
+    : getCurrentPhrases(selectedCategory);
 
   const getMixedQuestions = () => {
-    // Here you would typically make an API call to your database
-    // For now, we'll simulate it with the local data
+    if (!categories) return [];
     const allPhrases = Object.entries(categories)
       .filter(([key]) => key !== 'custom')
       .reduce((acc, [category]) => {
-        const categoryPhrases = languageData[selectedLanguage]?.categories[category] || [];
+        const categoryPhrases = getCurrentPhrases(category);
         return [...acc, ...categoryPhrases.map(phrase => ({
           ...phrase,
-          category,
-          difficulty: Math.floor(Math.random() * 3) + 1 // Simulate difficulty levels 1-3
+          category
         }))];
       }, []);
 
@@ -400,36 +407,70 @@ const PronunciationHome = () => {
                     <img src="/pics/quiz.png" alt="Categories" className="w-full h-full object-contain" />
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 bg-emerald-50 px-4 py-2 rounded-lg shadow-inner">
-                  <span className="text-emerald-700 font-medium">Playback Speed:</span>
-                  <select
-                    value={speed}
-                    onChange={(e) => setSpeed(parseFloat(e.target.value))}
-                    className="form-select rounded-lg border-2 border-emerald-200 text-sm focus:border-emerald-500 focus:ring-emerald-500 bg-white py-2 px-3 transition-all duration-200"
-                  >
-                    <option value={0.5}>0.5x</option>
-                    <option value={0.75}>0.75x</option>
-                    <option value={1}>1x</option>
-                    <option value={1.25}>1.25x</option>
-                    <option value={1.5}>1.5x</option>
-                  </select>
+                <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-3 bg-emerald-50 px-4 py-2 rounded-lg shadow-inner">
+                    <span className="text-emerald-700 font-medium">Playback Speed:</span>
+                    <select
+                      value={speed}
+                      onChange={(e) => setSpeed(parseFloat(e.target.value))}
+                      className="form-select rounded-lg border-2 border-emerald-200 text-sm focus:border-emerald-500 focus:ring-emerald-500 bg-white py-2 px-3 transition-all duration-200"
+                    >
+                      <option value={0.5}>0.5x</option>
+                      <option value={0.75}>0.75x</option>
+                      <option value={1}>1x</option>
+                      <option value={1.25}>1.25x</option>
+                      <option value={1.5}>1.5x</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center space-x-3 bg-emerald-50 px-4 py-2 rounded-lg shadow-inner">
+                    <span className="text-emerald-700 font-medium">Difficulty:</span>
+                    <select
+                      value={currentDifficulty}
+                      onChange={(e) => setCurrentDifficulty(e.target.value)}
+                      className="form-select rounded-lg border-2 border-emerald-200 text-sm focus:border-emerald-500 focus:ring-emerald-500 bg-white py-2 px-3 transition-all duration-200"
+                    >
+                      <option value="all">All Levels</option>
+                      <option value="beginner">Beginner</option>
+                      <option value="intermediate">Intermediate</option>
+                      <option value="advanced">Advanced</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 
               <div className="flex flex-wrap gap-3 mb-8">
-                {Object.entries(categories).map(([key, value]) => (
-                  <button
-                    key={key}
-                    onClick={() => setSelectedCategory(key)}
-                    className={`px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 category-button
-                      ${selectedCategory === key
-                        ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg hover:from-emerald-600 hover:to-teal-600'
-                        : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border-2 border-emerald-200'
-                      }`}
-                  >
-                    {value}
-                  </button>
-                ))}
+                {loading ? (
+                  <div className="w-full text-center text-emerald-600">Loading categories...</div>
+                ) : error ? (
+                  <div className="w-full text-center text-red-600">{error}</div>
+                ) : (
+                  <>
+                    <button
+                      key="custom"
+                      onClick={() => setSelectedCategory('custom')}
+                      className={`px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 category-button
+                        ${selectedCategory === 'custom'
+                          ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg hover:from-emerald-600 hover:to-teal-600'
+                          : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border-2 border-emerald-200'
+                        }`}
+                    >
+                      Custom Text
+                    </button>
+                    {Object.keys(categories || {}).map((category) => (
+                      <button
+                        key={category}
+                        onClick={() => setSelectedCategory(category)}
+                        className={`px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 category-button
+                          ${selectedCategory === category
+                            ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg hover:from-emerald-600 hover:to-teal-600'
+                            : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border-2 border-emerald-200'
+                          }`}
+                      >
+                        {categoryLabels[category] || category}
+                      </button>
+                    ))}
+                  </>
+                )}
               </div>
 
               <div className="space-y-6 fade-in">
