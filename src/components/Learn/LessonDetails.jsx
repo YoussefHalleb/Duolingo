@@ -1,4 +1,3 @@
-// src/components/Learn/LessonDetails.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
@@ -22,7 +21,7 @@ const LessonDetails = () => {
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [correctPhrase, setCorrectPhrase] = useState('');
-  const [unlockedCard, setUnlockedCard] = useState(null); // Nouvelle state pour la carte débloquée
+  const [unlockedCard, setUnlockedCard] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -128,8 +127,8 @@ const LessonDetails = () => {
   const handleLessonComplete = async () => {
     saveProgress(100);
     const nextLessonId = getNextLessonId();
-  
-    // Récupérer la carte culturelle liée à la leçon terminée
+
+    // Récupérer la carte culturelle
     try {
       console.log('Fetching card for lessonId:', lessonId);
       const response = await fetch(`/api/cultural-cards/by-lesson/${lessonId}`);
@@ -147,33 +146,27 @@ const LessonDetails = () => {
     } catch (error) {
       console.error('Error fetching cultural card:', error);
     }
-  
-    if (!nextLessonId) {
-      const languageLessons = allLessons.filter(l => l.language === language);
-      const terminatedLessonsRef = ref(rtdb, `users/${user.uid}/terminatedLessons`);
-      onValue(terminatedLessonsRef, (snapshot) => {
-        const terminatedData = snapshot.val() || {};
-        const completedLessons = languageLessons.filter(l => terminatedData[l.id]?.progress === 100);
-        if (completedLessons.length === languageLessons.length) {
-          setShowCompletionModal(true);
-        } else if (!unlockedCard) {
-          navigate('/learn/categories');
-        }
-      }, { onlyOnce: true });
-    } else if (!unlockedCard) {
-      navigate(`/learn/${language}/${nextLessonId}`);
-    }
   };
 
-  const closeModal = () => {
+  const closeModal = (action) => {
     setShowCompletionModal(false);
-    setUnlockedCard(null); // Réinitialiser la carte après fermeture
+    setUnlockedCard(null);
     const nextLessonId = getNextLessonId();
-    if (nextLessonId) {
+    if (action === 'next' && nextLessonId) {
       navigate(`/learn/${language}/${nextLessonId}`);
     } else {
       navigate('/learn/categories');
     }
+  };
+
+  const checkAllLessonsCompleted = () => {
+    const languageLessons = allLessons.filter(l => l.language === language);
+    const terminatedLessonsRef = ref(rtdb, `users/${user.uid}/terminatedLessons`);
+    onValue(terminatedLessonsRef, (snapshot) => {
+      const terminatedData = snapshot.val() || {};
+      const completedLessons = languageLessons.filter(l => terminatedData[l.id]?.progress === 100);
+      return completedLessons.length === languageLessons.length;
+    }, { onlyOnce: true });
   };
 
   if (authLoading || loading) return <Layout><div><p>Loading...</p></div></Layout>;
@@ -293,18 +286,21 @@ const LessonDetails = () => {
               </button>
             </div>
             <p>Keep learning to unlock more adventures!</p>
-            <Button label="Continue" onClick={closeModal} type="complete" />
+            <div className="lesson-navigation">
+              <Button label="Continue to Next Lesson" onClick={() => closeModal('next')} type="complete" disabled={!getNextLessonId()} />
+              <Button label="Back to List" onClick={() => closeModal('back')} type="navigate" />
+            </div>
           </div>
         </div>
       )}
 
-      {showCompletionModal && !unlockedCard && (
+      {showCompletionModal && !unlockedCard && checkAllLessonsCompleted() && (
         <div className="completion-modal">
           <div className="modal-content">
             <h2>Congratulations!</h2>
             <p>You have completed all lessons in {language.charAt(0).toUpperCase() + language.slice(1)}!</p>
             <p>Let's learn another new language!</p>
-            <Button label="Close" onClick={closeModal} type="complete" />
+            <Button label="Close" onClick={() => closeModal('back')} type="complete" />
           </div>
         </div>
       )}
