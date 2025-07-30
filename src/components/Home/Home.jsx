@@ -11,7 +11,7 @@ const Home = () => {
     if (!email) return;
 
     try {
-      const res = await fetch('http://backend.duomingo.ddns.net', {
+      const res = await fetch('https://backend.duomingo.ddns.net', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
