@@ -168,25 +168,25 @@
     "text": "Celebrated on April 27, this Dutch festival features orange attire and street markets.",
     "image_url": "/cultural_cards/kings-day.jpg",
     "related_lesson_id": "nl-1",
-    "external_link": "https://www.koningsdagamsterdam.nl"
+    "external_link": "https://www.wanderlustmagazine.com/inspiration/guide-to-koningsdag-netherlands/"
   },
   {
     "id": 20,
     "language": "dutch",
-    "title": "Dutch Shopping Experience",
-    "text": "Shopping in the Netherlands includes markets and a focus on sustainable products.",
-    "image_url": "/cultural_cards/dutch-shopping.jpg",
+    "title": "Dutch Cuisine",
+    "text": "Dutch food includes iconic dishes like stroopwafels, herring, and bitterballen, enjoyed across the country.",
+    "image_url": "/cultural_cards/dutch-food.jpg",
     "related_lesson_id": "nl-2",
-    "external_link": "https://www.holland.com/global/tourism/shopping.htm"
-  },
+    "external_link": "https://www.leshuttle.com/uk-en/discover/traveller-guides/top-ten-traditional-dutch-foods"
+  },  
   {
     "id": 21,
     "language": "dutch",
-    "title": "Dutch Business Norms",
-    "text": "Dutch business communication emphasizes directness and efficiency in meetings.",
-    "image_url": "/cultural_cards/dutch-business.jpg",
+    "title": "Dutch Biking Culture",
+    "text": "Cycling is a primary mode of transportation in the Netherlands and an iconic part of daily life.",
+    "image_url": "/cultural_cards/dutch-biking.jpg",
     "related_lesson_id": "nl-3",
-    "external_link": "https://www.expatica.com/nl/working/business-culture-in-the-netherlands-100876/"
+    "external_link": "https://www.holland.com/global/tourism/get-inspired/current/cycling-lifestyle/the-cycle-of-life-the-dutch-cycling-lifestyle"
   },
   {
     "id": 22,
@@ -200,20 +200,20 @@
   {
     "id": 23,
     "language": "russian",
-    "title": "Russian Café Culture",
+    "title": "Russian tea Culture",
     "text": "Visiting a Russian café involves ordering tea and enjoying local pastries.",
-    "image_url": "/images/russian-cafe.jpg",
+    "image_url": "/cultural_cards/russian-tea.jpg",
     "related_lesson_id": "ru-2",
-    "external_link": "https://www.russia-travel-guide.com/russian-food/"
+    "external_link": "https://news.itmo.ru/en/features/life_in_russia/news/14010/"
   },
   {
     "id": 24,
     "language": "russian",
-    "title": "Russian Business Etiquette",
-    "text": "Russian business requires formal greetings and respect for hierarchy.",
-    "image_url": "/cultural_cards/russian-business.jpg",
+    "title": "Russian Ballet",
+    "text": "Russia is famous for its classical ballet, with renowned institutions like the Bolshoi and Mariinsky.",
+    "image_url": "/cultural_cards/russian-ballet.jpg",
     "related_lesson_id": "ru-3",
-    "external_link": "https://www.expatica.com/ru/working/business-culture-in-russia-100850/"
+    "external_link": "https://news.itmo.ru/en/features/experience_saint_petersburg/news/13992/"
   },
   {
     "id": 25,
@@ -236,11 +236,11 @@
   {
     "id": 27,
     "language": "japanese",
-    "title": "Japanese Business Protocol",
-    "text": "Business in Japan emphasizes respect, bowing, and exchanging business cards.",
-    "image_url": "/cultural_cards/japanese-business.jpg",
+    "title": "Japanese Tea Ceremony",
+    "text": "The traditional tea ceremony in Japan reflects mindfulness, aesthetics, and harmony.",
+    "image_url": "/cultural_cards/japanese-tea.jpg",
     "related_lesson_id": "ja-3",
-    "external_link": "https://www.japan-guide.com/e/e2068.html"
+    "external_link": "https://www.japan-guide.com/e/e2092.html"
   },
   {
     "id": 28,
@@ -263,11 +263,11 @@
   {
     "id": 30,
     "language": "chinese",
-    "title": "Chinese Business Practices",
-    "text": "Business in China involves guanxi (relationships) and formal greetings.",
-    "image_url": "/cultural_cards/chinese-business.jpg",
+    "title": "The Great Wall",
+    "text": "An iconic symbol of China, the Great Wall stretches thousands of kilometers with rich history.",
+    "image_url": "/cultural_cards/great-wall.jpg",
     "related_lesson_id": "zh-3",
-    "external_link": "https://www.chinadaily.com.cn/business/2012-03/27/content_14931398.htm"
+    "external_link": "https://www.chinahighlights.com/greatwall/"
   },
   {
     "id": 31,
@@ -290,10 +290,10 @@
   {
     "id": 33,
     "language": "korean",
-    "title": "Korean Business Culture",
-    "text": "Korean business values hierarchy, respect, and formal communication.",
-    "image_url": "/cultural_cards/korean-business.jpg",
+    "title": "K-Pop Culture",
+    "text": "K-Pop has become a global phenomenon, blending catchy music, fashion, and choreography.",
+    "image_url": "/cultural_cards/kpop.jpg",
     "related_lesson_id": "ko-3",
-    "external_link": "https://www.korea.net/AboutKorea/Business/Business-Culture"
+    "external_link": "https://koreajoongangdaily.joins.com/news/2021-10-01/culture/musicPerformance/Kpop-goes-global/20211001162717838.html"
   }
 ]

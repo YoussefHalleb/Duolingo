@@ -421,3 +421,85 @@
 .play-button:hover {
   background: #0096c7;
 }
+
+/*  culturalll*/
+.cultural-unlock-modal {
+  animation: fadeIn 0.3s ease-in, bounceIn 0.5s ease-out;
+}
+
+.unlocked-card-preview {
+  background: linear-gradient(135deg, #e0f7fa, #c6f6d5); /* Dégradé vert-bleu doux */
+  border-radius: 20px; /* Bordure arrondie */
+  padding: 24px; /* Espacement accru */
+  margin: 24px 0; /* Marge verticale */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  width: 100%; /* Largeur pleine */
+  max-width: 600px; /* Largeur maximale */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centre verticalement le contenu */
+  align-items: center; /* Centre horizontalement le contenu */
+  overflow: hidden; /* Gère le débordement */
+  transition: transform 0.2s ease; /* Animation au hover */
+}
+
+.unlocked-card-preview:hover {
+  transform: translateY(-4px); /* Effet de soulèvement */
+}
+
+.unlocked-card-image {
+  width: 100%;
+  max-width: 220px; /* Largeur de l'image */
+  height: 140px; /* Hauteur fixe */
+  border-radius: 14px; /* Bordure arrondie */
+  margin-bottom: 20px; /* Espacement avant le texte */
+  object-fit: cover; /* Ajuste l'image */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Ombre légère */
+  display: block; /* Assure un centrage propre */
+  margin-left: auto;
+  margin-right: auto; /* Centre l'image horizontalement */
+}
+
+.unlocked-card-title {
+  font-size: 1.6rem; /* Taille de police */
+  color: #22223b;
+  margin-bottom: 12px; /* Espacement */
+  font-weight: 700; /* Poids */
+  text-transform: uppercase; /* Style */
+  letter-spacing: 0.5px; /* Espacement lettres */
+  text-align: center; /* Centre le titre */
+}
+
+.unlocked-card-text {
+  font-size: 1.1rem; /* Taille de police */
+  color: #4a4e69;
+  margin-bottom: 24px; /* Espacement accru */
+  text-align: center; /* Centre le texte */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Lignes visibles */
+  -webkit-box-orient: vertical;
+  line-height: 1.6; /* Lisibilité */
+  max-width: 90%; /* Limite la largeur pour éviter débordement */
+}
+
+.view-details-button {
+  padding: 12px 24px; /* Espacement */
+  background: linear-gradient(45deg, #00b4d8, #16a34a); /* Dégradé vert-bleu */
+  color: #fff;
+  border: none;
+  border-radius: 10px; /* Bordure arrondie */
+  cursor: pointer;
+  font-size: 1.2rem; /* Taille police */
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 70%; /* Largeur relative augmentée */
+  min-width: 200px; /* Largeur minimale garantie */
+  max-width: 300px; /* Limite la largeur maximale */
+  margin-top: auto; /* Pousse le bouton vers le bas */
+}
+
+.view-details-button:hover {
+  transform: scale(1.08); /* Zoom au hover */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Ombre prononcée */
+}

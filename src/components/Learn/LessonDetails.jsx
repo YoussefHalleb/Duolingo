@@ -1,4 +1,4 @@
-// src/components/LanguageExplorer/LessonDetails.jsx
+// src/components/Learn/LessonDetails.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
@@ -22,14 +22,13 @@ const LessonDetails = () => {
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [correctPhrase, setCorrectPhrase] = useState('');
+  const [unlockedCard, setUnlockedCard] = useState(null); // Nouvelle state pour la carte débloquée
 
   useEffect(() => {
     if (user) {
       const userLessonsRef = ref(rtdb, `users/${user.uid}/lessons`);
-      console.log(`Fetching lessons for user ${user.uid}, language ${language}, lessonId ${lessonId}`);
       const unsubscribe = onValue(userLessonsRef, (snapshot) => {
         const data = snapshot.val();
-        console.log('Raw data from userLessonsRef:', data);
         if (data) {
           const lessonsArray = Object.keys(data).map(key => ({
             id: key,
@@ -38,14 +37,11 @@ const LessonDetails = () => {
           }));
           setAllLessons(lessonsArray);
           const currentLesson = lessonsArray.find(l => l.id === lessonId && l.language === language);
-          console.log('Current lesson found:', currentLesson);
           if (currentLesson && currentLesson.phrases && currentLesson.phrases.length > 0) {
             setLesson(currentLesson);
-            // Vérifier immédiatement le statut et le progress
             const userLessonRef = ref(rtdb, `users/${user.uid}/terminatedLessons/${lessonId}`);
             onValue(userLessonRef, (snap) => {
               const progressData = snap.val();
-              console.log('Progress data:', progressData);
               const isCompleted = progressData?.progress === 100 || currentLesson.status === 'Completed';
               setCurrentView(isCompleted ? 'review' : 'learn');
               setProgress(progressData?.progress || 0);
@@ -72,7 +68,7 @@ const LessonDetails = () => {
     if (user && lesson && newProgress > 0) {
       const userLessonRef = ref(rtdb, `users/${user.uid}/terminatedLessons/${lessonId}`);
       const now = new Date();
-      const tunisianTime = new Date(now.getTime() + (1 * 60 * 60 * 1000)); // UTC+1
+      const tunisianTime = new Date(now.getTime() + (1 * 60 * 60 * 1000));
       const isoString = tunisianTime.toISOString().slice(0, -1);
       set(userLessonRef, {
         language: lesson.language,
@@ -85,7 +81,7 @@ const LessonDetails = () => {
           const userLessonsRef = ref(rtdb, `users/${user.uid}/lessons/${lessonId}`);
           set(userLessonsRef, { ...lesson, status: 'Completed' }, { merge: true }).then(() => {
             console.log("Lesson status updated to Completed for:", lessonId);
-            setCurrentView('review'); // Forcer la vue review après completion
+            setCurrentView('review');
           });
         }
       }).catch((error) => console.error('Error saving progress:', error.message));
@@ -109,8 +105,6 @@ const LessonDetails = () => {
       const audioUrl = lesson.phrases[phraseIndex].audio;
       const audio = new Audio(audioUrl);
       audio.play().catch(error => console.error('Audio play failed:', error));
-    } else {
-      console.warn('No audio available for phrase index:', phraseIndex);
     }
   };
 
@@ -131,9 +125,29 @@ const LessonDetails = () => {
     }
   };
 
-  const handleLessonComplete = () => {
+  const handleLessonComplete = async () => {
     saveProgress(100);
     const nextLessonId = getNextLessonId();
+  
+    // Récupérer la carte culturelle liée à la leçon terminée
+    try {
+      console.log('Fetching card for lessonId:', lessonId);
+      const response = await fetch(`/api/cultural-cards/by-lesson/${lessonId}`);
+      console.log('Response status:', response.status);
+      if (response.ok) {
+        const [relatedCard] = await response.json();
+        console.log('Fetched card:', relatedCard);
+        if (relatedCard) {
+          setUnlockedCard(relatedCard);
+          setShowCompletionModal(true);
+        } else {
+          console.log('No card found for lessonId:', lessonId);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching cultural card:', error);
+    }
+  
     if (!nextLessonId) {
       const languageLessons = allLessons.filter(l => l.language === language);
       const terminatedLessonsRef = ref(rtdb, `users/${user.uid}/terminatedLessons`);
@@ -142,18 +156,24 @@ const LessonDetails = () => {
         const completedLessons = languageLessons.filter(l => terminatedData[l.id]?.progress === 100);
         if (completedLessons.length === languageLessons.length) {
           setShowCompletionModal(true);
-        } else {
+        } else if (!unlockedCard) {
           navigate('/learn/categories');
         }
       }, { onlyOnce: true });
-    } else {
+    } else if (!unlockedCard) {
       navigate(`/learn/${language}/${nextLessonId}`);
     }
   };
 
   const closeModal = () => {
     setShowCompletionModal(false);
-    navigate('/learn/categories');
+    setUnlockedCard(null); // Réinitialiser la carte après fermeture
+    const nextLessonId = getNextLessonId();
+    if (nextLessonId) {
+      navigate(`/learn/${language}/${nextLessonId}`);
+    } else {
+      navigate('/learn/categories');
+    }
   };
 
   if (authLoading || loading) return <Layout><div><p>Loading...</p></div></Layout>;
@@ -254,7 +274,31 @@ const LessonDetails = () => {
           )}
         </div>
       </div>
-      {showCompletionModal && (
+
+      {/* Modale de déblocage de carte culturelle */}
+      {(showCompletionModal && unlockedCard) && (
+        <div className="completion-modal cultural-unlock-modal">
+          <div className="modal-content">
+            <h2>Congratulations! 🎉</h2>
+            <p>You’ve unlocked a new cultural treasure!</p>
+            <div className="unlocked-card-preview">
+              <img src={unlockedCard.image_url} alt={unlockedCard.title} className="unlocked-card-image" />
+              <h3 className="unlocked-card-title">{unlockedCard.title}</h3>
+              <p className="unlocked-card-text">{unlockedCard.text.substring(0, 50)}...</p>
+              <button
+                className="view-details-button"
+                onClick={() => window.open(unlockedCard.external_link, '_blank')}
+              >
+                Explore Now! 🌍
+              </button>
+            </div>
+            <p>Keep learning to unlock more adventures!</p>
+            <Button label="Continue" onClick={closeModal} type="complete" />
+          </div>
+        </div>
+      )}
+
+      {showCompletionModal && !unlockedCard && (
         <div className="completion-modal">
           <div className="modal-content">
             <h2>Congratulations!</h2>
