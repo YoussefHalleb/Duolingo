@@ -22,6 +22,7 @@ const LessonDetails = () => {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [correctPhrase, setCorrectPhrase] = useState('');
   const [unlockedCard, setUnlockedCard] = useState(null);
+  const [apiError, setApiError] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -126,12 +127,9 @@ const LessonDetails = () => {
 
   const handleLessonComplete = async () => {
     saveProgress(100);
-    const nextLessonId = getNextLessonId();
-
-    // Récupérer la carte culturelle
     try {
       console.log('Fetching card for lessonId:', lessonId);
-      const response = await fetch(`/api/cultural-cards/by-lesson/${lessonId}`);
+      const response = await fetch(`http://localhost:3001/cultural-cards/by-lesson/${lessonId}`);
       console.log('Response status:', response.status);
       if (response.ok) {
         const [relatedCard] = await response.json();
@@ -139,34 +137,31 @@ const LessonDetails = () => {
         if (relatedCard) {
           setUnlockedCard(relatedCard);
           setShowCompletionModal(true);
+          setApiError(null);
         } else {
-          console.log('No card found for lessonId:', lessonId);
+          setApiError('No cultural card found for this lesson.');
+          navigate('/learn/categories');
         }
+      } else {
+        setApiError(`Failed to fetch cultural card: ${response.statusText}`);
+        navigate('/learn/categories');
       }
     } catch (error) {
       console.error('Error fetching cultural card:', error);
+      setApiError('Failed to load cultural card. Please try again.');
+      navigate('/learn/categories');
     }
   };
 
   const closeModal = (action) => {
     setShowCompletionModal(false);
     setUnlockedCard(null);
-    const nextLessonId = getNextLessonId();
-    if (action === 'next' && nextLessonId) {
-      navigate(`/learn/${language}/${nextLessonId}`);
+    setApiError(null);
+    if (action === 'next' && getNextLessonId()) {
+      navigate(`/learn/${language}/${getNextLessonId()}`);
     } else {
       navigate('/learn/categories');
     }
-  };
-
-  const checkAllLessonsCompleted = () => {
-    const languageLessons = allLessons.filter(l => l.language === language);
-    const terminatedLessonsRef = ref(rtdb, `users/${user.uid}/terminatedLessons`);
-    onValue(terminatedLessonsRef, (snapshot) => {
-      const terminatedData = snapshot.val() || {};
-      const completedLessons = languageLessons.filter(l => terminatedData[l.id]?.progress === 100);
-      return completedLessons.length === languageLessons.length;
-    }, { onlyOnce: true });
   };
 
   if (authLoading || loading) return <Layout><div><p>Loading...</p></div></Layout>;
@@ -261,15 +256,14 @@ const LessonDetails = () => {
               ) : <p className="lesson-details-not-found">No phrases available to review.</p>}
               <div className="lesson-navigation">
                 <Button label="Previous" onClick={() => navigate(`/learn/${language}/${getPrevLessonId()}`)} disabled={!getPrevLessonId()} type="navigate" />
-                <Button label="Back to List" onClick={() => navigate(`/learn/categories`)} type="navigate" />
+                <Button label="Back to List" onClick={() => navigate('/learn/categories')} type="navigate" />
               </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Modale de déblocage de carte culturelle */}
-      {(showCompletionModal && unlockedCard) && (
+      {showCompletionModal && unlockedCard && (
         <div className="completion-modal cultural-unlock-modal">
           <div className="modal-content">
             <h2>Congratulations! 🎉</h2>
@@ -286,21 +280,20 @@ const LessonDetails = () => {
               </button>
             </div>
             <p>Keep learning to unlock more adventures!</p>
+            {apiError && <p className="error-message">{apiError}</p>}
             <div className="lesson-navigation">
-              <Button label="Continue to Next Lesson" onClick={() => closeModal('next')} type="complete" disabled={!getNextLessonId()} />
-              <Button label="Back to List" onClick={() => closeModal('back')} type="navigate" />
+              <Button
+                label="Continue to Next Lesson"
+                onClick={() => closeModal('next')}
+                type="complete"
+                disabled={!getNextLessonId()}
+              />
+              <Button
+                label="Back to List"
+                onClick={() => closeModal('back')}
+                type="navigate"
+              />
             </div>
-          </div>
-        </div>
-      )}
-
-      {showCompletionModal && !unlockedCard && checkAllLessonsCompleted() && (
-        <div className="completion-modal">
-          <div className="modal-content">
-            <h2>Congratulations!</h2>
-            <p>You have completed all lessons in {language.charAt(0).toUpperCase() + language.slice(1)}!</p>
-            <p>Let's learn another new language!</p>
-            <Button label="Close" onClick={() => closeModal('back')} type="complete" />
           </div>
         </div>
       )}

@@ -2,7 +2,7 @@
 .learn-container {
   min-height: calc(100vh - 200px);
   padding: 20px;
-  background: #f7f8fa; /* Aligné avec Home */
+  background: #f7f8fa;
 }
 
 .learn-header {
@@ -10,22 +10,10 @@
   margin-bottom: 40px;
 }
 
-.learn-title {
-  font-size: 2.8rem;
-  font-weight: 700;
-  color: #22223b;
-  margin-bottom: 10px;
-}
-
-.learn-subtitle {
-  font-size: 1.2rem;
-  color: #4a4e69;
-}
-/*avatar*/
 .learn-title-row {
   display: flex;
   align-items: center;
-  justify-content: center; /* centre horizontalement le contenu */
+  justify-content: center;
   gap: 12px;
   margin-bottom: 8px;
 }
@@ -37,6 +25,16 @@
   margin: 0;
 }
 
+.learn-subtitle {
+  font-size: 1.2rem;
+  color: #4a4e69;
+  text-align: center;
+}
+
+.learn-subtitle.text-center {
+  text-align: center;
+}
+
 .learn-avatar {
   width: 60px;
   height: 60px;
@@ -45,14 +43,11 @@
   border: 2px solid #ccc;
 }
 
-
-
-
 /* LessonList Styles */
 .lesson-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 32px; /* Plus large pour cohérence avec Home */
+  gap: 32px;
   padding: 0 10px;
   max-width: 1200px;
   margin: 0 auto;
@@ -61,18 +56,19 @@
 /* LessonCard Styles */
 .lesson-card {
   background: #fff;
-  border-radius: 18px; /* Aligné avec module-card */
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07); /* Aligné avec module-card */
-  padding: 32px 28px 28px 28px; /* Aligné avec module-card */
-  width: 320px; /* Aligné avec module-card */
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  padding: 32px 28px 28px 28px;
+  width: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: box-shadow 0.2s; /* Aligné avec module-card */
+  transition: box-shadow 0.2s;
+  cursor: pointer;
 }
 
 .lesson-card:hover {
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13); /* Aligné avec module-card */
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13);
 }
 
 .lesson-card-image {
@@ -113,7 +109,7 @@
 .lesson-details-container {
   min-height: calc(100vh - 200px);
   padding: 20px;
-  background: #f7f8fa; /* Aligné avec Home */
+  background: #f7f8fa;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -125,7 +121,7 @@
 }
 
 .lesson-details-title {
-  font-size: 2.8rem; /* Aligné avec welcome-title */
+  font-size: 2.8rem;
   font-weight: 700;
   color: #22223b;
   margin-bottom: 10px;
@@ -173,7 +169,7 @@
   background: #f9fafb;
   border-radius: 12px;
   transition: transform 0.2s ease;
-  align-items: flex-start; /* Aligner le contenu à gauche */
+  align-items: flex-start;
 }
 
 .lesson-phrase-item:hover {
@@ -191,7 +187,6 @@
   color: #4a4e69;
   font-weight: 400;
 }
-
 
 .lesson-complete-content {
   display: flex;
@@ -219,7 +214,7 @@
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 24px;
-  border: 1px solid #e0e0e0; /* Ajout pour tester la structure */
+  border: 1px solid #e0e0e0;
 }
 
 .vocabulary-table th,
@@ -246,47 +241,50 @@
   font-style: italic;
 }
 
-/* VocabularyPage Styles */
 .vocabulary-container {
   min-height: calc(100vh - 200px);
   padding: 20px;
-  background: #f7f8fa; /* Aligné avec Home */
+  background: #f7f8fa;
   text-align: center;
 }
 
 .vocabulary-title {
-  font-size: 2.8rem; /* Aligné avec welcome-title */
+  font-size: 2.8rem;
   font-weight: 700;
   color: #22223b;
   margin-bottom: 10px;
 }
 
 .vocabulary-subtitle {
-  font-size: 1.2rem; /* Aligné avec welcome-subtitle */
+  font-size: 1.2rem;
   color: #4a4e69;
+}
+
+.lesson-details-phrases {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.lesson-details-phrase {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: #f9fafb;
+  margin-bottom: 10px;
+  border-radius: 8px;
 }
 
 /* Status Styles */
 .lesson-status {
   font-size: 1.1rem;
-  margin-top: 20px; /* Plus d'espace après le bouton */
+  margin-top: 20px;
   text-align: center;
 }
 
-.status-not-started {
-  color: #fa9099; /* Rouge pâle */
-  font-weight: 600;
-}
-
-.status-progress {
-  color: #f5cc5a; /* Jaune clair */
-  font-weight: 600;
-}
-
-.status-completed {
-  color: #3ce096; /* Vert doux */
-  font-weight: 600;
-}
+.status-not-started { color: #fa9099; font-weight: 600; }
+.status-progress { color: #f5cc5a; font-weight: 600; }
+.status-completed { color: #3ce096; font-weight: 600; }
 
 /* Completion Modal Styles */
 .completion-modal {
@@ -303,21 +301,24 @@
   animation: fadeIn 0.3s ease-in;
 }
 
+.language-completion-modal {
+  animation: fadeIn 0.3s ease-in, bounceIn 0.5s ease-out;
+}
+
 .modal-content {
   background: #fff;
   padding: 30px;
   border-radius: 15px;
   text-align: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  animation: bounceIn 0.5s ease-out;
   max-width: 400px;
   width: 90%;
-  background: linear-gradient(135deg, #f7f8fa, #e0f7fa); /* Fond festif */
+  background: linear-gradient(135deg, #f7f8fa, #d1fae5); /* Dégradé spécifique pour la modale de complétion */
 }
 
 .modal-content h2 {
   font-size: 2rem;
-  color: #16a34a; /* Vert succès */
+  color: #16a34a;
   margin-bottom: 15px;
   text-transform: uppercase;
 }
@@ -329,26 +330,158 @@
 }
 
 .modal-content p:last-child {
-  color: #00b4d8; /* Cyan pour l'invitation */
+  color: #00b4d8;
   font-weight: 600;
   animation: pulse 1.5s infinite;
+}
+
+.lesson-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.language-completion-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 45%;
+  min-width: 120px;
+}
+
+.language-completion-button.navigate {
+  background: #e0e0e0;
+  color: #22223b;
+}
+
+.language-completion-button.navigate:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.language-completion-button.complete {
+  background: linear-gradient(45deg, #00b4d8, #16a34a);
+  color: #fff;
+}
+
+.language-completion-button.complete:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Unlocked Card Styles */
+.unlocked-card-preview {
+  background: linear-gradient(135deg, #e0f7fa, #c6f6d5);
+  border-radius: 20px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.unlocked-card-preview:hover {
+  transform: translateY(-4px);
+}
+
+.unlocked-card-image {
+  width: 180px;
+  height: 100px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.unlocked-card-title {
+  font-size: 1.6rem;
+  color: #22223b;
+  margin-bottom: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  white-space: normal;
+}
+
+.unlocked-card-text {
+  font-size: 1rem;
+  color: #4a4e69;
+  margin-bottom: 24px;
+  text-align: center;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  -webkit-box-orient: unset;
+  line-height: 1.6;
+  max-width: 100%;
+  white-space: normal;
+}
+
+.view-details-button {
+  padding: 12px 24px;
+  background: linear-gradient(45deg, #00b4d8, #16a34a);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 70%;
+  min-width: 200px;
+  max-width: 300px;
+  margin-top: auto;
+}
+
+.view-details-button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Play Button Styles */
+.play-button {
+  margin-top: 8px;
+  padding: 4px 8px;
+  background: #00b4d8;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: auto;
+  transition: background 0.2s ease;
+  min-width: 60px;
+}
+
+.play-button:hover {
+  background: #0096c7;
 }
 
 /* Error Message Styles */
 .error-message {
   margin-top: 16px;
   padding: 10px;
-  background-color: #fee2e2; /* Fond rouge pâle */
-  color: #dc2626; /* Texte rouge */
+  background-color: #fee2e2;
+  color: #dc2626;
   border-radius: 8px;
   text-align: center;
-  user-select: none; /* Empêche la sélection */
+  user-select: none;
 }
 
 .error-message::selection {
-  background: transparent; /* Empêche la mise en surbrillance */
+  background: transparent;
 }
 
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -366,140 +499,16 @@
   100% { transform: scale(1); }
 }
 
+/* Media Queries */
 @media (max-width: 900px) {
-  .lesson-list {
-    grid-template-columns: 1fr; /* Une colonne sur mobile */
-  }
-  .lesson-card {
-    width: 90%;
-    margin-bottom: 24px;
-  }
-  .lesson-details-content {
-    max-width: 90vw;
-    padding: 18px;
-  }
-  .lesson-navigation {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .lesson-phrases-grid {
-    grid-template-columns: 1fr;
-  }
-  .vocabulary-table th,
-  .vocabulary-table td {
-    padding: 8px;
-  }
-  .vocabulary-container {
-    padding: 10px;
-  }
-  .modal-content {
-    padding: 20px;
-  }
-  .modal-content h2 {
-    font-size: 1.5rem;
-  }
-  .modal-content p {
-    font-size: 1rem;
-  }
-}
-
-/* Ajuster le bouton Play */
-.play-button {
-  margin-top: 8px;
-  padding: 4px 8px; /* Réduire le padding pour une taille plus compacte */
-  background: #00b4d8;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  width: auto; /* Permet une largeur adaptée au texte */
-  transition: background 0.2s ease;
-  min-width: 60px; /* Définir une largeur minimale pour éviter qu'il ne soit trop petit */
-}
-
-.play-button:hover {
-  background: #0096c7;
-}
-
-/*  culturalll*/
-.cultural-unlock-modal {
-  animation: fadeIn 0.3s ease-in, bounceIn 0.5s ease-out;
-}
-
-.unlocked-card-preview {
-  background: linear-gradient(135deg, #e0f7fa, #c6f6d5); /* Dégradé vert-bleu doux */
-  border-radius: 20px; /* Bordure arrondie */
-  padding: 24px; /* Espacement accru */
-  margin: 24px 0; /* Marge verticale */
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Ombre légère */
-  width: 100%; /* Largeur pleine */
-  max-width: 600px; /* Largeur maximale */
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Centre verticalement le contenu */
-  align-items: center; /* Centre horizontalement le contenu */
-  overflow: hidden; /* Gère le débordement */
-  transition: transform 0.2s ease; /* Animation au hover */
-}
-
-.unlocked-card-preview:hover {
-  transform: translateY(-4px); /* Effet de soulèvement */
-}
-
-.unlocked-card-image {
-  width: 100%;
-  max-width: 220px; /* Largeur de l'image */
-  height: 140px; /* Hauteur fixe */
-  border-radius: 14px; /* Bordure arrondie */
-  margin-bottom: 20px; /* Espacement avant le texte */
-  object-fit: cover; /* Ajuste l'image */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Ombre légère */
-  display: block; /* Assure un centrage propre */
-  margin-left: auto;
-  margin-right: auto; /* Centre l'image horizontalement */
-}
-
-.unlocked-card-title {
-  font-size: 1.6rem; /* Taille de police */
-  color: #22223b;
-  margin-bottom: 12px; /* Espacement */
-  font-weight: 700; /* Poids */
-  text-transform: uppercase; /* Style */
-  letter-spacing: 0.5px; /* Espacement lettres */
-  text-align: center; /* Centre le titre */
-}
-
-.unlocked-card-text {
-  font-size: 1.1rem; /* Taille de police */
-  color: #4a4e69;
-  margin-bottom: 24px; /* Espacement accru */
-  text-align: center; /* Centre le texte */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3; /* Lignes visibles */
-  -webkit-box-orient: vertical;
-  line-height: 1.6; /* Lisibilité */
-  max-width: 90%; /* Limite la largeur pour éviter débordement */
-}
-
-.view-details-button {
-  padding: 12px 24px; /* Espacement */
-  background: linear-gradient(45deg, #00b4d8, #16a34a); /* Dégradé vert-bleu */
-  color: #fff;
-  border: none;
-  border-radius: 10px; /* Bordure arrondie */
-  cursor: pointer;
-  font-size: 1.2rem; /* Taille police */
-  transition: transform 0.2s, box-shadow 0.2s;
-  width: 70%; /* Largeur relative augmentée */
-  min-width: 200px; /* Largeur minimale garantie */
-  max-width: 300px; /* Limite la largeur maximale */
-  margin-top: auto; /* Pousse le bouton vers le bas */
-}
-
-.view-details-button:hover {
-  transform: scale(1.08); /* Zoom au hover */
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Ombre prononcée */
+  .lesson-list { grid-template-columns: 1fr; }
+  .lesson-card { width: 90%; margin-bottom: 24px; }
+  .lesson-details-content { max-width: 90vw; padding: 18px; }
+  .lesson-navigation { flex-direction: column; gap: 10px; }
+  .lesson-phrases-grid { grid-template-columns: 1fr; }
+  .vocabulary-table th, .vocabulary-table td { padding: 8px; }
+  .modal-content { padding: 20px; }
+  .modal-content h2 { font-size: 1.5rem; }
+  .modal-content p { font-size: 1rem; }
+  .language-completion-button { width: 100%; }
 }

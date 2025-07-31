@@ -220,18 +220,18 @@
     "language": "japanese",
     "title": "Hanami Festival",
     "text": "Hanami is the Japanese tradition of cherry blossom viewing, celebrated in spring.",
-    "image_url": "/cultural_cards/hanami.jpg",
+    "image_url": "/cultural_cards/hanami-japon.jpg",
     "related_lesson_id": "ja-1",
-    "external_link": "https://www.japan-guide.com/e/e2060.html"
+    "external_link": "https://www.kawaiibox.com/blogs/japan/hanami?srsltid=AfmBOooo_eaxkZx1zQkpcnOMaxTDpaxEnuB7Nfm57geEvxeDzcxmI5ok"
   },
   {
-    "id": 26,
-    "language": "japanese",
-    "title": "Japanese Restaurant Customs",
-    "text": "Dining in Japan includes etiquette like bowing and using chopsticks properly.",
-    "image_url": "/cultural_cards/japanese-restaurant.jpg",
-    "related_lesson_id": "ja-2",
-    "external_link": "https://www.japan-guide.com/e/e2035.html"
+      "id": 26,
+      "language": "japanese",
+      "title": "Japanese Food",
+      "text": "Japanese cuisine includes dishes like sushi, ramen, and tempura, known for their delicate flavors and seasonal ingredients.",
+      "image_url": "/cultural_cards/japanese-food.jpg",
+      "related_lesson_id": "ja-2",
+      "external_link": "https://www.byfood.com/blog/travel-tips/japanese-traditional-foods" 
   },
   {
     "id": 27,
@@ -240,7 +240,7 @@
     "text": "The traditional tea ceremony in Japan reflects mindfulness, aesthetics, and harmony.",
     "image_url": "/cultural_cards/japanese-tea.jpg",
     "related_lesson_id": "ja-3",
-    "external_link": "https://www.japan-guide.com/e/e2092.html"
+    "external_link": "https://mai-ko.com/travel/culture-in-japan/tea-ceremony/japanese-tea-ceremony/"
   },
   {
     "id": 28,
@@ -249,7 +249,7 @@
     "text": "Celebrated with fireworks and red envelopes, this holiday marks the lunar new year.",
     "image_url": "/cultural_cards/chinese-newyear.jpg",
     "related_lesson_id": "zh-1",
-    "external_link": "https://www.chinahighlights.com/travelguide/special-report/chinese-new-year/"
+    "external_link": "https://www.racv.com.au/royalauto/news/community/lunar-and-chinese-new-year-explained.html"
   },
   {
     "id": 29,
@@ -258,7 +258,7 @@
     "text": "Chinese dining features family-style meals and tea-serving customs.",
     "image_url": "/cultural_cards/chinese-restaurant.jpg",
     "related_lesson_id": "zh-2",
-    "external_link": "https://www.chinahighlights.com/travelguide/chinese-food/culture.htm"
+    "external_link": "https://www.chinahighlights.com/travelguide/chinese-food/dining-culture.htm"
   },
   {
     "id": 30,
@@ -267,7 +267,7 @@
     "text": "An iconic symbol of China, the Great Wall stretches thousands of kilometers with rich history.",
     "image_url": "/cultural_cards/great-wall.jpg",
     "related_lesson_id": "zh-3",
-    "external_link": "https://www.chinahighlights.com/greatwall/"
+    "external_link": "https://www.youtube.com/watch?v=PVRoqjaBWqk"
   },
   {
     "id": 31,
@@ -276,16 +276,16 @@
     "text": "Chuseok, a Korean harvest festival, involves family gatherings and ancestral rites.",
     "image_url": "/cultural_cards/chuseok.jpg",
     "related_lesson_id": "ko-1",
-    "external_link": "https://www.korea.net/AboutKorea/Korean-Life/Chuseok"
+    "external_link": "https://asia.si.edu/whats-on/events/celebrations/chuseok/"
   },
   {
     "id": 32,
     "language": "korean",
-    "title": "Korean Restaurant Etiquette",
+    "title": "Korean food",
     "text": "Dining in Korea includes sharing dishes and respecting elders at the table.",
-    "image_url": "/cultural_cards/korean-restaurant.jpg",
+    "image_url": "/cultural_cards/korean-food.jpg",
     "related_lesson_id": "ko-2",
-    "external_link": "https://www.korea.net/AboutKorea/Korean-Food/Dining-Etiquette"
+    "external_link": "https://seonkyounglongest.com/10-korean-dishes/"
   },
   {
     "id": 33,
@@ -294,6 +294,6 @@
     "text": "K-Pop has become a global phenomenon, blending catchy music, fashion, and choreography.",
     "image_url": "/cultural_cards/kpop.jpg",
     "related_lesson_id": "ko-3",
-    "external_link": "https://koreajoongangdaily.joins.com/news/2021-10-01/culture/musicPerformance/Kpop-goes-global/20211001162717838.html"
+    "external_link": "https://wonderopolis.org/wonder/What-Is-K-Pop"
   }
 ]
