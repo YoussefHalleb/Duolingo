@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ref, onValue, set } from 'firebase/database';
 import { rtdb } from '../../config/firebase';
-import { useAuth } from '../auth/AuthContext'; // Updated import
+import { useAuth } from '../auth/AuthContext';
 import Layout from '../shared/layout';
 import Button from '../shared/Button';
 import './Learn.css';
 
 const VocabularyPage = () => {
-  const { user, loading: authLoading } = useAuth(); // Updated to useAuth
+  const { user, loading: authLoading } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const { state } = location;
@@ -106,7 +106,7 @@ const VocabularyPage = () => {
             <div className="lesson-card-image">
               <img
                 src={lesson.image || '/pics/vocabulaire.png'}
-                alt={`${lesson.title} icon`}
+                alt={`${lesson.title} lesson icon`}
                 className="lesson-card-image img"
                 onError={(e) => { e.target.onerror = null; e.target.src = '/default-flag.png'; }}
               />
@@ -118,8 +118,8 @@ const VocabularyPage = () => {
           <ul className="lesson-details-phrases">
             {lesson.phrases.map((phrase, index) => (
               <li key={index} className="lesson-details-phrase">
-                <span className="lesson-details-phrase-text">{phrase.phrase}</span>
-                <span className="lesson-details-phrase-translation">{phrase.translation}</span>
+                <span className="lesson-phrase-text">{phrase.phrase}</span>
+                <span className="lesson-phrase-translation">{phrase.translation}</span>
               </li>
             ))}
           </ul>
