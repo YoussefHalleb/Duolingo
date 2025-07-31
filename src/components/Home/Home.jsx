@@ -11,7 +11,7 @@ const Home = () => {
     if (!email) return;
 
     try {
-      const res = await fetch('http://backend-subscribe:3001/subscribe', {
+      const res = await fetch('http://35.228.126.220:3001/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
