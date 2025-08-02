@@ -2,10 +2,14 @@ import { useState, useRef, useEffect } from 'react';
 import Navbar from '../shared/Navbar';
 import { useLanguage } from '../../context/LanguageContext';
 import { usePronunciationData } from './usePronunciationData';
+import { useAuth } from '../auth/AuthContext';
+import { ref, push } from 'firebase/database';
+import { rtdb } from '../../config/firebase';
 import './PronunciationHome.css';
 
 const PronunciationHome = () => {
   const { selectedLanguage } = useLanguage();
+  const { user } = useAuth();
   const {
     categories,
     loading,
@@ -327,10 +331,30 @@ const PronunciationHome = () => {
     } else {
       // Test completed
       const endTime = Date.now();
+      const totalTime = Math.round((endTime - testStats.startTime) / 1000);
+      
       setTestStats(prev => ({
         ...prev,
-        totalTime: Math.round((endTime - prev.startTime) / 1000) // Convert to seconds
+        totalTime
       }));
+
+      // Save test results to Firebase if user is logged in
+      if (user?.uid) {
+        const testResultRef = ref(rtdb, `users/${user.uid}/pronunciationTests`);
+        const newTest = {
+          language: selectedLanguage,
+          date: new Date().toISOString(),
+          score: testScore,
+          totalQuestions,
+          correctAnswers: testStats.correctAnswers,
+          totalTime,
+          categoryScores: testStats.categoryScores,
+          mistakes: testStats.mistakes
+        };
+        
+        push(testResultRef, newTest)
+          .catch(error => console.error('Error saving test results:', error));
+      }
       
       // Don't immediately close the test, show results instead
       setTimeout(() => {
