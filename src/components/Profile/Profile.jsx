@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../auth/AuthContext'; // Updated import
+import { useAuth } from '../auth/AuthContext';
 import { ref, onValue } from 'firebase/database';
-import { rtdb } from '../../config/firebase';
+import { onSnapshot, doc } from 'firebase/firestore';
+import { rtdb, db } from '../../config/firebase';
 import Layout from '../shared/layout';
 import './Profile.css';
 
 const Profile = () => {
-  const { user, loading: authLoading } = useAuth(); // Updated to useAuth
+  const { user, loading: authLoading } = useAuth();
   const [userLessons, setUserLessons] = useState([]);
   const [terminatedLessons, setTerminatedLessons] = useState({});
+  const [quizResults, setQuizResults] = useState({});
   const [username, setUsername] = useState('Guest');
   const [loading, setLoading] = useState(true);
 
@@ -17,6 +19,7 @@ const Profile = () => {
       // Set username from Firebase Auth
       setUsername(user.displayName || user.email.split('@')[0] || 'Guest');
 
+      // Récupérer les leçons depuis RTDB
       const userLessonsRef = ref(rtdb, `users/${user.uid}/lessons`);
       const unsubscribeLessons = onValue(userLessonsRef, (snapshot) => {
         const data = snapshot.val();
@@ -33,6 +36,7 @@ const Profile = () => {
         console.error('Error fetching lessons:', error.message);
       });
 
+      // Récupérer les leçons terminées depuis RTDB
       const userTerminatedRef = ref(rtdb, `users/${user.uid}/terminatedLessons`);
       const unsubscribeTerminated = onValue(userTerminatedRef, (snapshot) => {
         const data = snapshot.val() || {};
@@ -41,11 +45,25 @@ const Profile = () => {
         console.error('Error fetching terminated lessons:', error.message);
       });
 
+      // Récupérer les résultats des quiz depuis Firestore
+      const userDocRef = doc(db, "users", user.uid);
+      const unsubscribeQuizResults = onSnapshot(userDocRef, (docSnap) => {
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          setQuizResults(userData.quizResults || {});
+        } else {
+          setQuizResults({});
+        }
+      }, (error) => {
+        console.error('Error fetching quiz results:', error.message);
+      });
+
       setLoading(false);
 
       return () => {
         unsubscribeLessons();
         unsubscribeTerminated();
+        unsubscribeQuizResults();
       };
     } else {
       setLoading(false);
@@ -73,6 +91,8 @@ const Profile = () => {
   }
 
   const completedLessons = userLessons.filter(lesson => terminatedLessons[lesson.id]?.progress === 100);
+  const totalScore = Object.values(quizResults).reduce((sum, result) => sum + (result.score || 0), 0);
+  const totalAttempts = Object.keys(quizResults).length;
 
   return (
     <Layout>
@@ -88,6 +108,8 @@ const Profile = () => {
               <p><strong>Username:</strong> {username}</p>
               <p><strong>Total Lessons:</strong> {userLessons.length}</p>
               <p><strong>Completed Lessons:</strong> {completedLessons.length}</p>
+              <p><strong>Total Quiz Score:</strong> {totalScore}</p>
+              <p><strong>Total Quiz Attempts:</strong> {totalAttempts}</p>
             </div>
           </div>
           {completedLessons.length > 0 ? (

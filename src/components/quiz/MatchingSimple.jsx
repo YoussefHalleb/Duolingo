@@ -21,6 +21,12 @@ export default function MatchingSimple({ question, onAnswer, feedback, setConnec
     }
   }, [question]);
 
+  useEffect(() => {
+    if (setConnections) {
+      setConnections(connections);
+    }
+  }, [connections, setConnections]);
+
   const onDragEnd = (result) => {
     const { source, destination } = result;
 
@@ -51,9 +57,6 @@ export default function MatchingSimple({ question, onAnswer, feedback, setConnec
         newConnections[word] = translation;
       } else {
         delete newConnections[word];
-      }
-      if (setConnections) {
-        setConnections(newConnections);
       }
       return newConnections;
     });

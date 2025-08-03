@@ -14,6 +14,12 @@ export default function ListQuizs() {
   const { selectedLanguage } = useLanguage();
 
   useEffect(() => {
+    if (!selectedLanguage) {
+      setError("Aucune langue sélectionnée");
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onSnapshot(
       collection(db, "quizzes"),
       (snapshot) => {
@@ -21,9 +27,20 @@ export default function ListQuizs() {
           id: doc.id,
           ...doc.data(),
         }));
-        const filteredQuizzes = quizzesData.filter((quiz) =>
-          quiz.language === getLanguageName(selectedLanguage)
-        );
+        console.log(`Selected language: ${selectedLanguage}`);
+        console.log("Raw quizzes data:", quizzesData);
+
+        const filteredQuizzes = quizzesData.filter((quiz) => {
+          const quizLang = quiz.language;
+          console.log(`Quiz ${quiz.id} language: ${quizLang}`);
+          return quizLang === selectedLanguage;
+        });
+
+        if (filteredQuizzes.length === 0) {
+          setError(`Aucun quiz trouvé pour la langue ${getLanguageName(selectedLanguage)}`);
+        } else {
+          setError("");
+        }
         setQuizzes(filteredQuizzes);
         setLoading(false);
       },
