@@ -1,0 +1,18 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": true,
+    "pronunciation": {
+      ".read": true,
+      ".write": true,
+      "$language": {
+        ".read": true,
+        ".write": true,
+        "categories": {
+          ".read": true,
+          ".write": true
+        }
+      }
+    }
+  }
+}

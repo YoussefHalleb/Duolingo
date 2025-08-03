@@ -15,23 +15,26 @@ const CulturalDiscovery = () => {
 
   useEffect(() => {
     const fetchCulturalCards = async () => {
-        if (user && selectedLanguage) {
-          try {
-            const response = await fetch(`/api/cultural-cards?language=${selectedLanguage}`);
-            if (!response.ok) throw new Error('Network response was not ok');
-            const data = await response.json();
-            setCards(data);
-          } catch (error) {
-            console.error('Error fetching cultural cards:', error);
-            setCards([]); // Fallback if API fails
-          }
-          setLoading(false);
+      if (user && selectedLanguage) {
+        console.log('Fetching cultural cards for language:', selectedLanguage);
+        try {
+          const response = await fetch(`/api/cultural-cards?language=${selectedLanguage}`);
+          console.log('Response status:', response.status);
+          if (!response.ok) throw new Error('Network response was not ok');
+          const data = await response.json();
+          console.log('Fetched data:', data);
+          setCards(data);
+        } catch (error) {
+          console.error('Error fetching cultural cards:', error);
+          setCards([]); // Fallback if API fails
         }
-      };
-
+        setLoading(false);
+      }
+    };
+  
     if (user && selectedLanguage) {
       fetchCulturalCards();
-
+  
       const terminatedLessonsRef = ref(rtdb, `users/${user.uid}/terminatedLessons`);
       const unsubscribe = onValue(terminatedLessonsRef, (snapshot) => {
         const data = snapshot.val() || {};
