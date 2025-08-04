@@ -40,7 +40,7 @@ const Navbar = () => {
   return (
     <nav className="main-navbar">
       <div className="navbar-left">
-        <img src="/logo192.png" alt="Language Explorer Logo" className="navbar-logo" />
+        <img src="/pics/hi.png" alt="Language Explorer Logo" className="navbar-logo" />
         <span className="navbar-title">Language Explorer</span>
       </div>
       <div className="navbar-center">
@@ -61,25 +61,6 @@ const Navbar = () => {
           className={`navbar-link ${location.pathname === '/language-selector' ? 'active' : ''}`}
         >
           <i className="fas fa-language"></i>  Language Selector
-        </Link>
-        
-        <Link 
-          to="/learn/categories" 
-          className={`navbar-link ${location.pathname === '/learn' ? 'active' : ''}`}
-        >
-          <i className="fas fa-book"></i> Learn
-        </Link>
-        <Link 
-          to="/quizzes" 
-          className={`navbar-link ${location.pathname === '/quizzes' ? 'active' : ''}`}
-        >
-          <i className="fas fa-question-circle"></i> Quiz
-        </Link>
-        <Link 
-          to="/prononciation" 
-          className={`navbar-link ${location.pathname === '/pronunciation' ? 'active' : ''}`}
-        >
-          <i className="fas fa-microphone"></i> Pronunciation
         </Link>
         <Link 
           to="/cultural-discovery" 
