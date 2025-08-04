@@ -1,0 +1,299 @@
+[
+  {
+    "id": 1,
+    "language": "english",
+    "title": "Thanksgiving Celebration",
+    "text": "Thanksgiving, celebrated on the fourth Thursday of November, is a major U.S. holiday centered around family, gratitude, and a traditional turkey dinner.",
+    "image_url": "/cultural_cards/celebrate-thanksgiving.jpg",
+    "related_lesson_id": "en-1",
+    "external_link": "https://www.history.com/topics/thanksgiving"
+  },
+  {
+    "id": 2,
+    "language": "english",
+    "title": "Dining Etiquette in the UK",
+    "text": "Ordering food in English restaurants involves polite phrases and an appreciation for British dining customs, like afternoon tea.",
+    "image_url": "/cultural_cards/Dining-Etiquette.jpg",
+    "related_lesson_id": "en-2",
+    "external_link": "https://www.hdfcergo.com/travel-insurance/travel-o-guide/uk/food-etiquette-in-the-uk-navigating-dining-customs-and-manners"
+  },
+  {
+    "id": 3,
+    "language": "english",
+    "title": "Business Culture in the UK",
+    "text": "British business English includes formal greetings and a culture of punctuality and professionalism in meetings.",
+    "image_url": "/cultural_cards/Business-UK.jpg",
+    "related_lesson_id": "en-3",
+    "external_link": "https://www.expatica.com/uk/working/employment-basics/uk-business-culture-103182/"
+  },
+  {
+    "id": 4,
+    "language": "german",
+    "title": "Oktoberfest in Munich",
+    "text": "Oktoberfest, held annually in Munich since 1810, is the world’s largest beer festival, featuring traditional Bavarian culture.",
+    "image_url": "/cultural_cards/Oktoberfest-Munich.jpg",
+    "related_lesson_id": "de-1",
+    "external_link": "https://www.oktoberfest.de/en"
+  },
+  {
+    "id": 5,
+    "language": "german",
+    "title": "German Shopping Traditions",
+    "text": "Shopping in Germany often involves local markets and a preference for quality goods, with phrases to negotiate prices.",
+    "image_url": "/cultural_cards/german-shopping.jpg",
+    "related_lesson_id": "de-2",
+    "external_link": "https://howtogermany.com/shopping/shopping-in-germany/"
+  },
+  {
+    "id": 6,
+    "language": "german",
+    "title": "German Business Etiquette",
+    "text": "Formal German conversations emphasize directness, punctuality, and respect in professional settings.",
+    "image_url": "/cultural_cards/german-business.jpg",
+    "related_lesson_id": "de-3",
+    "external_link": "https://www.deutschland.de/en/topic/business/business-etiquette-in-germany"
+  },
+  {
+    "id": 7,
+    "language": "italian",
+    "title": "Venice Carnival",
+    "text": "The Carnival of Venice features elaborate masks and costumes, a tradition dating back to the 12th century.",
+    "image_url": "/cultural_cards/venice-carnival.jpg",
+    "related_lesson_id": "it-1",
+    "external_link": "https://www.carnival-in-venice.eu/"
+  },
+  {
+    "id": 8,
+    "language": "italian",
+    "title": "Italian Airport Culture",
+    "text": "Navigating Italian airports involves understanding local customs, like greeting staff politely.",
+    "image_url": "/cultural_cards/italian-airport.jpg",
+    "related_lesson_id": "it-2",
+    "external_link": "https://blog.ricksteves.com/cameron/2022/09/italian-airport-experience"
+  },
+  {
+    "id": 9,
+    "language": "italian",
+    "title": "Italian Idioms in Culture",
+    "text": "Italian expressions like 'In bocca al lupo' reflect the rich cultural heritage of the language.",
+    "image_url": "/cultural_cards/italian-culture.png",
+    "related_lesson_id": "it-3",
+    "external_link": "https://www.languagesalive.com/italian-idioms-and-proverbs/"
+  },
+  {
+    "id": 10,
+    "language": "french",
+    "title": "Fête de la Musique",
+    "text": "Held every June 21 since 1982, this French festival fills streets with free music performances.",
+    "image_url": "/cultural_cards/fete-musique.jpg",
+    "related_lesson_id": "fr-1",
+    "external_link": "https://parisjetaime.com/eng/article/fete-de-la-musique-a989"
+  },
+  {
+    "id": 11,
+    "language": "french",
+    "title": "French Food Traditions",
+    "text": "French cuisine includes bread, wine, and cheese, with unique dining etiquette to explore.",
+    "image_url": "/cultural_cards/french-food.jpg",
+    "related_lesson_id": "fr-2",
+    "external_link": "https://learnfrenchwithalexa.com/blog/ten-famous-french-food-specialities"
+  },
+  {
+    "id": 12,
+    "language": "french",
+    "title": "French Travel Customs",
+    "text": "Traveling in France involves knowing phrases for trains, hotels, and local politeness.",
+    "image_url": "/cultural_cards/french-travel.jpg",
+    "related_lesson_id": "fr-3",
+    "external_link": "https://www.trafalgar.com/real-word/french-customs-and-traditions/"
+  },
+  {
+    "id": 13,
+    "language": "spanish",
+    "title": "La Tomatina",
+    "text": "This annual tomato fight in Buñol, Spain, is a fun festival held every August.",
+    "image_url": "/cultural_cards/tomatina.jpg",
+    "related_lesson_id": "es-1",
+    "external_link": "https://www.twinkl.fr/teaching-wiki/spanish-tomato-festival-la-tomatina"
+  },
+  {
+    "id": 14,
+    "language": "spanish",
+    "title": "Spanish Food Markets",
+    "text": "Spanish food culture features vibrant markets with fresh ingredients and tapas traditions.",
+    "image_url": "/cultural_cards/spanish-food.jpg",
+    "related_lesson_id": "es-2",
+    "external_link": "https://amazingfoodanddrink.com/spanish-food-markets/"
+  },
+  {
+    "id": 15,
+    "language": "spanish",
+    "title": "Traveling in Spain",
+    "text": "Spanish travel involves navigating stations and hotels with local phrases and customs.",
+    "image_url": "/cultural_cards/spanish-travel.jpg",
+    "related_lesson_id": "es-3",
+    "external_link": "https://www.spain.info/en/travel-guide/"
+  },
+  {
+    "id": 16,
+    "language": "portuguese",
+    "title": "Carnival of Rio",
+    "text": "The world’s largest carnival, held in Rio de Janeiro, features samba and vibrant parades.",
+    "image_url": "/cultural_cards/rio-carnival.jpg",
+    "related_lesson_id": "pt-1",
+    "external_link": "https://carolinerosetravel.com/2024-carnival-guide/"
+  },
+  {
+    "id": 17,
+    "language": "portuguese",
+    "title": "Portuguese Restaurant Culture",
+    "text": "Dining in Portugal includes ordering coffee and enjoying local seafood dishes.",
+    "image_url": "/cultural_cards/portuguese-restaurant.jpg",
+    "related_lesson_id": "pt-2",
+    "external_link": "https://www.afar.com/magazine/iconic-portuguese-dishes-and-where-to-try-them"
+  },
+  {
+    "id": 18,
+    "language": "portuguese",
+    "title": "Portuguese Business Practices",
+    "text": "Business in Portugal values formal greetings and relationship-building in meetings.",
+    "image_url": "/cultural_cards/portuguese-business.jpg",
+    "related_lesson_id": "pt-3",
+    "external_link": "https://clickup.com/p/business-etiquette/portugal"
+  },
+  {
+    "id": 19,
+    "language": "dutch",
+    "title": "King’s Day",
+    "text": "Celebrated on April 27, this Dutch festival features orange attire and street markets.",
+    "image_url": "/cultural_cards/kings-day.jpg",
+    "related_lesson_id": "nl-1",
+    "external_link": "https://www.wanderlustmagazine.com/inspiration/guide-to-koningsdag-netherlands/"
+  },
+  {
+    "id": 20,
+    "language": "dutch",
+    "title": "Dutch Cuisine",
+    "text": "Dutch food includes iconic dishes like stroopwafels, herring, and bitterballen, enjoyed across the country.",
+    "image_url": "/cultural_cards/dutch-food.jpg",
+    "related_lesson_id": "nl-2",
+    "external_link": "https://www.leshuttle.com/uk-en/discover/traveller-guides/top-ten-traditional-dutch-foods"
+  },  
+  {
+    "id": 21,
+    "language": "dutch",
+    "title": "Dutch Biking Culture",
+    "text": "Cycling is a primary mode of transportation in the Netherlands and an iconic part of daily life.",
+    "image_url": "/cultural_cards/dutch-biking.jpg",
+    "related_lesson_id": "nl-3",
+    "external_link": "https://www.holland.com/global/tourism/get-inspired/current/cycling-lifestyle/the-cycle-of-life-the-dutch-cycling-lifestyle"
+  },
+  {
+    "id": 22,
+    "language": "russian",
+    "title": "Maslenitsa Festival",
+    "text": "This Russian holiday marks the end of winter with pancakes and traditional games.",
+    "image_url": "/cultural_cards/maslenitsa.jpg",
+    "related_lesson_id": "ru-1",
+    "external_link": "https://russia.com/maslenitsa"
+  },
+  {
+    "id": 23,
+    "language": "russian",
+    "title": "Russian tea Culture",
+    "text": "Visiting a Russian café involves ordering tea and enjoying local pastries.",
+    "image_url": "/cultural_cards/russian-tea.jpg",
+    "related_lesson_id": "ru-2",
+    "external_link": "https://news.itmo.ru/en/features/life_in_russia/news/14010/"
+  },
+  {
+    "id": 24,
+    "language": "russian",
+    "title": "Russian Ballet",
+    "text": "Russia is famous for its classical ballet, with renowned institutions like the Bolshoi and Mariinsky.",
+    "image_url": "/cultural_cards/russian-ballet.jpg",
+    "related_lesson_id": "ru-3",
+    "external_link": "https://news.itmo.ru/en/features/experience_saint_petersburg/news/13992/"
+  },
+  {
+    "id": 25,
+    "language": "japanese",
+    "title": "Hanami Festival",
+    "text": "Hanami is the Japanese tradition of cherry blossom viewing, celebrated in spring.",
+    "image_url": "/cultural_cards/hanami-japon.jpg",
+    "related_lesson_id": "ja-1",
+    "external_link": "https://www.kawaiibox.com/blogs/japan/hanami?srsltid=AfmBOooo_eaxkZx1zQkpcnOMaxTDpaxEnuB7Nfm57geEvxeDzcxmI5ok"
+  },
+  {
+      "id": 26,
+      "language": "japanese",
+      "title": "Japanese Food",
+      "text": "Japanese cuisine includes dishes like sushi, ramen, and tempura, known for their delicate flavors and seasonal ingredients.",
+      "image_url": "/cultural_cards/japanese-food.jpg",
+      "related_lesson_id": "ja-2",
+      "external_link": "https://www.byfood.com/blog/travel-tips/japanese-traditional-foods" 
+  },
+  {
+    "id": 27,
+    "language": "japanese",
+    "title": "Japanese Tea Ceremony",
+    "text": "The traditional tea ceremony in Japan reflects mindfulness, aesthetics, and harmony.",
+    "image_url": "/cultural_cards/japanese-tea.jpg",
+    "related_lesson_id": "ja-3",
+    "external_link": "https://mai-ko.com/travel/culture-in-japan/tea-ceremony/japanese-tea-ceremony/"
+  },
+  {
+    "id": 28,
+    "language": "chinese",
+    "title": "Chinese New Year",
+    "text": "Celebrated with fireworks and red envelopes, this holiday marks the lunar new year.",
+    "image_url": "/cultural_cards/chinese-newyear.jpg",
+    "related_lesson_id": "zh-1",
+    "external_link": "https://www.racv.com.au/royalauto/news/community/lunar-and-chinese-new-year-explained.html"
+  },
+  {
+    "id": 29,
+    "language": "chinese",
+    "title": "Chinese Restaurant Culture",
+    "text": "Chinese dining features family-style meals and tea-serving customs.",
+    "image_url": "/cultural_cards/chinese-restaurant.jpg",
+    "related_lesson_id": "zh-2",
+    "external_link": "https://www.chinahighlights.com/travelguide/chinese-food/dining-culture.htm"
+  },
+  {
+    "id": 30,
+    "language": "chinese",
+    "title": "The Great Wall",
+    "text": "An iconic symbol of China, the Great Wall stretches thousands of kilometers with rich history.",
+    "image_url": "/cultural_cards/great-wall.jpg",
+    "related_lesson_id": "zh-3",
+    "external_link": "https://www.youtube.com/watch?v=PVRoqjaBWqk"
+  },
+  {
+    "id": 31,
+    "language": "korean",
+    "title": "Chuseok Festival",
+    "text": "Chuseok, a Korean harvest festival, involves family gatherings and ancestral rites.",
+    "image_url": "/cultural_cards/chuseok.jpg",
+    "related_lesson_id": "ko-1",
+    "external_link": "https://asia.si.edu/whats-on/events/celebrations/chuseok/"
+  },
+  {
+    "id": 32,
+    "language": "korean",
+    "title": "Korean food",
+    "text": "Dining in Korea includes sharing dishes and respecting elders at the table.",
+    "image_url": "/cultural_cards/korean-food.jpg",
+    "related_lesson_id": "ko-2",
+    "external_link": "https://seonkyounglongest.com/10-korean-dishes/"
+  },
+  {
+    "id": 33,
+    "language": "korean",
+    "title": "K-Pop Culture",
+    "text": "K-Pop has become a global phenomenon, blending catchy music, fashion, and choreography.",
+    "image_url": "/cultural_cards/kpop.jpg",
+    "related_lesson_id": "ko-3",
+    "external_link": "https://wonderopolis.org/wonder/What-Is-K-Pop"
+  }
+]

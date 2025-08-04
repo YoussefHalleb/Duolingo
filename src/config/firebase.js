@@ -5,7 +5,7 @@ import {
   signInWithPopup
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore'; 
-import { getDatabase } from 'firebase/database'; // Ajout pour Realtime Database
+import { getDatabase } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAydcbXgJa4PFLUOzkFSIkdCiaONt_6BWA",
@@ -18,14 +18,24 @@ const firebaseConfig = {
   databaseURL: "https://duolingo-3cca3-default-rtdb.europe-west1.firebasedatabase.app/"
 };
 
-
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-
+// Initialize services
 const auth = getAuth(app);
-const db = getFirestore(app);
-console.log("db initialized:", db);
+const db = getFirestore(app); // Cloud Firestore
 const rtdb = getDatabase(app); // Realtime Database
+
+// Verify database initialization
+console.log('Firebase initialized:', {
+  firestoreDB: db?._databaseId?.projectId,
+  realtimeDB: rtdb?.app?.options?.databaseURL
+});
+
+console.log("Firebase initialized with config:", {
+  projectId: firebaseConfig.projectId,
+  databaseURL: firebaseConfig.databaseURL
+});
 
 
 const googleProvider = new GoogleAuthProvider();

@@ -34,7 +34,10 @@ const Home = () => {
     <div className="home-page">
       <Navbar />
       <header className="main-header">
-        <h1 className="welcome-title">Welcome to Language Explorer!</h1>
+        <div className="flex items-center justify-center gap-4 mb-6">
+          <img src="/pics/hi.png" alt="Language Explorer Logo" className="w-20" />
+          <h1 className="welcome-title">Language Explorer</h1>
+        </div>
         <p className="welcome-subtitle">
           Your gateway to mastering new languages. Dive into our interactive modules and start your journey today!
         </p>
@@ -48,7 +51,7 @@ const Home = () => {
           </div>
           <h2 className="text-lg font-semibold text-gray-800 mb-2.5">Vocabulary & Lessons</h2>
           <p className="text-base text-gray-600 mb-4 text-center">Expand your lexicon with engaging, interactive lessons, covering a wide range of topics.</p>
-          <Link to="/language-selector" className="bg-cyan-600 text-white rounded-lg px-7 py-2.5 text-base font-medium hover:bg-cyan-700 transition-colors">Explore</Link>
+          <Link to="/learn/categories" className="bg-cyan-600 text-white rounded-lg px-7 py-2.5 text-base font-medium hover:bg-cyan-700 transition-colors">Explore</Link>
         </div>
 
         <div className="bg-white rounded-2xl shadow-md p-7 w-80 flex flex-col items-center hover:shadow-lg transition-shadow">

@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../../config/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
+import { auth, db } from "../../config/firebase";
 import { useParams, useNavigate } from "react-router-dom";
 import MultipleChoice from "./MultipleChoice";
 import FreeInput from "./FreeInput";
 import MatchingSimple from "./MatchingSimple";
+import SentenceBuilder from "./SentenceBuilder";
 import { useLanguage } from "../../context/LanguageContext";
 
 export default function QuizStandalone() {
@@ -21,10 +23,18 @@ export default function QuizStandalone() {
   const [connections, setConnections] = useState({});
   const [answer, setAnswer] = useState("");
   const [isAnswered, setIsAnswered] = useState(false);
+  const [droppedWords, setDroppedWords] = useState([]);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
+    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      console.log("Utilisateur connecté :", currentUser);
+    });
+
     if (!quizId) {
       setError("Aucun quizId fourni");
+      console.log("Erreur : Aucun quizId fourni");
       return;
     }
 
@@ -33,31 +43,45 @@ export default function QuizStandalone() {
       (docSnap) => {
         if (docSnap.exists()) {
           const quizData = { id: docSnap.id, ...docSnap.data() };
-          const languageName = getLanguageName(selectedLanguage);
+          console.log("Données du quiz récupérées :", quizData);
           const defaultLessonId = lessonId || quizData.questions[0]?.lessonId;
           const filteredQuestions = defaultLessonId
             ? quizData.questions.filter(
-                (q) => q.lessonId === defaultLessonId && quizData.language === languageName
+                (q) => q.lessonId === defaultLessonId && quizData.language === selectedLanguage
               )
-            : quizData.questions.filter((q) => quizData.language === languageName);
+            : quizData.questions.filter((q) => quizData.language === selectedLanguage);
+          console.log("Questions filtrées :", filteredQuestions);
           if (filteredQuestions.length === 0) {
             setError(
-              `Aucune question trouvée pour le lessonId ${defaultLessonId} et la langue ${languageName}`
+              `Aucune question trouvée pour le lessonId ${defaultLessonId} et la langue ${getLanguageName(
+                selectedLanguage
+              )}`
             );
+            console.log("Erreur : Aucune question trouvée");
           } else {
-            setCurrentQuiz({ ...quizData, questions: filteredQuestions });
+            setCurrentQuiz({
+              ...quizData,
+              questions: filteredQuestions.map((q) => ({
+                ...q,
+                targetWords: Array.isArray(q.targetWords) ? [...q.targetWords] : [],
+              })),
+            });
           }
         } else {
           setError("Quiz non trouvé");
+          console.log("Erreur : Quiz non trouvé pour l'ID :", quizId);
         }
       },
       (error) => {
         setError("Erreur lors du chargement du quiz");
-        console.error(error);
+        console.error("Erreur Firestore :", error);
       }
     );
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribeAuth();
+      unsubscribe();
+    };
   }, [quizId, lessonId, selectedLanguage]);
 
   const getLanguageName = (langKey) => {
@@ -77,6 +101,16 @@ export default function QuizStandalone() {
     return languageMap[langKey] || "français";
   };
 
+  const getNativeSentence = (question) => {
+    const lang = getLanguageName(selectedLanguage).toLowerCase();
+    const sentenceField = `${lang}Sentence`;
+    return question[sentenceField] || question.questionText || question.nativeSentence || "";
+  };
+
+  const getTargetWords = (question) => {
+    return Array.isArray(question.targetWords) ? [...question.targetWords].map((word) => word.trim()) : [];
+  };
+
   const handleAnswer = (userAnswer) => {
     const currentQuestion = currentQuiz.questions[currentQuestionIndex];
     let isCorrect = false;
@@ -92,11 +126,33 @@ export default function QuizStandalone() {
         const correctPairs = currentQuestion.pairs.map((p) => `${p.word}:${p.translation}`);
         isCorrect = userAnswer.every((answer) => correctPairs.includes(answer)) && userAnswer.length === correctPairs.length;
         break;
+      case "sentence_builder":
+        if (droppedWords.length === 0) {
+          isCorrect = false;
+          setFeedback("Veuillez placer au moins un mot.");
+        } else {
+          const correctWords = getTargetWords(currentQuestion).map((word) => word.toLowerCase().trim());
+          const userWords = droppedWords.map((word) => word.toLowerCase().trim());
+          console.log("Correct Words from Question (Normalized):", correctWords);
+          console.log("User Words (Normalized):", userWords);
+          console.log("Original Dropped Words:", droppedWords);
+          isCorrect =
+            correctWords.length === userWords.length &&
+            correctWords.every((word, index) => word === userWords[index]);
+          if (!isCorrect) {
+            console.log("Mismatch detected, lengths:", correctWords.length, userWords.length);
+            console.log("Original targetWords:", currentQuestion.targetWords);
+          }
+        }
+        break;
     }
 
-    setFeedback(isCorrect ? "Correct !" : "Incorrect, essayez encore.");
+    if (!feedback.includes("Veuillez placer au moins un mot.")) {
+      setFeedback(isCorrect ? "Correct !" : "Incorrect, essayez encore.");
+    }
     if (isCorrect) setScore(score + 1);
     setIsAnswered(true);
+    saveResultToProfile(currentQuestion.id, isCorrect);
   };
 
   const handleNext = () => {
@@ -106,15 +162,21 @@ export default function QuizStandalone() {
       switch (currentQuestion.type) {
         case "multiple_choice":
           userAnswer = selectedOption;
+          handleAnswer(userAnswer);
           break;
         case "free_text":
           userAnswer = answer;
+          handleAnswer(userAnswer);
           break;
         case "matching":
           userAnswer = currentQuestion.pairs.map((pair) => `${pair.word}:${connections[pair.word] || ""}`);
+          handleAnswer(userAnswer);
+          break;
+        case "sentence_builder":
+          userAnswer = droppedWords;
+          handleAnswer(userAnswer);
           break;
       }
-      handleAnswer(userAnswer);
     } else if (currentQuestionIndex < currentQuiz.questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
       setFeedback("");
@@ -122,24 +184,50 @@ export default function QuizStandalone() {
       setSelectedOption(null);
       setConnections({});
       setAnswer("");
+      setDroppedWords([]);
     } else {
       setQuizCompleted(true);
     }
   };
 
-  const handleRestart = () => {
-    setCurrentQuestionIndex(0);
-    setScore(0);
-    setFeedback("");
-    setQuizCompleted(false);
-    setSelectedOption(null);
-    setConnections({});
-    setAnswer("");
-    setIsAnswered(false);
+  const handleDragStart = (e, word) => {
+    e.dataTransfer.setData("text/plain", word.trim());
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const word = e.dataTransfer.getData("text/plain").trim();
+    if (word && !droppedWords.includes(word)) {
+      setDroppedWords([...droppedWords, word]);
+    }
   };
 
   const handleBackToList = () => {
     navigate("/quizzes");
+  };
+
+  const saveResultToProfile = async (questionId, isCorrect) => {
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(
+        userRef,
+        {
+          quizResults: {
+            [questionId]: {
+              correct: isCorrect,
+              timestamp: new Date().toISOString(),
+              score: isCorrect ? 1 : 0,
+            },
+          },
+        },
+        { merge: true }
+      );
+      console.log(`Résultat sauvegardé pour ${questionId}: ${isCorrect}`);
+    }
   };
 
   if (error) {
@@ -159,6 +247,7 @@ export default function QuizStandalone() {
   }
 
   if (!currentQuiz) {
+    console.log("Quiz en cours de chargement ou non trouvé");
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="text-center">
@@ -186,7 +275,17 @@ export default function QuizStandalone() {
           </div>
           <div className="space-x-12">
             <button
-              onClick={handleRestart}
+              onClick={() => {
+                setCurrentQuestionIndex(0);
+                setScore(0);
+                setFeedback("");
+                setQuizCompleted(false);
+                setSelectedOption(null);
+                setConnections({});
+                setAnswer("");
+                setIsAnswered(false);
+                setDroppedWords([]);
+              }}
               className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all duration-200"
             >
               Recommencer
@@ -223,7 +322,10 @@ export default function QuizStandalone() {
           </div>
         </div>
         <div className="text-center mb-6">
-          <h3 className="text-xl font-semibold">{currentQuestion.questionText}</h3>
+          <h3 className="text-xl font-semibold">{getNativeSentence(currentQuestion)}</h3>
+          {currentQuestion.type === "sentence_builder" && (
+            <p className="text-sm text-gray-500 mt-2">Construisez la traduction avec les mots ci-dessous.</p>
+          )}
         </div>
         <div className="question-content">
           {currentQuestion.type === "multiple_choice" && (
@@ -248,6 +350,17 @@ export default function QuizStandalone() {
               onAnswer={handleAnswer}
               feedback={feedback}
               setAnswer={setAnswer}
+            />
+          )}
+          {currentQuestion.type === "sentence_builder" && (
+            <SentenceBuilder
+              question={currentQuestion}
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              droppedWords={droppedWords}
+              setDroppedWords={setDroppedWords}
+              feedback={feedback}
+              onVerify={handleAnswer}
             />
           )}
         </div>
@@ -282,7 +395,16 @@ export default function QuizStandalone() {
               disabled={!isAnswered && !answer.trim()}
               className="px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
-              {isAnswered && currentQuestionIndex < currentQuiz.questions.length - 1 ? "Continuer" : "Valider"}
+              {isAnswered && currentQuestionIndex < currentQuiz.questions.length - 1 ? "Continuer" : "Suivant"}
+            </button>
+          )}
+          {currentQuestion.type === "sentence_builder" && (
+            <button
+              onClick={handleNext}
+              disabled={!isAnswered}
+              className="px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+              {isAnswered && currentQuestionIndex < currentQuiz.questions.length - 1 ? "Continuer" : "Suivant"}
             </button>
           )}
         </div>
