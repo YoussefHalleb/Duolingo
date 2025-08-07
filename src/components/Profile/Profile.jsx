@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import { ref, onValue } from 'firebase/database';
 import { rtdb } from '../../config/firebase';
@@ -13,6 +14,21 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [pronunciationTests, setPronunciationTests] = useState([]);
   const [pronunciationTestsByLanguage, setPronunciationTestsByLanguage] = useState({});
+  const [levelProgress, setLevelProgress] = useState({});
+  const navigate = useNavigate();
+  // Fetch level progress for each language
+  useEffect(() => {
+    if (user) {
+      const levelRef = ref(rtdb, `users/${user.uid}/levelTestProgress`);
+      const unsubscribeLevel = onValue(levelRef, (snapshot) => {
+        const data = snapshot.val() || {};
+        setLevelProgress(data);
+      }, (error) => {
+        console.error('Error fetching level progress:', error.message);
+      });
+      return () => unsubscribeLevel();
+    }
+  }, [user]);
 
   const languageInfo = {
     english: {
@@ -222,156 +238,43 @@ const Profile = () => {
             </div>
           )}
 
-          {/* Pronunciation Tests Section */}
+          {/* Level Progress Section (clickable) */}
           <div className="profile-card lessons-card" style={{ backgroundColor: '#f9fafb' }}>
             <h2 className="profile-section-title" style={{ color: '#0A8A88FF', textAlign: 'center' }}>
               <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                <i className="fas fa-microphone" style={{ color: '#0A8A88FF' }}></i>
-                Pronunciation Progress
+                <i className="fas fa-star" style={{ color: '#F59E42' }}></i>
+                Prononciation Progress
               </span>
             </h2>
-            {pronunciationTests.length > 0 ? (
-              <div className="pronunciation-stats" style={{ 
-                backgroundColor: '#fff',
-                padding: '20px',
-                borderRadius: '8px',
-                boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-              }}>
-                <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
-                  <div style={{ flex: '1', backgroundColor: '#f8fafc', padding: '15px', borderRadius: '8px' }}>
-                    <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <i className="fas fa-trophy" style={{ color: '#0A8A88FF' }}></i>
-                      <span style={{ fontWeight: '500', fontSize: '1.1rem' }}>Overall Progress</span>
-                    </div>
-                    <div style={{ fontSize: '0.95rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                        <span>Total Sessions:</span>
-                        <span>{pronunciationTests.length}</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                        <span>Languages:</span>
-                        <span>{Object.keys(pronunciationTestsByLanguage).length}</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <span>Total Practice Time:</span>
-                        <span>{formatTime(pronunciationTests.reduce((acc, test) => acc + (test.totalTime || 0), 0))}</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div style={{ flex: '1', backgroundColor: '#f8fafc', padding: '15px', borderRadius: '8px' }}>
-                    <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <i className="fas fa-chart-line" style={{ color: '#0A8A88FF' }}></i>
-                      <span style={{ fontWeight: '500', fontSize: '1.1rem' }}>Best Performances</span>
-                    </div>
-                    <div style={{ fontSize: '0.95rem' }}>
-                      {Object.entries(pronunciationTestsByLanguage)
-                        .sort(([, testsA], [, testsB]) => {
-                          const bestScoreA = Math.max(...testsA.map(t => (t.correctAnswers / t.totalQuestions) * 100));
-                          const bestScoreB = Math.max(...testsB.map(t => (t.correctAnswers / t.totalQuestions) * 100));
-                          return bestScoreB - bestScoreA;
-                        })
-                        .slice(0, 3)
-                        .map(([language, tests]) => {
-                          const bestScore = Math.max(...tests.map(t => (t.correctAnswers / t.totalQuestions) * 100));
-                          return (
-                            <div key={language} style={{ 
-                              display: 'flex', 
-                              alignItems: 'center', 
-                              justifyContent: 'space-between',
-                              marginBottom: '8px'
-                            }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <img 
-                                  src={languageInfo[language.toLowerCase()]?.flagIcon || '/flags/default-flag.png'}
-                                  alt={language}
-                                  style={{ width: '20px', height: '20px' }}
-                                />
-                                <span>{languageInfo[language.toLowerCase()]?.name || language}</span>
-                              </div>
-                              <span style={{ 
-                                color: bestScore >= 90 ? '#10B981' : bestScore >= 75 ? '#0A8A88' : '#6366F1',
-                                fontWeight: '500'
-                              }}>
-                                {Math.round(bestScore)}%
-                              </span>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ 
-                  backgroundColor: '#f8fafc', 
-                  padding: '15px', 
-                  borderRadius: '8px',
-                  marginBottom: '15px'
-                }}>
-                  <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <i className="fas fa-history" style={{ color: '#0A8A88FF' }}></i>
-                    <span style={{ fontWeight: '500', fontSize: '1.1rem' }}>Recent Activity</span>
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '15px' }}>
-                    {[...pronunciationTests]
-                      .sort((a, b) => new Date(b.date) - new Date(a.date))
-                      .slice(0, 4)
-                      .map((test, idx) => (
-                        <div key={idx} style={{ 
-                          backgroundColor: '#fff',
-                          padding: '12px',
-                          borderRadius: '6px',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center'
-                        }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <img 
-                              src={languageInfo[test.language.toLowerCase()]?.flagIcon || '/flags/default-flag.png'}
-                              alt={test.language}
-                              style={{ width: '20px', height: '20px' }}
-                            />
-                            <div>
-                              <div style={{ fontSize: '0.9rem', fontWeight: '500' }}>{languageInfo[test.language.toLowerCase()]?.name || test.language}</div>
-                              <div style={{ fontSize: '0.8rem', color: '#666' }}>
-                                {new Date(test.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
-                              </div>
-                            </div>
-                          </div>
-                          <span style={{
-                            color: (test.correctAnswers / test.totalQuestions) * 100 >= 80 ? '#10B981' : 
-                                  (test.correctAnswers / test.totalQuestions) * 100 >= 60 ? '#0A8A88' : '#6366F1',
-                            fontWeight: '500'
-                          }}>
-                            {Math.round((test.correctAnswers / test.totalQuestions) * 100)}%
-                          </span>
+            {Object.keys(levelProgress).length > 0 ? (
+              <div className="pronunciation-stats" style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+                {Object.entries(levelProgress).map(([lang, level]) => (
+                  <div key={lang} className="language-stats" style={{ cursor: 'pointer', border: '2px solid #F59E42', marginBottom: '10px' }}
+                    onClick={() => navigate(`/level-test?lang=${lang}`)}
+                    title={`Continue Level Test for ${languageInfo[lang]?.name || lang}`}
+                  >
+                    <div className="language-header">
+                      <div className="language-info">
+                        <div className="flag-container">
+                          <img src={languageInfo[lang]?.flagIcon || '/flags/default-flag.png'} alt={lang} />
                         </div>
-                      ))}
+                        <div className="language-text">
+                          <h3>{languageInfo[lang]?.name || lang}</h3>
+                          <div className="language-name">{languageInfo[lang]?.nativeName || lang}</div>
+                        </div>
+                      </div>
+                      <div className="proficiency-indicator">
+                        <div className="proficiency-bar" style={{ '--progress': `${Math.min(level - 1, 10) * 10}%`, '--color': '#F59E42' }}></div>
+                        <div className="proficiency-label">Level {level > 1 ? level - 1 : 0} / 10</div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
             ) : (
-              <div style={{ 
-                textAlign: 'center', 
-                padding: '40px 20px',
-                background: 'linear-gradient(145deg, #ffffff, #f5f7fa)',
-                borderRadius: '10px',
-                marginTop: '20px'
-              }}>
-                <i className="fas fa-microphone" style={{ 
-                  fontSize: '48px', 
-                  color: '#0A8A88FF',
-                  marginBottom: '16px',
-                  opacity: '0.5'
-                }}></i>
-                <p className="text-center lesson-details-not-found" style={{ 
-                  fontSize: '1.1rem',
-                  color: '#4a5568',
-                  maxWidth: '400px',
-                  margin: '0 auto'
-                }}>
-                  Start your pronunciation journey! Practice exercises to track your progress and improve your speaking skills.
-                </p>
+              <div style={{ textAlign: 'center', padding: '30px 10px', color: '#4a5568' }}>
+                <i className="fas fa-star" style={{ fontSize: '32px', color: '#F59E42', marginBottom: '10px' }}></i>
+                <div>No level progress yet. Try the Level Test to unlock levels!</div>
               </div>
             )}
           </div>
