@@ -8,6 +8,8 @@ import { ref, push } from 'firebase/database';
 import { rtdb } from '../../config/firebase';
 import './PronunciationHome.css';
 
+import { Link } from 'react-router-dom';
+
 const PronunciationHome = () => {
   const { selectedLanguage } = useLanguage();
   const { user } = useAuth();
@@ -428,24 +430,15 @@ const PronunciationHome = () => {
               Speech to Text
             </button>
             {/* Practice Test tab removed as requested */}
-            <button
-              onClick={() => {
-                setActiveTab('level-test');
-                setTestMode(false);
-              }}
-              className={`px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105
-                ${activeTab === 'level-test'
-                  ? 'bg-gradient-to-r from-yellow-400 to-orange-400 text-white shadow-lg'
-                  : 'bg-yellow-50 text-yellow-700 hover:bg-yellow-100 border-2 border-yellow-200'
-                }`}
+            <Link
+              to="/pronunciation-game"
+              className="px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-yellow-400 to-orange-400 text-white shadow-lg hover:from-yellow-500 hover:to-orange-500"
             >
-              Prononciation Game
-            </button>
+              Pronunciation Game
+            </Link>
           </div>
 
-          {activeTab === 'level-test' ? (
-            <LevelTest />
-          ) : activeTab === 'text-to-speech' ? (
+          {activeTab === 'text-to-speech' ? (
             <>
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 <div className="flex items-center gap-3">

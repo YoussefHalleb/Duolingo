@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import SignIn from '../components/auth/SignIn.jsx';
 import SignUp from '../components/auth/SignUp.jsx';
+import { LanguageProvider } from '../context/LanguageContext';
 import Home from "../components/Home/Home.jsx";
 import PronunciationHome from "../components/Prononciation/PronunciationHome.jsx";
 import ListQuizs from '../components/quiz/ListQuizs.jsx';
@@ -14,6 +15,8 @@ import Profile from '../components/Profile/Profile.jsx';
 import About from '../components/About/About.jsx';
 import Settings from '../components/Settings/Settings.jsx';
 import CulturalDiscovery from '../components/CulturalDiscovery/CulturalDiscovery.jsx';
+import PronunciationGame from '../components/Prononciation/PronunciationGame.jsx';
+
 const AppRoutes = () => (
   <AuthProvider>
   <Routes>
@@ -24,6 +27,14 @@ const AppRoutes = () => (
     <Route path="/profile" element={<Profile />} />
     <Route path="/about" element={<About />} />
     <Route path="/settings" element={<Settings />} />
+    <Route 
+      path="/pronunciation-game" 
+      element={
+        <LanguageProvider>
+          <PronunciationGame />
+        </LanguageProvider>
+      } 
+    />
 
     {/* Routes du module quizzes */}
 
